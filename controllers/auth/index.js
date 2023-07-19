@@ -1,9 +1,11 @@
 const { register } = require('./register');
 const { logIn } = require('./logIn');
-// const logOut = require('./logOut');
+const { getCurrentUser } = require('./getCurrentUser');
+const { logOut } = require('./logOut');
 
 module.exports = {
   register,
   logIn,
-  // logOut,
+  getCurrentUser,
+  logOut,
 };
