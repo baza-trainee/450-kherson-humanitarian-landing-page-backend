@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 const Joi = require('joi');
 const { handleSchemaValidationErrors } = require('../helpers');
-// const { address } = require('../constants');
+const { address } = require('../constants');
 
 const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
 const nameRegEx = /^[а-яА-ЯёЁіІa-zA-Z-`\s]+$/;
@@ -10,6 +10,7 @@ const passportNumberRegex = /^[0-9]{6}$/;
 const idCardRegex = /^[0-9]{9}$/gm;
 const cityRegex = /^[а-яА-ЯёЁіІ\-`\s]+$/gm;
 const flatNumberRegex = /^[0-9]{1,9}$/gm;
+const identificationNumberRegex = /^[0-9]{12}$/gm;
 // const emailRegex = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
 
 const contactSchema = new Schema(
@@ -68,23 +69,47 @@ const contactSchema = new Schema(
       match: idCardRegex,
       default: '',
     },
-
+    disabilityCertificateNumber: {
+      type: String,
+      default: '',
+    },
+    identificationNumber: {
+      type: String,
+      match: identificationNumberRegex,
+      require: true,
+    },
+    idpCertificateNumber: {
+      type: String,
+      default: '',
+    },
+    movementArea: {
+      type: String,
+      match: address.areaCollection,
+    },
+    movementCity: {
+      type: String,
+      default: '',
+    },
+    numberOfFamilyMembers: {
+      type: String,
+      default: '',
+    },
     phone: {
       type: String,
       required: true,
       match: phoneRegex,
       unique: true,
     },
-    // favorite: {
-    //   type: Boolean,
-    //   default: false,
-    // },
 
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'user',
       required: true,
     },
+    // favorite: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     // email: {
     //   type: String,
     //   unique: true,
@@ -98,8 +123,8 @@ contactSchema.post('save', handleSchemaValidationErrors);
 
 const addSchema = Joi.object({
   name: Joi.string().required(),
-  email: Joi.string().email().required(),
   phone: Joi.string().pattern(phoneRegex).required(),
+  // email: Joi.string().email().required(),
   // favorite: Joi.boolean(),
   // colum: Joi.string()
   //   .valid(...collections)
