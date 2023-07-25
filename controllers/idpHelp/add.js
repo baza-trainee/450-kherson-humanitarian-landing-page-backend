@@ -1,7 +1,7 @@
-const { Contact } = require('../../models');
+const { IdpHelp } = require('../../models');
 const add = async (req, res) => {
-  const { _id: owner } = req.user;
-  const result = await Contact.create({ ...req.body, owner });
+  // const { _id: owner } = req.user;
+  const result = await IdpHelp.create(req.body);
   // await Contact.aggregate([{ $match: {} }, { $out: 'collection2' }]);
 
   res.status(201).json(result);

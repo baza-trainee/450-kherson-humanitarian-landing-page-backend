@@ -13,9 +13,8 @@ const flatNumberRegEx = /^[0-9]{1,9}$/;
 const identificationNumberRegEx = /^[0-9]{12}$/;
 const idpCertificateNumberRegEx = /^\d{4}-\d{10}$/;
 const documentType = ['idCard', 'passport'];
-// const emailRegex = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_-]+)(\.[a-zA-Z]{2,5}){1,2}$/;
 
-const contactSchema = new Schema(
+const idpHelpSchema = new Schema(
   {
     name: {
       type: String,
@@ -71,10 +70,6 @@ const contactSchema = new Schema(
       match: idCardRegex,
       default: '',
     },
-    disabilityCertificateNumber: {
-      type: String,
-      default: '',
-    },
     identificationNumber: {
       type: String,
       match: identificationNumberRegEx,
@@ -103,21 +98,11 @@ const contactSchema = new Schema(
       match: phoneRegex,
       unique: true,
     },
-
-    owner: {
-      type: Schema.Types.ObjectId,
-      ref: 'user',
-      required: true,
-    },
-    // favorite: {
-    //   type: Boolean,
-    //   default: false,
-    // },
   },
   { versionKey: false, timestamps: true }
 );
 
-contactSchema.post('save', handleSchemaValidationErrors);
+idpHelpSchema.post('save', handleSchemaValidationErrors);
 
 const addSchema = Joi.object({
   name: Joi.string().pattern(nameRegEx).required(),
@@ -131,31 +116,21 @@ const addSchema = Joi.object({
   passportSeries: Joi.string().pattern(passportSeriesRegex),
   passportNumber: Joi.string().pattern(passportNumberRegex),
   idCard: Joi.string().pattern(idCardRegex),
-  disabilityCertificateNumber: Joi.string(),
   identificationNumber: Joi.string().pattern(identificationNumberRegEx).required(),
   idpCertificateNumber: Joi.string().pattern(idpCertificateNumberRegEx),
   movementArea: Joi.string().valid(...address.areaCollection),
   movementCity: Joi.string(),
   numberOfFamilyMembers: Joi.number(),
   phone: Joi.string().pattern(phoneRegex).required(),
-
-  // favorite: Joi.boolean(),
-  // colum: Joi.string()
-  //   .valid(...collections)
-  //   .required(),
-});
-const updateFavorite = Joi.object({
-  favorite: Joi.boolean().required(),
 });
 
-const contactSchemas = {
+const idpHelpJoiSchemas = {
   addSchema,
-  updateFavorite,
 };
 
-const Contact = model('contact', contactSchema);
+const IdpHelp = model('idpHelp', idpHelpSchema);
 
 module.exports = {
-  Contact,
-  contactSchemas,
+  IdpHelp,
+  idpHelpJoiSchemas,
 };

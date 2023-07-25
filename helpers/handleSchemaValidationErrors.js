@@ -2,7 +2,7 @@ const isConflict = ({ name, code }) => name === 'MongoServerError' && code === 1
 
 const handleSchemaValidationErrors = (error, data, next) => {
   error.status = isConflict(error) ? 409 : 400;
-  error.message = `email ${data.email} already exist`;
+  error.message = `user with phone ${data.phone} already exist`;
   next();
 };
 
