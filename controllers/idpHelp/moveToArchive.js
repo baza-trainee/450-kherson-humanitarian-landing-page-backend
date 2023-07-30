@@ -19,7 +19,11 @@ const moveToArchive = async (req, res) => {
       });
 
       console.log(`${documentsToMove.length} documents moved to the archive collection.`);
+
+      //   const result = await IdpHelp.deleteMany({});
+
       res.json({
+        // result,
         message: `${documentsToMove.length} documents moved to the archive collection.`,
       });
     } else {

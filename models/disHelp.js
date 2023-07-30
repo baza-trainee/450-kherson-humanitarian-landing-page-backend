@@ -2,20 +2,17 @@ const { Schema, model } = require('mongoose');
 const Joi = require('joi');
 const { handleSchemaValidationErrors, handlePassportValidation } = require('../helpers');
 const { address } = require('../constants');
-
 const { passportValidator, passportValidatorJoi } = handlePassportValidation;
 
 const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
 const nameRegEx = /^[а-яА-ЯёЁіІa-zA-Z-`\s]+$/;
-// const passportSeriesRegex = /^([А-ЯІ]{2})$/;
-// const passportNumberRegex = /^[0-9]{6}$/;
+
 const cityRegEx = /^[а-яА-ЯёЁіІїЇ\-`\s]+$/;
 const flatNumberRegEx = /^[0-9]{1,9}$/;
 const identificationNumberRegEx = /^[0-9]{12}$/;
-const idpCertificateNumberRegEx = /^\d{4}-\d{10}$/;
 const documentType = ['idCard', 'passport'];
 
-const idpHelpSchema = new Schema(
+const disHelpSchema = new Schema(
   {
     name: {
       type: String,
@@ -56,17 +53,6 @@ const idpHelpSchema = new Schema(
       require: true,
       enum: documentType,
     },
-    // passportSeries: {
-    //   type: String,
-    //   match: passportSeriesRegex,
-    //   default: '',
-    // },
-    // passportNumber: {
-    //   type: String,
-    //   match: passportNumberRegex,
-    //   default: '',
-    // },
-
     passport: {
       type: String,
       require: true,
@@ -75,19 +61,13 @@ const idpHelpSchema = new Schema(
         message: 'Passport should be either 9 digits or 2 capital letters followed by 6 digits.',
       },
     },
-    // idCard: {
-    //   type: String,
-    //   match: idCardRegex,
-    //   require: true,
-    // },
     identificationNumber: {
       type: String,
       match: identificationNumberRegEx,
       require: true,
     },
-    idpCertificateNumber: {
+    disabilityCertificateNumber: {
       type: String,
-      match: idpCertificateNumberRegEx,
       default: '',
     },
     movementArea: {
@@ -112,7 +92,7 @@ const idpHelpSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-idpHelpSchema.post('save', handleSchemaValidationErrors);
+disHelpSchema.post('save', handleSchemaValidationErrors);
 
 const addSchema = Joi.object({
   name: Joi.string().pattern(nameRegEx).required(),
@@ -126,24 +106,22 @@ const addSchema = Joi.object({
   passport: Joi.string()
     .required()
     .custom(passportValidatorJoi, 'Custom validation for Ukrainian passport'),
-  // passportSeries: Joi.string().pattern(passportSeriesRegex),
-  // passportNumber: Joi.string().pattern(passportNumberRegex),
-  // idCard: Joi.string().pattern(idCardRegex),
+
   identificationNumber: Joi.string().pattern(identificationNumberRegEx).required(),
-  idpCertificateNumber: Joi.string().pattern(idpCertificateNumberRegEx),
+  disabilityCertificateNumber: Joi.string().required(),
   movementArea: Joi.string().valid(...address.areaCollection),
   movementCity: Joi.string(),
   numberOfFamilyMembers: Joi.number(),
   phone: Joi.string().pattern(phoneRegex).required(),
 });
 
-const idpHelpJoiSchemas = {
+const disHelpJoiSchemas = {
   addSchema,
 };
 
-const IdpHelp = model('idpHelp', idpHelpSchema);
+const DisHelp = model('disHelp', disHelpSchema);
 
 module.exports = {
-  IdpHelp,
-  idpHelpJoiSchemas,
+  DisHelp,
+  disHelpJoiSchemas,
 };

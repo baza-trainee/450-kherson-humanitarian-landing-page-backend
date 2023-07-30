@@ -2,12 +2,23 @@ const express = require('express');
 
 const router = express.Router();
 const { idpHelp: ctrl } = require('../../controllers');
-const { validateBody, isValidId, auth, ctrlWrapper } = require('../../middlewares');
+const {
+  validateBody,
+  isValidId,
+  auth,
+  ctrlWrapper,
+  modifyRequestBody,
+} = require('../../middlewares');
 const { idpHelpJoiSchemas } = require('../../models/idpHelp');
 
 router.get('/', ctrlWrapper(auth), ctrlWrapper(ctrl.getAll));
 
-router.post('/', validateBody(idpHelpJoiSchemas.addSchema), ctrlWrapper(ctrl.add));
+router.post(
+  '/',
+  ctrlWrapper(modifyRequestBody),
+  validateBody(idpHelpJoiSchemas.addSchema),
+  ctrlWrapper(ctrl.add)
+);
 
 router.post('/movetoarchive', ctrlWrapper(auth), ctrl.moveToArchive);
 
