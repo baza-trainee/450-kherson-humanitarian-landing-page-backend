@@ -10,6 +10,8 @@ const { ChildrenHelp } = require('./childrenHelp');
 
 const { ArchivedUser } = require('./archivedUser');
 
+const { MainCollectionList } = require('./mainCollectionList');
+
 module.exports = {
   Contact,
   User,
@@ -17,4 +19,5 @@ module.exports = {
   DisHelp,
   ChildrenHelp,
   ArchivedUser,
+  MainCollectionList,
 };

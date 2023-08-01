@@ -10,6 +10,7 @@ const contactsRouter = require('./routes/api/contacts');
 const idpHelpRouter = require('./routes/api/idpHelp');
 const disHelpRouter = require('./routes/api/disHelp');
 const childrenHelpRouter = require('./routes/api/childrenHelp');
+const mainCollectionRouter = require('./routes/api/mainCollectionList');
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use('/api/contacts', contactsRouter);
 app.use('/api/idpHelp', idpHelpRouter);
 app.use('/api/disHelp', disHelpRouter);
 app.use('/api/childrenHelp', childrenHelpRouter);
+app.use('/api/mainCollection', mainCollectionRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
