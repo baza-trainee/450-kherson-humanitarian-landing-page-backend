@@ -1,6 +1,6 @@
 {
   "name": "450-kherson-humanitarian-landing-page-backend",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "baza.trainee_project",
   "main": "index.js",
   "scripts": {
@@ -9,12 +9,9 @@
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/baza-trainee/450-kherson-humanitarian-landing-page-backend.git"
-  },
-  "author": "Oleksandr Pavlishchev velogitara@gmail.com",
-  "license": "ISC",
+  "keywords": [],
+  "author": "Volodymyr Nerovnia <nerv@i.ua>, Oleksandr Pavlishchev velogitara@gmail.com",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/baza-trainee/450-kherson-humanitarian-landing-page-backend/issues"
   },
