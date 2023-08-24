@@ -411,8 +411,41 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
+  /order/activate/{id}/{link}:
+    get:
+      summary: Активувати людину у списку
+      tags:
+        - Списки на отримання допомоги
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: link
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        '404':
+          description: Ресурс відсутній
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /order/{id}:
     get:
+      security:
+        - bearerAuth: []
       summary: Отримати ресурс
       tags:
         - Списки на отримання допомоги
@@ -540,8 +573,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
     post:
-      security:
-        - bearerAuth: []
       tags:
         - Списки на отримання допомоги
       summary: Додати новий ресурс
