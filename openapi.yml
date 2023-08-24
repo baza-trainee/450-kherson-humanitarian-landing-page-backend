@@ -19,26 +19,26 @@ servers:
           - '3000'
         default: '3000'
 paths:
-  /banner:
+  /hero:
     post:
       security:
         - bearerAuth: []
       tags:
-        - Банер
+        - Hero
       summary: Додати новий ресурс
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Banner"
+              $ref: "#/components/schemas/Hero"
       responses:
         '200':
           description: Ресурс створено
           content:
             application/json: 
               schema:
-                $ref: "#/components/schemas/Banner"
+                $ref: "#/components/schemas/Hero"
         '404':
           description: Ресурс відсутній
           content:
@@ -53,11 +53,11 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /banner/{id}:
+  /hero/{id}:
     get:
       summary: Отримати ресурс
       tags:
-        - Банер
+        - Hero
       parameters:
         - in: path
           name: id
@@ -71,7 +71,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Banner"
+                $ref: "#/components/schemas/Hero"
         '404':
           description: Ресурс відсутній
           content:
@@ -83,7 +83,7 @@ paths:
         - bearerAuth: []
       summary: Редагувати ресурс
       tags:
-        - Банер
+        - Hero
       parameters:
         - in: path
           name: id
@@ -96,14 +96,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Banner"
+              $ref: "#/components/schemas/Hero"
       responses:
         '200':
           description: Ресурс відредаговано
           content:
             application/json: 
               schema:
-                $ref: "#/components/schemas/Banner"
+                $ref: "#/components/schemas/Hero"
         '404':
           description: Ресурс не знайдено
           content:
@@ -121,7 +121,7 @@ paths:
         - bearerAuth: []
       summary: Видалити ресурс
       tags:
-        - Банер
+        - Hero
       parameters:
         - in: path
           name: id
@@ -142,18 +142,18 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /banners:
+  /heroes:
     get:
       summary: Отримати ресурси
       tags:
-        - Банер
+        - Hero
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Banners"
+                $ref: "#/components/schemas/Heroes"
         '400':
           description: Невірний запит
           content:
@@ -1363,6 +1363,12 @@ paths:
       summary: Отримати ресурси
       tags:
         - Експорт
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -1457,7 +1463,7 @@ components:
                 type: string 
               colorEnd:
                 type: string 
-    BannerBody:
+    HeroBody:
       required: true
       content:
         multipart/form-data:
@@ -1507,7 +1513,7 @@ components:
         child:
           type: integer
           example: 125
-    Banner:
+    Hero:
       type: object 
       required:
         - id
@@ -1528,7 +1534,7 @@ components:
           properties:
             picture:
               type: string
-              example: "/pic/banner.jpg"
+              example: "/pic/hero.jpg"
             bgColorStart:
               type: string 
               example: "#ff0000"
@@ -1575,10 +1581,10 @@ components:
             colorEnd:
               type: string 
               example: "#ff0000"
-    Banners:
+    Heroes:
       type: array
       items:
-        $ref: "#/components/schemas/Banner"
+        $ref: "#/components/schemas/Hero"
     Fund:
       type: object
       required: 
@@ -1586,7 +1592,7 @@ components:
       properties:
         picture:
           type: string
-          example: "/pic/banner.jpg"
+          example: "/pic/hero.jpg"
     Team:
       type: object
       required: 
@@ -1596,7 +1602,7 @@ components:
       properties:
         picture:
           type: string
-          example: "/pic/banner.jpg"
+          example: "/pic/hero.jpg"
         title:
           type: string 
           example: "наша команда"
@@ -1778,7 +1784,7 @@ components:
           example: "12f90a9c-3ece-11ee-be56-0242ac120002"
         path:
           type: string
-          example: "/pic/banner.jpg"
+          example: "/pic/hero.jpg"
     Project:
       type: object
       required:
@@ -1800,7 +1806,7 @@ components:
           example: "12f90a9c-3ece-11ee-be56-0242ac120002"
         mainPicture:
           type: string
-          example: "/pic/banner.jpg"
+          example: "/pic/hero.jpg"
         title:
           type: string
           example: "Допомога лікарням та центрам первинної медичної допомоги"
