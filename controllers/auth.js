@@ -72,13 +72,15 @@ const renewPasswordLink = async (req, res, next) => {
 const changePassword = async (req, res, next) => {
   try {
     const responseResult = {};
-    const renewPasswordLink = req.params.link;
-    const user = await User.findOne({renewPasswordLink});
-    if (!user || (user?.renewPasswordDate.getTime() + 1 * 60 * 1000) < new Date().getTime()) {
-      return res.status(400).json({message: 'Посилання не дійсне'});
+    const user = await User.findOne({_id: req.user.id});
+    if( !user ) {
+      return res.status(403).json({message: "Користувач не авторизований"})
     }
-    responseResult.token = generateAccessToken(user._id);
-    return res.status(200).json(responseResult);
+    const { password } = req.body;
+    const hashPassword = bcrypt.hashSync(password, 7);
+    user.password = hashPassword;
+    await user.save();
+    return res.status(200).json({message: 'Пароль користувача змінено'});
   } catch (err) {
     res.status(400).json({message: 'Login error'});
   }

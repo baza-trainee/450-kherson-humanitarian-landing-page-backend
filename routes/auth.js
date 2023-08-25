@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const controller = require('../controllers/auth');
+const authMiddleware = require('../midleware/auth')
+
 /* GET home page. */
 /*
 router.get('/login', function(req, res, next) {
@@ -17,7 +19,7 @@ router.post('/login',
   //body('password').isLength({min: 8, max: 32}),
   controller.login);
   router.post('/renew', controller.renewPassword);
-  router.post('/change', controller.changePassword);
+  router.post('/change', authMiddleware, controller.changePassword);
 router.get('/renew/:link', controller.renewPasswordLink);
 
 
