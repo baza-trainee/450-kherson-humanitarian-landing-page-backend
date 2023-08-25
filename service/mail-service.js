@@ -1,6 +1,4 @@
-//const ApiError = require('../exceptions/api-error');
 const nodemailer = require('nodemailer');
-
 require('dotenv').config();
 
 const gmailParams = {
@@ -14,32 +12,21 @@ const gmailParams = {
 class MailService {
 
   constructor() {
-    this.transporter = nodemailer.createTransport(gmailParams);
-/*
-    if(!isPassEquals) {
-      throw ApiError.BadRequest('Невірний пароль.');
+    try {
+      this.transporter = nodemailer.createTransport(gmailParams);
+      this.transporter.verify(function (error, success) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("SMTP сервер готовий до відправки повідомлень...");
+        }
+      });
+    } catch (err) {
+      console.log("Помилка в роботі SMTP серверу");
     }
-
-*/
-
-
-    this.transporter.verify(function (error, success) {
-      if (error) {
-        //throw ApiError.BadSMTPRequest('Помилка при роботі з поштовим сервером.');
-        console.log(error);
-      } else {
-        console.log("SMTP server is ready to take our messages");
-      }
-    });
   }
 
-  //connectToSMTPServer() {
-
-  //}
-
-
   async sendActivationMail(to, link) {
-    console.log('Mail was sending!');
     await this.transporter.sendMail({   
       from: process.env.SMTP_USER,
       to,
@@ -173,11 +160,7 @@ class MailService {
         </html>
         `
     }, (err, info) => {
-      //if (err) {
-      //  throw ApiError.BadRequest('');
-      //}
-      console.log(info);
-      //console.log(info.messageId);
+      console.log("Помилка при відправленні повідомлення");
     })
   }
 }
