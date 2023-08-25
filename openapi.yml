@@ -3,7 +3,7 @@ info:
   title: Сайт громадської організації «4.5.0. Кривий Ріг»  - OpenAPI 3.1
   version: '1.0'
 servers:
-  - url: '{protocol}://450kr.com/api/v1/'
+  - url: '{protocol}://450kr.com'
     description: Production server
     variables:
       protocol:
@@ -19,7 +19,7 @@ servers:
           - '3000'
         default: '3000'
 paths:
-  /hero:
+  /api/v1/hero:
     post:
       security:
         - bearerAuth: []
@@ -53,7 +53,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /hero/{id}:
+  /api/v1/hero/{id}:
     get:
       summary: Отримати ресурс
       tags:
@@ -142,7 +142,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /heroes:
+  /api/v1/heroes:
     get:
       summary: Отримати ресурси
       tags:
@@ -166,7 +166,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'                
-  /fund:
+  /api/v1/fund:
     get:
       tags:
         - Громадська організація
@@ -215,7 +215,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /team:
+  /api/v1/team:
     get:
       tags:
         - Наша команда
@@ -264,7 +264,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /history:
+  /api/v1/history:
     get:
       tags:
         - Історія заснування
@@ -313,7 +313,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /achievements:
+  /api/v1/achievements:
     get:
       tags:
         - Наші досягнення
@@ -362,7 +362,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /issue-point:
+  /api/v1/issue-point:
     get:
       tags:
         - Адреса видачі
@@ -411,7 +411,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /order/activate/{id}/{link}:
+  /api/v1/order/activate/{id}/{link}:
     get:
       summary: Активувати людину у списку
       tags:
@@ -442,7 +442,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /order/{id}:
+  /api/v1/order/{id}:
     get:
       security:
         - bearerAuth: []
@@ -533,7 +533,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /orders:
+  /api/v1/orders:
     get:
       security:
         - bearerAuth: []
@@ -604,7 +604,7 @@ paths:
           content:
             application/json: {}
 
-  /orders/quantity:
+  /api/v1/orders/quantity:
     get:
       summary: Отримати ресурси
       tags:
@@ -622,7 +622,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'                
-  /activities:
+  /api/v1/activities:
     get:
       summary: Отримати ресурси
       tags:
@@ -675,7 +675,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /activity/{id}:
+  /api/v1/activity/{id}:
     get:
       summary: Отримати ресурс
       tags:
@@ -769,7 +769,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /projects:
+  /api/v1/projects:
     get:
       summary: Отримати ресурси
       tags:
@@ -823,7 +823,7 @@ paths:
           content:
             application/json: {}
                 
-  /project/{id}:
+  /api/v1/project/{id}:
     get:
       summary: Отримати ресурс
       tags:
@@ -917,7 +917,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /logos:
+  /api/v1/logos:
     get:
       summary: Отримати ресурси
       tags:
@@ -976,7 +976,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}                
-  /logo/{id}:
+  /api/v1/logo/{id}:
     get:
       summary: Отримати ресурс
       tags:
@@ -1070,7 +1070,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /contacts:
+  /api/v1/contacts:
     get:
       summary: Отримати ресурс
       tags:
@@ -1125,7 +1125,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /documents:
+  /api/v1/documents:
     get:
       summary: Отримати ресурс
       tags:
@@ -1180,7 +1180,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /congrats:
+  /api/v1/congrats:
     get:
       summary: Отримати ресурс
       tags:
@@ -1236,7 +1236,7 @@ paths:
           content:
             application/json: {}
                 
-  /donats:
+  /api/v1/donats:
     get:
       summary: Отримати ресурси
       tags:
@@ -1295,7 +1295,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /donat/{id}:
+  /api/v1/donat/{id}:
     get:
       summary: Отримати ресурс
       tags:
@@ -1389,7 +1389,7 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /export/order/{id}:
+  /api/v1/export/order/{id}:
     post:
       security:
         - bearerAuth: []
