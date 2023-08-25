@@ -19,6 +19,105 @@ servers:
           - '3000'
         default: '3000'
 paths:
+  /auth/login:
+    post:
+      tags:
+        - Авторизація
+      summary: Авторизуватися
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Login"
+      responses:
+        '200':
+          description: Користувача авторизовано
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/Token"
+        '403':
+          description: Користувач не авторизований
+          content:
+            application/json: {}
+        '500':
+          description: Помилка на боці серверу
+          content:
+            application/json: {}
+  /auth/renew:
+    post:
+      tags:
+        - Авторизація
+      summary: Отримати посилання для відновлення паролю
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RenewGetLink"
+      responses:
+        '200':
+          description: Посилання для відновлення паролю відправлено
+        '500':
+          description: Помилка на боці серверу
+          content:
+            application/json: {}
+  /auth/renew/{link}:
+    get:
+      tags:
+        - Авторизація
+      parameters:
+        - in: path
+          name: link
+          required: true
+          schema:
+            type: string
+            format: uuid
+      summary: Відновити пароль
+      responses:
+        '200':
+          description: Токен авторизації отримано
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/Token"
+        '400':
+          description: Посилання не дійсне
+          content:
+            application/json: {}
+        '500':
+          description: Помилка на боці серверу
+          content:
+            application/json: {}
+  /auth/change:
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - Авторизація
+      summary: Змінити пароль
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Password"
+      responses:
+        '200':
+          description: Посилання для відновлення паролю відправлено
+          content:
+            application/json: 
+              schema:
+                $ref: "#/components/schemas/Token"
+        '400':
+          description: Помилка авторизації
+          content:
+            application/json: {}
+        '500':
+          description: Помилка на боці серверу
+          content:
+            application/json: {}
   /api/v1/hero:
     post:
       security:
@@ -1546,6 +1645,42 @@ components:
         child:
           type: integer
           example: 125
+    Token:
+      type: object 
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTYwNGY0ODg0NWU5NmUwMWNiYzkwYyIsImlhdCI6MTY5MzAwMTM5MSwiZXhwIjoxNjkzMDAyMjkxfQ.jZXON8fmQa3adBQZz75bg80NZbYlKCKtZ4326u8ixxI"
+    Login:      
+      type: object 
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: "administrator"
+        password:
+          type: string
+          example: "password"
+    Password:      
+      type: object 
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          example: "password"
+    RenewGetLink:
+      type: object 
+      required:
+        - username
+      properties:
+        username:
+          type: string
+          example: "administrator"
     Hero:
       type: object 
       required:
