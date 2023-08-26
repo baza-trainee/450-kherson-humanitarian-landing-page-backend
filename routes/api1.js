@@ -1,5 +1,8 @@
 var express = require('express');
 var router = express.Router();
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../swagger.json');
+
 const controllerHero = require('../controllers/api/1/hero');
 const controllerFund = require('../controllers/api/1/fund');
 const controllerTeam = require('../controllers/api/1/team');
@@ -19,6 +22,14 @@ const authMiddleware = require('../middleware/auth');
 const { ctrlWrapper } = require('../middleware');
 const { isValidId, validateBody } = require('../utils/validators');
 const { orderJoiSchemas } = require('../models/order/order');
+
+// Swagger API
+const options = {
+  // explorer: true,
+};
+
+router.use('/docs', swaggerUi.serve);
+router.get('/docs', swaggerUi.setup(swaggerDocument, options));
 
 // Hero routes
 router.post('/hero', authMiddleware, controllerHero.createHero);
