@@ -32,6 +32,12 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
+app.use((err, req, res, next) => {
+  const { status = 500, message = 'Server error' } = err;
+
+  res.status(status).json({ message: message });
+});
+
 mongoose.connect(process.env.MONGO_URI).then(() => {
   // error handler
   app.use(function (err, req, res, next) {
