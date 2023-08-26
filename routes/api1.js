@@ -59,12 +59,12 @@ router.get('/issue-point', controllerIssuePoint.getIssuePoint);
 router.put('/issue-point', authMiddleware, controllerIssuePoint.updateIssuePoint);
 
 // Order routes
-router.get('/order', ctrlWrapper(controllerOrder.getAll));
-router.get('/order/activate/:orderId/:personId', controllerOrder.activatePerson);
-router.get('/order/:orderId', controllerOrder.getOrderById);
-router.post('/order', validateBody(orderJoiSchemas.addSchema), controllerOrder.addOrder);
+router.get('/orders', ctrlWrapper(controllerOrder.getAll));
+router.get('/orders/activate/:orderId/:personId', controllerOrder.activatePerson);
+router.get('/orders/:orderId', controllerOrder.getOrderById);
+router.post('/orders', validateBody(orderJoiSchemas.addSchema), controllerOrder.addOrder);
 router.patch(
-  '/:orderId/add-person',
+  '/orders/:orderId/add-person',
   isValidId,
   validateBody(orderJoiSchemas.addPersonToOrderSchema),
   ctrlWrapper(controllerOrder.addPersonToOrder)
