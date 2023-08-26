@@ -2,15 +2,17 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const gmailParams = {
-  service: "gmail",
+  service: 'gmail',
   auth: {
     user: process.env.SMTP_GMAIL_USER,
-    pass: process.env.SMTP_GMAIL_PASSWORD
-  }
-}
+    pass: process.env.SMTP_GMAIL_PASSWORD,
+  },
+  tls: {
+    rejectUnauthorized: false, // Allow self-signed certificates
+  },
+};
 
 class MailService {
-
   constructor() {
     try {
       this.transporter = nodemailer.createTransport(gmailParams);
@@ -18,22 +20,22 @@ class MailService {
         if (error) {
           console.log(error);
         } else {
-          console.log("SMTP сервер готовий до відправки повідомлень...");
+          console.log('SMTP сервер готовий до відправки повідомлень...');
         }
       });
     } catch (err) {
-      console.log("Помилка в роботі SMTP серверу");
+      console.log('Помилка в роботі SMTP серверу');
     }
   }
 
   async sendActivationMail(to, link) {
-    await this.transporter.sendMail({   
-      from: process.env.SMTP_USER,
-      to,
-      subject: `Відновлення доступу до сайту`,
-      text: '',
-      html: 
-        `
+    await this.transporter.sendMail(
+      {
+        from: process.env.SMTP_USER,
+        to,
+        subject: `Відновлення доступу до сайту`,
+        text: '',
+        html: `
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -158,10 +160,12 @@ class MailService {
             </center>
         </body>
         </html>
-        `
-    }, (err, info) => {
-      console.log("Помилка при відправленні повідомлення");
-    })
+        `,
+      },
+      (err, info) => {
+        console.log('Помилка при відправленні повідомлення');
+      }
+    );
   }
 }
 

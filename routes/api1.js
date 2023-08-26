@@ -6,7 +6,7 @@ const controllerTeam = require('../controllers/api/1/team');
 const controllerHistory = require('../controllers/api/1/history');
 const controllerAchievements = require('../controllers/api/1/achievements');
 const controllerIssuePoint = require('../controllers/api/1/issue-point');
-//const controllerOrder = require('../controllers/api/1/order');
+const controllerOrder = require('../controllers/api/1/orders');
 const controllerActivities = require('../controllers/api/1/activities');
 const controllerProjects = require('../controllers/api/1/project');
 const controllerLogos = require('../controllers/api/1/logo');
@@ -15,7 +15,10 @@ const controllerDocuments = require('../controllers/api/1/documents');
 const controllerCongrats = require('../controllers/api/1/congrats');
 const controllerDonats = require('../controllers/api/1/donats');
 const controllerExport = require('../controllers/api/1/export/order');
-const authMiddleware = require('../midleware/auth')
+const authMiddleware = require('../middleware/auth');
+const { ctrlWrapper } = require('../middleware');
+const { isValidId, validateBody } = require('../utils/validators');
+const { orderJoiSchemas } = require('../models/order/order');
 
 // Hero routes
 router.post('/hero', authMiddleware, controllerHero.createHero);
@@ -23,7 +26,6 @@ router.get('/hero/:id', controllerHero.getHeroById);
 router.put('/hero/:id', authMiddleware, controllerHero.updateHero);
 router.delete('/hero/:id', authMiddleware, controllerHero.updateHero);
 router.get('/heroes', controllerHero.deleteHero);
-
 
 // Fund routes
 router.get('/fund', controllerFund.getFund);
@@ -46,13 +48,21 @@ router.get('/issue-point', controllerIssuePoint.getIssuePoint);
 router.put('/issue-point', authMiddleware, controllerIssuePoint.updateIssuePoint);
 
 // Order routes
-//router.get('/order/activate/:id/:link', controllerOrder.);
-//router.get('/order/:id', authMiddleware, controllerOrder.);
-//router.put('/order/:id', authMiddleware, controllerOrder.);
-//router.delete('/order/:id', authMiddleware, controllerOrder.);
-//router.get('/orders', authMiddleware, controllerOrder.);
-//router.post('/orders', controllerOrder.);
-//router.get('/orders/quantity', controllerOrder.);
+router.get('/order', ctrlWrapper(controllerOrder.getAll));
+router.get('/order/activate/:orderId/:personId', controllerOrder.activatePerson);
+router.get('/order/:orderId', controllerOrder.getOrderById);
+router.post('/order', validateBody(orderJoiSchemas.addSchema), controllerOrder.addOrder);
+router.patch(
+  '/:orderId/add-person',
+  isValidId,
+  validateBody(orderJoiSchemas.addPersonToOrderSchema),
+  ctrlWrapper(controllerOrder.addPersonToOrder)
+);
+
+// router.delete('/order/:id',  controllerOrder.);
+// router.get('/orders',  controllerOrder.);
+// router.post('/orders', controllerOrder.);
+// router.get('/orders/quantity', controllerOrder.);
 
 // Activities routes
 router.get('/activities', controllerActivities.getActivities);
@@ -62,14 +72,14 @@ router.put('/activity/:id', authMiddleware, controllerActivities.updateActivity)
 router.delete('/activity/:id', authMiddleware, controllerActivities.deleteActivity);
 
 // Projects routes
-router.get('/projects',controllerProjects.getProjects);
+router.get('/projects', controllerProjects.getProjects);
 router.post('/projects', authMiddleware, controllerProjects.createProject);
 router.get('/project/:id', controllerProjects.getProjectById);
 router.put('/project/:id', authMiddleware, controllerProjects.updateProject);
 router.delete('/project/:id', authMiddleware, controllerProjects.deleteProject);
 
 // Logos routes
-router.get('/logos',controllerLogos.getLogos);
+router.get('/logos', controllerLogos.getLogos);
 router.post('/logos', authMiddleware, controllerLogos.createLogo);
 router.get('/logo/:id', controllerLogos.getLogoById);
 router.put('/logo/:id', authMiddleware, controllerLogos.updateLogo);
@@ -96,26 +106,5 @@ router.delete('/donat/:id', authMiddleware, controllerDonats.deleteDonat);
 
 // Export routes
 //router.post('/export/order/:id', authMiddleware, controllerExport.);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 module.exports = router;
