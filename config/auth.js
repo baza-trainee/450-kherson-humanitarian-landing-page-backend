@@ -7,5 +7,10 @@ module.exports = {
     expiresTime () { 
       return this.days * 24 * 60 * 60 + this.hours * 60 * 60 + this.minutes * 60 + this.seconds;
     }
+  },
+  servers: {
+    MongoDB: {
+      restartSec: 1000
+    }
   }
 } 

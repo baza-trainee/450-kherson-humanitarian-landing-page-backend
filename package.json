@@ -8,7 +8,7 @@
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.config.js",
     "build:dev": "webpack --config build/webpack.dev.js --mode development --stats-error-details",
     "lint": "eslint **/*.js",
-    "lint:fix": "eslint --fix **/*.js"    
+    "lint:fix": "eslint --fix **/*.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,8 @@
   "bugs": {
     "url": "https://github.com/baza-trainee/450-kherson-humanitarian-landing-page-backend/issues"
   },
-  "homepage": "https://github.com/baza-trainee/450-kherson-humanitarian-landing-page-backend#readme",  "dependencies": {
+  "homepage": "https://github.com/baza-trainee/450-kherson-humanitarian-landing-page-backend#readme",
+  "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
     "cross-env": "7.0.3",
@@ -27,6 +28,7 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-validator": "^7.0.1",
+    "helmet": "^7.0.0",
     "http-errors": "~1.6.3",
     "jade": "^0.29.0",
     "jsonwebtoken": "^9.0.1",
