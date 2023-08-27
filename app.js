@@ -33,10 +33,15 @@ app.use('/auth', authRouter);
 app.use('/api/v1', api1Router);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
+app.use((err, req, res, next) => {
+  const { status = 500, message = 'Server error' } = err;
+
+  res.status(status).json({ message: message });
+});
 
 const startExpress= async () => {
   app.use(function(err, req, res, next) {

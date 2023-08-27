@@ -2,20 +2,19 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const gmailParams = {
-  service: "gmail",
+  service: 'gmail',
   auth: {
     user: process.env.SMTP_GMAIL_USER,
     pass: process.env.SMTP_GMAIL_PASSWORD
   },
   secure: true,
   tls: {
-    rejectUnauthorized: true,
+    rejectUnauthorized: false, // Allow self-signed certificates
     minVersion: "TLSv1.2"
-}
+  }
 }
 
 class MailService {
-
   constructor() {
     try {
       this.transporter = nodemailer.createTransport(gmailParams);
@@ -23,7 +22,7 @@ class MailService {
         if (error) {
           console.log("SMTP сервер не готовий до відправки повідомлень:", error);
         } else {
-          console.log("SMTP сервер готовий до відправки повідомлень...");
+          console.log('SMTP сервер готовий до відправки повідомлень...');
         }
       });
     } catch (err) {
@@ -32,13 +31,13 @@ class MailService {
   }
 
   async sendActivationMail(to, link) {
-    await this.transporter.sendMail({   
-      from: process.env.SMTP_USER,
-      to,
-      subject: `Відновлення доступу до сайту`,
-      text: '',
-      html: 
-        `
+    await this.transporter.sendMail(
+      {
+        from: process.env.SMTP_USER,
+        to,
+        subject: `Відновлення доступу до сайту`,
+        text: '',
+        html: `
         <!DOCTYPE html>
         <html lang="en">
         <head>

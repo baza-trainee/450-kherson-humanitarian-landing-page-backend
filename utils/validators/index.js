@@ -1,13 +1,9 @@
-const validateBody = require('./validateBody');
-const isValidId = require('./isValidId');
-const auth = require('./auth');
-const ctrlWrapper = require('./ctrlWrapper');
-const modifyRequestBody = require('./modifyRequestBody');
+const isValidId = require('./orders/isValidId');
+const modifyRequestBody = require('./orders/modifyRequestBody');
+const validateBody = require('./orders/validateBody');
 
 module.exports = {
   validateBody,
   isValidId,
-  auth,
-  ctrlWrapper,
   modifyRequestBody,
 };
