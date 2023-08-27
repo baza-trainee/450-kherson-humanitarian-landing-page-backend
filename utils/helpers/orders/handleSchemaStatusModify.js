@@ -1,7 +1,7 @@
 async function handleSchemaStatusModify(next) {
   try {
     if (this.isModified('type')) {
-      console.log('Type field is modified');
+      console.log('поле type модіфіковане');
 
       const existingActiveOrder = await this.constructor.findOne({
         type: this.type,
@@ -13,7 +13,7 @@ async function handleSchemaStatusModify(next) {
 
     next();
   } catch (error) {
-    console.error('Error in pre-save middleware:', error);
+    console.error('Помилка handleSchemaStatusModify :', error);
     next(error);
   }
 }

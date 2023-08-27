@@ -2,6 +2,8 @@ const { Schema, model } = require('mongoose');
 const Joi = require('joi');
 const { handleSchemaValidationErrors, handleSchemaStatusModify } = require('../../utils/helpers');
 const { address } = require('../../config');
+const { handleCertificateValidation } = require('../../utils/helpers');
+const { certificateValidator, certificateValidatorJoi } = handleCertificateValidation;
 
 const phoneRegex = /^[+]?(380)[\s][0-9]{2}[\s][0-9]{3}[\s]?[0-9]{2}[\s]?[0-9]{2}[\s]?$/;
 const pibRegEx = /^[\sА-Яа-яІіЇїЄєҐґЁё'-]+$/;
@@ -73,7 +75,9 @@ const orderSchema = new Schema(
         },
         CertificateNumber: {
           type: String,
-          match: idpCertificateNumberRegEx,
+          validate: {
+            validator: certificateValidator,
+          },
           default: '',
         },
         settlementFrom: {
@@ -143,8 +147,7 @@ const addPersonToOrderSchema = Joi.object({
   street: Joi.string().pattern(cityRegEx).required(),
   building: Joi.string(),
   apartment: Joi.string().pattern(flatNumberRegEx),
-  idpCertificateNumber: Joi.string().pattern(idpCertificateNumberRegEx),
-  birthCertificateNumber: Joi.string().pattern(idpCertificateNumberRegEx),
+  CertificateNumber: Joi.string().custom(certificateValidatorJoi).required(),
   settlementFrom: Joi.string(),
   regionFrom: Joi.string().valid(...address.areaCollection),
   memberNumber: Joi.number(),

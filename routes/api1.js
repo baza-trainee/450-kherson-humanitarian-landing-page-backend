@@ -19,7 +19,7 @@ const controllerCongrats = require('../controllers/api/1/congrats');
 const controllerDonats = require('../controllers/api/1/donats');
 const controllerExport = require('../controllers/api/1/export/order');
 const authMiddleware = require('../middleware/auth');
-const { ctrlWrapper } = require('../middleware');
+const { ctrlWrapper, updateStatusForPastDate } = require('../middleware');
 const { isValidId, validateBody } = require('../utils/validators');
 const { orderJoiSchemas } = require('../models/order/order');
 
@@ -59,12 +59,22 @@ router.get('/issue-point', controllerIssuePoint.getIssuePoint);
 router.put('/issue-point', authMiddleware, controllerIssuePoint.updateIssuePoint);
 
 // Order routes
-router.get('/orders', ctrlWrapper(controllerOrder.getAll));
-router.get('/orders/activate/:orderId/:personId', controllerOrder.activatePerson);
-router.get('/orders/:orderId', controllerOrder.getOrderById);
-router.post('/orders', validateBody(orderJoiSchemas.addSchema), controllerOrder.addOrder);
+router.get('/orders', updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
+router.get(
+  '/orders/activate/:orderId/:personId',
+  updateStatusForPastDate,
+  controllerOrder.activatePerson
+);
+router.get('/orders/:orderId', updateStatusForPastDate, controllerOrder.getOrderById);
+router.post(
+  '/orders',
+  updateStatusForPastDate,
+  validateBody(orderJoiSchemas.addSchema),
+  controllerOrder.addOrder
+);
 router.patch(
   '/orders/:orderId/add-person',
+  updateStatusForPastDate,
   isValidId,
   validateBody(orderJoiSchemas.addPersonToOrderSchema),
   ctrlWrapper(controllerOrder.addPersonToOrder)
