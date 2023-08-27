@@ -1,3308 +1,2900 @@
 {
-    "openapi": "3.0.2",
-    "info": {
-        "title": "Сайт громадської організації «4.5.0. Кривий Ріг»  - OpenAPI 3.1",
-        "version": "1.0"
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Сайт громадської організації «4.5.0. Кривий Ріг»  - OpenAPI 3.1",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "{protocol}://450kr.com/api/v1/",
+      "description": "Production server",
+      "variables": {
+        "protocol": {
+          "enum": ["http", "https"],
+          "default": "https"
+        }
+      }
     },
-    "servers": [
-        {
-            "url": "{protocol}://450kr.com",
-            "description": "Production server",
-            "variables": {
-                "protocol": {
-                    "enum": [
-                        "http",
-                        "https"
-                    ],
-                    "default": "https"
-                }
-            }
-        },
-        {
-            "url": "http://localhost:{port}/api/v1/",
-            "description": "Development server",
-            "variables": {
-                "port": {
-                    "enum": [
-                        "3000"
-                    ],
-                    "default": "3000"
-                }
-            }
+    {
+      "url": "http://localhost:{port}/api/v1/",
+      "description": "Development server",
+      "variables": {
+        "port": {
+          "enum": ["3000"],
+          "default": "3000"
         }
-    ],
-    "paths": {
-        "/auth/login": {
-            "post": {
-                "tags": [
-                    "Авторизація"
-                ],
-                "summary": "Авторизуватися",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Login"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Користувача авторизовано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Token"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Користувач не авторизований",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/renew": {
-            "post": {
-                "tags": [
-                    "Авторизація"
-                ],
-                "summary": "Отримати посилання для відновлення паролю",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RenewGetLink"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Посилання для відновлення паролю відправлено"
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/renew/{link}": {
-            "get": {
-                "tags": [
-                    "Авторизація"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "link",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "summary": "Відновити пароль",
-                "responses": {
-                    "200": {
-                        "description": "Токен авторизації отримано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Token"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Посилання не дійсне",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/change": {
-            "post": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "tags": [
-                    "Авторизація"
-                ],
-                "summary": "Змінити пароль",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Password"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Посилання для відновлення паролю відправлено",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Token"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Помилка авторизації",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/hero": {
-            "post": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "tags": [
-                    "Hero"
-                ],
-                "summary": "Додати новий ресурс",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Hero"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс створено",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Hero"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/hero/{id}": {
-            "get": {
-                "summary": "Отримати ресурс",
-                "tags": [
-                    "Hero"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Hero"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Hero"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Hero"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Hero"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Видалити ресурс",
-                "tags": [
-                    "Hero"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/heroes": {
-            "get": {
-                "summary": "Отримати ресурси",
-                "tags": [
-                    "Hero"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Heroes"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Невірний запит",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/fund": {
-            "get": {
-                "tags": [
-                    "Громадська організація"
-                ],
-                "summary": "Отримати ресурс",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Fund"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Громадська організація"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Fund"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Fund"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/team": {
-            "get": {
-                "tags": [
-                    "Наша команда"
-                ],
-                "summary": "Отримати ресурс",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Team"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Наша команда"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Team"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Team"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/history": {
-            "get": {
-                "tags": [
-                    "Історія заснування"
-                ],
-                "summary": "Отримати ресурс",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/History"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Історія заснування"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/History"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/History"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/achievements": {
-            "get": {
-                "tags": [
-                    "Наші досягнення"
-                ],
-                "summary": "Отримати ресурс",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Achievements"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Наші досягнення"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Achievements"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Achievements"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/issue-point": {
-            "get": {
-                "tags": [
-                    "Адреса видачі"
-                ],
-                "summary": "Отримати ресурс",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/DeliveryAddress"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Адреса видачі"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/DeliveryAddress"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/DeliveryAddress"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/order/activate/{id}/{link}": {
-            "get": {
-                "summary": "Активувати людину у списку",
-                "tags": [
-                    "Списки на отримання допомоги"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    },
-                    {
-                        "in": "path",
-                        "name": "link",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Order"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/order/{id}": {
-            "get": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Отримати ресурс",
-                "tags": [
-                    "Списки на отримання допомоги"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Order"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Списки на отримання допомоги"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Order"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Order"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Видалити ресурс",
-                "tags": [
-                    "Списки на отримання допомоги"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/orders": {
-            "get": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Отримати ресурси",
-                "tags": [
-                    "Списки на отримання допомоги"
-                ],
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "type",
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "temp_moved",
-                                "invalid",
-                                "child"
-                            ]
-                        }
-                    },
-                    {
-                        "in": "query",
-                        "name": "status",
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "active",
-                                "archive",
-                                "passive"
-                            ]
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Order"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Невірний запит",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Списки на отримання допомоги"
-                ],
-                "summary": "Додати новий ресурс",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Order"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс створено",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Order"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/orders/quantity": {
-            "get": {
-                "summary": "Отримати ресурси",
-                "tags": [
-                    "Списки на отримання допомоги"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/OrderQuantity"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/activities": {
-            "get": {
-                "summary": "Отримати ресурси",
-                "tags": [
-                    "Наша діяльність"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/PathToPicture"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "tags": [
-                    "Наша діяльність"
-                ],
-                "summary": "Додати новий ресурс",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/PathToPicture"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс створено",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PathToPicture"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/activity/{id}": {
-            "get": {
-                "summary": "Отримати ресурс",
-                "tags": [
-                    "Наша діяльність"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PathToPicture"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Невірний запит",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Наша діяльність"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/PathToPicture"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PathToPicture"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Видалити ресурс",
-                "tags": [
-                    "Наша діяльність"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/projects": {
-            "get": {
-                "summary": "Отримати ресурси",
-                "tags": [
-                    "Проєкти"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Project"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "tags": [
-                    "Проєкти"
-                ],
-                "summary": "Додати новий ресурс",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Project"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс створено",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Project"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/project/{id}": {
-            "get": {
-                "summary": "Отримати ресурс",
-                "tags": [
-                    "Проєкти"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Project"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Невірний запит",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Проєкти"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Project"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Project"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Видалити ресурс",
-                "tags": [
-                    "Проєкти"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/logos": {
-            "get": {
-                "summary": "Отримати ресурси",
-                "tags": [
-                    "Наші партнери"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/PathToPicture"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Невірний запит",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "tags": [
-                    "Наші партнери"
-                ],
-                "summary": "Додати новий ресурс",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/PathToPicture"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс створено",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PathToPicture"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/logo/{id}": {
-            "get": {
-                "summary": "Отримати ресурс",
-                "tags": [
-                    "Наші партнери"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PathToPicture"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Невірний запит",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Наші партнери"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/PathToPicture"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PathToPicture"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Видалити ресурс",
-                "tags": [
-                    "Наші партнери"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/contacts": {
-            "get": {
-                "summary": "Отримати ресурс",
-                "tags": [
-                    "Контакти"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Contacts"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Невірний запит",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Контакти"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Contacts"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Contacts"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/documents": {
-            "get": {
-                "summary": "Отримати ресурс",
-                "tags": [
-                    "Документи"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Documents"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Невірний запит",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Документи"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Documents"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Documents"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/congrats": {
-            "get": {
-                "summary": "Отримати ресурс",
-                "tags": [
-                    "Вітаємо"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Congrats"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Невірний запит",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Вітаємо"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Congrats"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Congrats"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/donats": {
-            "get": {
-                "summary": "Отримати ресурси",
-                "tags": [
-                    "Донати"
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Donat"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Невірний запит",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "tags": [
-                    "Донати"
-                ],
-                "summary": "Додати новий ресурс",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Donat"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс створено",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Donat"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/donat/{id}": {
-            "get": {
-                "summary": "Отримати ресурс",
-                "tags": [
-                    "Донати"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Donat"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Невірний запит",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Редагувати ресурс",
-                "tags": [
-                    "Донати"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Donat"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Ресурс відредаговано",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Donat"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "406": {
-                        "description": "Помилка валідації даних",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Видалити ресурс",
-                "tags": [
-                    "Донати"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс не знайдено",
-                        "content": {
-                            "application/json": {}
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        },
-        "/api/v1/export/order/{id}": {
-            "post": {
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ],
-                "summary": "Отримати ресурси",
-                "tags": [
-                    "Експорт"
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/vnd.ms-excel": {
-                                "schema": {
-                                    "type": "string",
-                                    "format": "binary"
-                                }
-                            },
-                            "application/octet-stream": {
-                                "schema": {
-                                    "type": "string",
-                                    "format": "binary"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Невірний запит",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Ресурс відсутній",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Error"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Помилка на боці серверу",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "components": {
-        "securitySchemes": {
-            "bearerAuth": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
-        },
-        "requestBodies": {
-            "AchievementsBody": {
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "issuedHumanitarianKits": {
-                                    "type": "integer"
-                                },
-                                "receivedHumanitarianAid": {
-                                    "type": "integer"
-                                },
-                                "sumDonats": {
-                                    "type": "integer"
-                                },
-                                "infoAtDate": {
-                                    "type": "string",
-                                    "format": "date-time"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "ViewBody": {
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "picture": {
-                                    "type": "string",
-                                    "format": "binary"
-                                },
-                                "bgColorStart": {
-                                    "type": "string"
-                                },
-                                "bgColorEnd": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "encoding": {
-                            "picture": {
-                                "contentType": "image/png, image/jpeg"
-                            }
-                        }
-                    }
-                }
-            },
-            "TitleBody": {
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "text": {
-                                    "type": "string"
-                                },
-                                "colorStart": {
-                                    "type": "string"
-                                },
-                                "colorMiddle": {
-                                    "type": "string"
-                                },
-                                "colorEnd": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "SubtitleBody": {
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "text": {
-                                    "type": "string"
-                                },
-                                "colorStart": {
-                                    "type": "string"
-                                },
-                                "colorMiddle": {
-                                    "type": "string"
-                                },
-                                "colorEnd": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "HeroBody": {
-                "required": true,
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "type": "object",
-                            "properties": {
-                                "view": {
-                                    "$ref": "#/components/requestBodies/ViewBody"
-                                },
-                                "title": {
-                                    "$ref": "#/components/requestBodies/TitleBody"
-                                },
-                                "subtitle": {
-                                    "$ref": "#/components/requestBodies/SubtitleBody"
-                                }
-                            },
-                            "required": [
-                                "view",
-                                "title",
-                                "subtitle"
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "schemas": {
-            "Error": {
-                "type": "object",
-                "properties": {
-                    "code": {
-                        "type": "string",
-                        "example": "404"
-                    },
-                    "message": {
-                        "type": "string",
-                        "example": "Ресурс не знайдено"
-                    }
-                },
-                "required": [
-                    "code",
-                    "message"
-                ]
-            },
-            "OrderQuantity": {
-                "type": "object",
-                "required": [
-                    "summary",
-                    "tempMoved",
-                    "invalid",
-                    "child"
-                ],
-                "properties": {
-                    "summary": {
-                        "type": "integer",
-                        "example": 419
-                    },
-                    "tempMoved": {
-                        "type": "integer",
-                        "example": 83
-                    },
-                    "invalid": {
-                        "type": "integer",
-                        "example": 211
-                    },
-                    "child": {
-                        "type": "integer",
-                        "example": 125
-                    }
-                }
-            },
-            "Token": {
-                "type": "object",
-                "required": [
-                    "token"
-                ],
-                "properties": {
-                    "token": {
-                        "type": "string",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTYwNGY0ODg0NWU5NmUwMWNiYzkwYyIsImlhdCI6MTY5MzAwMTM5MSwiZXhwIjoxNjkzMDAyMjkxfQ.jZXON8fmQa3adBQZz75bg80NZbYlKCKtZ4326u8ixxI"
-                    }
-                }
-            },
-            "Login": {
-                "type": "object",
-                "required": [
-                    "username",
-                    "password"
-                ],
-                "properties": {
-                    "username": {
-                        "type": "string",
-                        "example": "administrator"
-                    },
-                    "password": {
-                        "type": "string",
-                        "example": "password"
-                    }
-                }
-            },
-            "Password": {
-                "type": "object",
-                "required": [
-                    "password"
-                ],
-                "properties": {
-                    "password": {
-                        "type": "string",
-                        "example": "password"
-                    }
-                }
-            },
-            "RenewGetLink": {
-                "type": "object",
-                "required": [
-                    "username"
-                ],
-                "properties": {
-                    "username": {
-                        "type": "string",
-                        "example": "administrator"
-                    }
-                }
-            },
-            "Hero": {
-                "type": "object",
-                "required": [
-                    "id",
-                    "View",
-                    "Title",
-                    "Subtitle"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid",
-                        "example": "12f90a9c-3ece-11ee-be56-0242ac120002"
-                    },
-                    "View": {
-                        "type": "object",
-                        "required": [
-                            "picture",
-                            "bgColorStart",
-                            "bgColorEnd"
-                        ],
-                        "properties": {
-                            "picture": {
-                                "type": "string",
-                                "example": "/pic/hero.jpg"
-                            },
-                            "bgColorStart": {
-                                "type": "string",
-                                "example": "#ff0000"
-                            },
-                            "bgColorEnd": {
-                                "type": "string",
-                                "example": "#ff0000"
-                            }
-                        }
-                    },
-                    "Title": {
-                        "type": "object",
-                        "required": [
-                            "text",
-                            "colorStart",
-                            "colorMiddle",
-                            "colorEnd"
-                        ],
-                        "properties": {
-                            "text": {
-                                "type": "string",
-                                "example": "Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)"
-                            },
-                            "colorStart": {
-                                "type": "string",
-                                "example": "#ff0000"
-                            },
-                            "colorMiddle": {
-                                "type": "string",
-                                "example": "#ff0000"
-                            },
-                            "colorEnd": {
-                                "type": "string",
-                                "example": "#ff0000"
-                            }
-                        }
-                    },
-                    "Subtitle": {
-                        "type": "object",
-                        "required": [
-                            "text",
-                            "colorStart",
-                            "colorMiddle",
-                            "colorEnd"
-                        ],
-                        "properties": {
-                            "text": {
-                                "type": "string",
-                                "example": "м. Кривий Ріг"
-                            },
-                            "colorStart": {
-                                "type": "string",
-                                "example": "#ff0000"
-                            },
-                            "colorMiddle": {
-                                "type": "string",
-                                "example": "#ff0000"
-                            },
-                            "colorEnd": {
-                                "type": "string",
-                                "example": "#ff0000"
-                            }
-                        }
-                    }
-                }
-            },
-            "Heroes": {
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/Hero"
-                }
-            },
-            "Fund": {
-                "type": "object",
-                "required": [
-                    "picture"
-                ],
-                "properties": {
-                    "picture": {
-                        "type": "string",
-                        "example": "/pic/hero.jpg"
-                    }
-                }
-            },
-            "Team": {
-                "type": "object",
-                "required": [
-                    "picture",
-                    "title",
-                    "text"
-                ],
-                "properties": {
-                    "picture": {
-                        "type": "string",
-                        "example": "/pic/hero.jpg"
-                    },
-                    "title": {
-                        "type": "string",
-                        "example": "наша команда"
-                    },
-                    "text": {
-                        "type": "string",
-                        "example": "Голова правління – Польовий Ростислав Олексійович. Співзасновник організації – Кулакевич Олександр Ігорович. Проект-менеджер (напрямок відбудови) – Хромих Артем Валерійович. Проект-менеджер (гуманітарний напрямок) – Кулакевич Катерина Сергіївна."
-                    }
-                }
-            },
-            "History": {
-                "type": "object",
-                "required": [
-                    "text",
-                    "colorStart",
-                    "colorMiddle",
-                    "colorEnd"
-                ],
-                "properties": {
-                    "text": {
-                        "type": "string",
-                        "example": "м. Кривий Ріг"
-                    },
-                    "colorStart": {
-                        "type": "string",
-                        "example": "#ff0000"
-                    },
-                    "colorMiddle": {
-                        "type": "string",
-                        "example": "#ff0000"
-                    },
-                    "colorEnd": {
-                        "type": "string",
-                        "example": "#ff0000"
-                    }
-                }
-            },
-            "Achievements": {
-                "type": "object",
-                "required": [
-                    "issuedHumanitarianKits",
-                    "receivedHumanitarianAid",
-                    "sumDonats",
-                    "infoAtDate"
-                ],
-                "properties": {
-                    "issuedHumanitarianKits": {
-                        "type": "integer",
-                        "example": 541
-                    },
-                    "receivedHumanitarianAid": {
-                        "type": "integer",
-                        "example": 57895
-                    },
-                    "sumDonats": {
-                        "type": "integer",
-                        "example": 98677
-                    },
-                    "infoAtDate": {
-                        "type": "string",
-                        "example": "2023-08-17T22:58:38.831Z"
-                    }
-                }
-            },
-            "Person": {
-                "type": "object",
-                "required": [
-                    "name",
-                    "surname",
-                    "patrname",
-                    "settlement",
-                    "street",
-                    "building",
-                    "apartment",
-                    "certificate",
-                    "regionFrom",
-                    "settlementFrom",
-                    "memberNumber",
-                    "phone",
-                    "isActivated",
-                    "activationLink",
-                    "approve"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid",
-                        "example": "12f90a9c-3ece-11ee-be56-0242ac120002"
-                    },
-                    "name": {
-                        "type": "string",
-                        "example": "шевченко"
-                    },
-                    "surname": {
-                        "type": "string",
-                        "example": "тарас"
-                    },
-                    "patrname": {
-                        "type": "string",
-                        "example": "григорович"
-                    },
-                    "street": {
-                        "type": "string",
-                        "example": "вулиця визволення"
-                    },
-                    "building": {
-                        "type": "string",
-                        "example": "11A"
-                    },
-                    "apartment": {
-                        "type": "string",
-                        "example": "11"
-                    },
-                    "certificate": {
-                        "type": "string",
-                        "example": "1111-1111111111"
-                    },
-                    "regionFrom": {
-                        "type": "string",
-                        "example": "Херсонська область"
-                    },
-                    "settlementFrom": {
-                        "type": "string",
-                        "example": "Високопілля"
-                    },
-                    "memberNumber": {
-                        "type": "integer",
-                        "example": 3
-                    },
-                    "phone": {
-                        "type": "string",
-                        "example": "+380972305478"
-                    },
-                    "isActivated": {
-                        "type": "boolean",
-                        "example": false
-                    },
-                    "activationLink": {
-                        "type": "string",
-                        "example": "c74ebe09-86ab-414d-ad11-af93bd0b2b03"
-                    },
-                    "approve": {
-                        "type": "boolean",
-                        "example": true
-                    }
-                }
-            },
-            "Order": {
-                "type": "object",
-                "required": [
-                    "maxQuantity",
-                    "type",
-                    "status",
-                    "issueDate",
-                    "createDate",
-                    "changedDate",
-                    "closeDate"
-                ],
-                "properties": {
-                    "_id": {
-                        "type": "string",
-                        "example": "64dc9138e7104c19963fae12"
-                    },
-                    "maxQuantity": {
-                        "type": "integer",
-                        "example": 541
-                    },
-                    "type_": {
-                        "type": "string",
-                        "enum": [
-                            "temp_moved",
-                            "invalid",
-                            "child"
-                        ]
-                    },
-                    "status_": {
-                        "type": "string",
-                        "enum": [
-                            "active",
-                            "archive",
-                            "ready",
-                            "complete"
-                        ]
-                    },
-                    "issueDate": {
-                        "type": "string",
-                        "example": "2023-08-17T22:58:38.831Z"
-                    },
-                    "createDate": {
-                        "type": "string",
-                        "example": "2023-08-17T22:58:38.831Z"
-                    },
-                    "changedDate": {
-                        "type": "string",
-                        "example": "2023-08-17T22:58:38.831Z"
-                    },
-                    "closeDate": {
-                        "type": "string",
-                        "example": "2023-08-17T22:58:38.831Z"
-                    },
-                    "persons": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Person"
-                        }
-                    }
-                }
-            },
-            "DeliveryAddress": {
-                "type": "object",
-                "required": [
-                    "locationDeliveryPoint",
-                    "geolocation"
-                ],
-                "properties": {
-                    "locationDeliveryPoint": {
-                        "type": "string",
-                        "example": "м. Кривий Ріг, вул. Гетьманська 39А"
-                    },
-                    "geolocation": {
-                        "type": "string",
-                        "example": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2674.503561253999!2d33.3750912!3d47.9072932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40db20a8af29a41f%3A0x38ba7c4ae3e4aaf1!2z0YPQuy4g0JPQtdGC0YzQvNCw0L3RgdC60LDRjywgMznQsCwg0JrRgNC40LLQvtC5INCg0L7Qsywg0JTQvdC10L_RgNC-0L_QtdGC0YDQvtCy0YHQutCw0Y8g0L7QsdC70LDRgdGC0YwsIDUwMDA3!5e0!3m2!1sru!2sua!4v1692384567694!5m2!1sru!2sua\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
-                    }
-                }
-            },
-            "PathToPicture": {
-                "type": "object",
-                "required": [
-                    "id",
-                    "path"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid",
-                        "example": "12f90a9c-3ece-11ee-be56-0242ac120002"
-                    },
-                    "path": {
-                        "type": "string",
-                        "example": "/pic/hero.jpg"
-                    }
-                }
-            },
-            "Project": {
-                "type": "object",
-                "required": [
-                    "mainPicture",
-                    "title",
-                    "awaitingFunding",
-                    "inProcess",
-                    "completed",
-                    "pictures",
-                    "subTitle",
-                    "text",
-                    "areaCompletedWorks",
-                    "projectDuration",
-                    "projectText"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid",
-                        "example": "12f90a9c-3ece-11ee-be56-0242ac120002"
-                    },
-                    "mainPicture": {
-                        "type": "string",
-                        "example": "/pic/hero.jpg"
-                    },
-                    "title": {
-                        "type": "string",
-                        "example": "Допомога лікарням та центрам первинної медичної допомоги"
-                    },
-                    "awaitingFunding": {
-                        "type": "boolean",
-                        "example": true
-                    },
-                    "inProcess": {
-                        "type": "boolean",
-                        "example": false
-                    },
-                    "completed": {
-                        "type": "boolean",
-                        "example": false
-                    },
-                    "pictures": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/PathToPicture"
-                        }
-                    },
-                    "subTitle": {
-                        "type": "string",
-                        "example": "Ремонт кабінету лікаря Високопілльський центр первинної медико-санітарної допомоги"
-                    },
-                    "text": {
-                        "type": "string",
-                        "example": "Нова будівля Високопільського Центру первинної медицини не була призначена для лікування пацієнтів. До війни це був дитячий центр. А тому окрім руйнувань даху, потрібен був ремонт кімнат, облаштування кабінету лікарів та маніпуляційної. "
-                    },
-                    "areaCompletedWorks": {
-                        "type": "integer",
-                        "example": 100
-                    },
-                    "projectDuration": {
-                        "type": "string",
-                        "example": "08.04.2023 - 08.05.2023"
-                    },
-                    "projectText": {
-                        "type": "string",
-                        "example": "Кошти для цього проекту були передані від Української Спілки Нижньої Саксонії"
-                    }
-                }
-            },
-            "Contacts": {
-                "type": "object",
-                "required": [
-                    "email",
-                    "address",
-                    "phone"
-                ],
-                "properties": {
-                    "email": {
-                        "type": "string",
-                        "example": "go450.kryvyi.rih@gmail.com"
-                    },
-                    "address": {
-                        "type": "string",
-                        "example": "50014 Україна Дніпропетровська область Кривий Ріг, вул. Ракітіна, буд. 9"
-                    },
-                    "phone": {
-                        "type": "string",
-                        "example": "+380111111111"
-                    }
-                }
-            },
-            "Documents": {
-                "type": "object",
-                "required": [
-                    "rules",
-                    "publicOfferContract",
-                    "privacy",
-                    "statut",
-                    "reporting"
-                ],
-                "properties": {
-                    "rules": {
-                        "type": "string",
-                        "example": "https://docs.google.com/document/d/1I0qXpiXBUPz2rmuV1yTYBQzRtfBUYW9Y18ZifulG348/edit?usp=sharing"
-                    },
-                    "publicOfferContract": {
-                        "type": "string",
-                        "example": "https://docs.google.com/document/d/1Ksz_Qmh-emMEPFfX40tl2y9abbsfkQejC0aprmrZ2ik/edit?usp=sharing"
-                    },
-                    "privacy": {
-                        "type": "string",
-                        "example": "https://docs.google.com/document/d/10j_AcH_D_N7n9x3Alft8eygxiIv_GjzFGb4Gt3T9mR8/edit?usp=sharing"
-                    },
-                    "statut": {
-                        "type": "string",
-                        "example": "https://docs.google.com/document/d/10j_AcH_D_N7n9x3Alft8eygxiIv_GjzFGb4Gt3T9mR8/edit?usp=sharing"
-                    },
-                    "reporting": {
-                        "type": "string",
-                        "example": "https://docs.google.com/document/d/10j_AcH_D_N7n9x3Alft8eygxiIv_GjzFGb4Gt3T9mR8/edit?usp=sharing"
-                    }
-                }
-            },
-            "ConfirmRegistration": {
-                "type": "object",
-                "required": [
-                    "chapterText"
-                ],
-                "properties": {
-                    "chapterText": {
-                        "type": "string",
-                        "example": "Видача допомоги відбудеться дд.мм.рр за адресою: м. Кривий Ріг, вул. Гетьманська 39А, о …….годині"
-                    }
-                }
-            },
-            "Congrats": {
-                "type": "object",
-                "required": [
-                    "confirmRegistration"
-                ],
-                "properties": {
-                    "confirmRegistration": {
-                        "$ref": "#/components/schemas/ConfirmRegistration"
-                    }
-                }
-            },
-            "Donat": {
-                "type": "object",
-                "required": [
-                    "id",
-                    "currency",
-                    "recipient",
-                    "IBAN",
-                    "IPN",
-                    "paymentPurpose"
-                ],
-                "properties": {
-                    "id": {
-                        "type": "string",
-                        "format": "uuid",
-                        "example": "12f90a9c-3ece-11ee-be56-0242ac120002"
-                    },
-                    "currency": {
-                        "type": "string",
-                        "example": "USD"
-                    },
-                    "recipient": {
-                        "type": "string",
-                        "example": "Громадська організація 4.5.0. Кривий Ріг"
-                    },
-                    "IBAN": {
-                        "type": "string",
-                        "example": "UA693052994785426001521407112"
-                    },
-                    "IPN": {
-                        "type": "string",
-                        "example": "44867603"
-                    },
-                    "paymentPurpose": {
-                        "type": "string",
-                        "example": "Благодійний внесок"
-                    }
-                }
-            }
-        }
+      }
     }
+  ],
+  "paths": {
+    "/hero": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Hero"],
+        "summary": "Додати новий ресурс",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hero"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс створено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hero"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/hero/{id}": {
+      "get": {
+        "summary": "Отримати ресурс",
+        "tags": ["Hero"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hero"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Hero"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Hero"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Hero"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Видалити ресурс",
+        "tags": ["Hero"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/heroes": {
+      "get": {
+        "summary": "Отримати ресурси",
+        "tags": ["Hero"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Heroes"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невірний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/fund": {
+      "get": {
+        "tags": ["Громадська організація"],
+        "summary": "Отримати ресурс",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fund"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Громадська організація"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Fund"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fund"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/team": {
+      "get": {
+        "tags": ["Наша команда"],
+        "summary": "Отримати ресурс",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Наша команда"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Team"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Team"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/history": {
+      "get": {
+        "tags": ["Історія заснування"],
+        "summary": "Отримати ресурс",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/History"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Історія заснування"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/History"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/History"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/achievements": {
+      "get": {
+        "tags": ["Наші досягнення"],
+        "summary": "Отримати ресурс",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Achievements"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Наші досягнення"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Achievements"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Achievements"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/issue-point": {
+      "get": {
+        "tags": ["Адреса видачі"],
+        "summary": "Отримати ресурс",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryAddress"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Адреса видачі"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeliveryAddress"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryAddress"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/order/activate/{id}/{link}": {
+      "get": {
+        "summary": "Активувати людину у списку",
+        "tags": ["Списки на отримання допомоги"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "in": "path",
+            "name": "link",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/order/{id}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Отримати ресурс",
+        "tags": ["Списки на отримання допомоги"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Списки на отримання допомоги"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Видалити ресурс",
+        "tags": ["Списки на отримання допомоги"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Отримати ресурси",
+        "tags": ["Списки на отримання допомоги"],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "type",
+            "schema": {
+              "type": "string",
+              "enum": ["temp_moved", "invalid", "child"]
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+              "enum": ["active", "archive", "passive"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Order"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невірний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Списки на отримання допомоги"],
+        "summary": "Додати новий ресурс",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс створено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Order"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/orders/quantity": {
+      "get": {
+        "summary": "Отримати ресурси",
+        "tags": ["Списки на отримання допомоги"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderQuantity"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/activities": {
+      "get": {
+        "summary": "Отримати ресурси",
+        "tags": ["Наша діяльність"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PathToPicture"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Наша діяльність"],
+        "summary": "Додати новий ресурс",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PathToPicture"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс створено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PathToPicture"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/activity/{id}": {
+      "get": {
+        "summary": "Отримати ресурс",
+        "tags": ["Наша діяльність"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PathToPicture"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невірний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Наша діяльність"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PathToPicture"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PathToPicture"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Видалити ресурс",
+        "tags": ["Наша діяльність"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/projects": {
+      "get": {
+        "summary": "Отримати ресурси",
+        "tags": ["Проєкти"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Project"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Проєкти"],
+        "summary": "Додати новий ресурс",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Project"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс створено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/project/{id}": {
+      "get": {
+        "summary": "Отримати ресурс",
+        "tags": ["Проєкти"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невірний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Проєкти"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Project"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Project"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Видалити ресурс",
+        "tags": ["Проєкти"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/logos": {
+      "get": {
+        "summary": "Отримати ресурси",
+        "tags": ["Наші партнери"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PathToPicture"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невірний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Наші партнери"],
+        "summary": "Додати новий ресурс",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PathToPicture"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс створено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PathToPicture"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/logo/{id}": {
+      "get": {
+        "summary": "Отримати ресурс",
+        "tags": ["Наші партнери"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PathToPicture"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невірний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Наші партнери"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PathToPicture"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PathToPicture"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Видалити ресурс",
+        "tags": ["Наші партнери"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/contacts": {
+      "get": {
+        "summary": "Отримати ресурс",
+        "tags": ["Контакти"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contacts"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невірний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Контакти"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Contacts"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contacts"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/documents": {
+      "get": {
+        "summary": "Отримати ресурс",
+        "tags": ["Документи"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Documents"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невірний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Документи"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Documents"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Documents"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/congrats": {
+      "get": {
+        "summary": "Отримати ресурс",
+        "tags": ["Вітаємо"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Congrats"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невірний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Вітаємо"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Congrats"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Congrats"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/donats": {
+      "get": {
+        "summary": "Отримати ресурси",
+        "tags": ["Донати"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Donat"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невірний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Донати"],
+        "summary": "Додати новий ресурс",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Donat"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс створено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Donat"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/donat/{id}": {
+      "get": {
+        "summary": "Отримати ресурс",
+        "tags": ["Донати"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Donat"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невірний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Редагувати ресурс",
+        "tags": ["Донати"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Donat"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ресурс відредаговано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Donat"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "406": {
+            "description": "Помилка валідації даних",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Видалити ресурс",
+        "tags": ["Донати"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "404": {
+            "description": "Ресурс не знайдено",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/export/order/{id}": {
+      "post": {
+        "summary": "Отримати ресурси",
+        "tags": ["Експорт"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/vnd.ms-excel": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Невірний запит",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Ресурс відсутній",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "requestBodies": {
+      "AchievementsBody": {
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "issuedHumanitarianKits": {
+                  "type": "integer"
+                },
+                "receivedHumanitarianAid": {
+                  "type": "integer"
+                },
+                "sumDonats": {
+                  "type": "integer"
+                },
+                "infoAtDate": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ViewBody": {
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "picture": {
+                  "type": "string",
+                  "format": "binary"
+                },
+                "bgColorStart": {
+                  "type": "string"
+                },
+                "bgColorEnd": {
+                  "type": "string"
+                }
+              }
+            },
+            "encoding": {
+              "picture": {
+                "contentType": "image/png, image/jpeg"
+              }
+            }
+          }
+        }
+      },
+      "TitleBody": {
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "colorStart": {
+                  "type": "string"
+                },
+                "colorMiddle": {
+                  "type": "string"
+                },
+                "colorEnd": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SubtitleBody": {
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string"
+                },
+                "colorStart": {
+                  "type": "string"
+                },
+                "colorMiddle": {
+                  "type": "string"
+                },
+                "colorEnd": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "HeroBody": {
+        "required": true,
+        "content": {
+          "multipart/form-data": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "view": {
+                  "$ref": "#/components/requestBodies/ViewBody"
+                },
+                "title": {
+                  "$ref": "#/components/requestBodies/TitleBody"
+                },
+                "subtitle": {
+                  "$ref": "#/components/requestBodies/SubtitleBody"
+                }
+              },
+              "required": ["view", "title", "subtitle"]
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "404"
+          },
+          "message": {
+            "type": "string",
+            "example": "Ресурс не знайдено"
+          }
+        },
+        "required": ["code", "message"]
+      },
+      "OrderQuantity": {
+        "type": "object",
+        "required": ["summary", "tempMoved", "invalid", "child"],
+        "properties": {
+          "summary": {
+            "type": "integer",
+            "example": 419
+          },
+          "tempMoved": {
+            "type": "integer",
+            "example": 83
+          },
+          "invalid": {
+            "type": "integer",
+            "example": 211
+          },
+          "child": {
+            "type": "integer",
+            "example": 125
+          }
+        }
+      },
+      "Hero": {
+        "type": "object",
+        "required": ["id", "View", "Title", "Subtitle"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "12f90a9c-3ece-11ee-be56-0242ac120002"
+          },
+          "View": {
+            "type": "object",
+            "required": ["picture", "bgColorStart", "bgColorEnd"],
+            "properties": {
+              "picture": {
+                "type": "string",
+                "example": "/pic/hero.jpg"
+              },
+              "bgColorStart": {
+                "type": "string",
+                "example": "#ff0000"
+              },
+              "bgColorEnd": {
+                "type": "string",
+                "example": "#ff0000"
+              }
+            }
+          },
+          "Title": {
+            "type": "object",
+            "required": ["text", "colorStart", "colorMiddle", "colorEnd"],
+            "properties": {
+              "text": {
+                "type": "string",
+                "example": "Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)"
+              },
+              "colorStart": {
+                "type": "string",
+                "example": "#ff0000"
+              },
+              "colorMiddle": {
+                "type": "string",
+                "example": "#ff0000"
+              },
+              "colorEnd": {
+                "type": "string",
+                "example": "#ff0000"
+              }
+            }
+          },
+          "Subtitle": {
+            "type": "object",
+            "required": ["text", "colorStart", "colorMiddle", "colorEnd"],
+            "properties": {
+              "text": {
+                "type": "string",
+                "example": "м. Кривий Ріг"
+              },
+              "colorStart": {
+                "type": "string",
+                "example": "#ff0000"
+              },
+              "colorMiddle": {
+                "type": "string",
+                "example": "#ff0000"
+              },
+              "colorEnd": {
+                "type": "string",
+                "example": "#ff0000"
+              }
+            }
+          }
+        }
+      },
+      "Heroes": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Hero"
+        }
+      },
+      "Fund": {
+        "type": "object",
+        "required": ["picture"],
+        "properties": {
+          "picture": {
+            "type": "string",
+            "example": "/pic/hero.jpg"
+          }
+        }
+      },
+      "Team": {
+        "type": "object",
+        "required": ["picture", "title", "text"],
+        "properties": {
+          "picture": {
+            "type": "string",
+            "example": "/pic/hero.jpg"
+          },
+          "title": {
+            "type": "string",
+            "example": "наша команда"
+          },
+          "text": {
+            "type": "string",
+            "example": "Голова правління – Польовий Ростислав Олексійович. Співзасновник організації – Кулакевич Олександр Ігорович. Проект-менеджер (напрямок відбудови) – Хромих Артем Валерійович. Проект-менеджер (гуманітарний напрямок) – Кулакевич Катерина Сергіївна."
+          }
+        }
+      },
+      "History": {
+        "type": "object",
+        "required": ["text", "colorStart", "colorMiddle", "colorEnd"],
+        "properties": {
+          "text": {
+            "type": "string",
+            "example": "м. Кривий Ріг"
+          },
+          "colorStart": {
+            "type": "string",
+            "example": "#ff0000"
+          },
+          "colorMiddle": {
+            "type": "string",
+            "example": "#ff0000"
+          },
+          "colorEnd": {
+            "type": "string",
+            "example": "#ff0000"
+          }
+        }
+      },
+      "Achievements": {
+        "type": "object",
+        "required": [
+          "issuedHumanitarianKits",
+          "receivedHumanitarianAid",
+          "sumDonats",
+          "infoAtDate"
+        ],
+        "properties": {
+          "issuedHumanitarianKits": {
+            "type": "integer",
+            "example": 541
+          },
+          "receivedHumanitarianAid": {
+            "type": "integer",
+            "example": 57895
+          },
+          "sumDonats": {
+            "type": "integer",
+            "example": 98677
+          },
+          "infoAtDate": {
+            "type": "string",
+            "example": "2023-08-17T22:58:38.831Z"
+          }
+        }
+      },
+      "Person": {
+        "type": "object",
+        "required": [
+          "name",
+          "surname",
+          "patrname",
+          "settlement",
+          "street",
+          "building",
+          "apartment",
+          "certificate",
+          "regionFrom",
+          "settlementFrom",
+          "memberNumber",
+          "phone",
+          "isActivated",
+          "activationLink",
+          "approve"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "12f90a9c-3ece-11ee-be56-0242ac120002"
+          },
+          "name": {
+            "type": "string",
+            "example": "шевченко"
+          },
+          "surname": {
+            "type": "string",
+            "example": "тарас"
+          },
+          "patrname": {
+            "type": "string",
+            "example": "григорович"
+          },
+          "street": {
+            "type": "string",
+            "example": "вулиця визволення"
+          },
+          "building": {
+            "type": "string",
+            "example": "11A"
+          },
+          "apartment": {
+            "type": "string",
+            "example": "11"
+          },
+          "certificate": {
+            "type": "string",
+            "example": "1111-1111111111"
+          },
+          "regionFrom": {
+            "type": "string",
+            "example": "Херсонська область"
+          },
+          "settlementFrom": {
+            "type": "string",
+            "example": "Високопілля"
+          },
+          "memberNumber": {
+            "type": "integer",
+            "example": 3
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380972305478"
+          },
+          "isActivated": {
+            "type": "boolean",
+            "example": false
+          },
+          "activationLink": {
+            "type": "string",
+            "example": "c74ebe09-86ab-414d-ad11-af93bd0b2b03"
+          },
+          "approve": {
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "Order": {
+        "type": "object",
+        "required": [
+          "maxQuantity",
+          "type",
+          "status",
+          "issueDate",
+          "createDate",
+          "changedDate",
+          "closeDate"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "64dc9138e7104c19963fae12"
+          },
+          "maxQuantity": {
+            "type": "integer",
+            "example": 541
+          },
+          "type_": {
+            "type": "string",
+            "enum": ["temp_moved", "invalid", "child"]
+          },
+          "status_": {
+            "type": "string",
+            "enum": ["active", "archive", "ready", "complete"]
+          },
+          "issueDate": {
+            "type": "string",
+            "example": "2023-08-17T22:58:38.831Z"
+          },
+          "createDate": {
+            "type": "string",
+            "example": "2023-08-17T22:58:38.831Z"
+          },
+          "changedDate": {
+            "type": "string",
+            "example": "2023-08-17T22:58:38.831Z"
+          },
+          "closeDate": {
+            "type": "string",
+            "example": "2023-08-17T22:58:38.831Z"
+          },
+          "persons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Person"
+            }
+          }
+        }
+      },
+      "DeliveryAddress": {
+        "type": "object",
+        "required": ["locationDeliveryPoint", "geolocation"],
+        "properties": {
+          "locationDeliveryPoint": {
+            "type": "string",
+            "example": "м. Кривий Ріг, вул. Гетьманська 39А"
+          },
+          "geolocation": {
+            "type": "string",
+            "example": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2674.503561253999!2d33.3750912!3d47.9072932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40db20a8af29a41f%3A0x38ba7c4ae3e4aaf1!2z0YPQuy4g0JPQtdGC0YzQvNCw0L3RgdC60LDRjywgMznQsCwg0JrRgNC40LLQvtC5INCg0L7Qsywg0JTQvdC10L_RgNC-0L_QtdGC0YDQvtCy0YHQutCw0Y8g0L7QsdC70LDRgdGC0YwsIDUwMDA3!5e0!3m2!1sru!2sua!4v1692384567694!5m2!1sru!2sua\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
+          }
+        }
+      },
+      "PathToPicture": {
+        "type": "object",
+        "required": ["id", "path"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "12f90a9c-3ece-11ee-be56-0242ac120002"
+          },
+          "path": {
+            "type": "string",
+            "example": "/pic/hero.jpg"
+          }
+        }
+      },
+      "Project": {
+        "type": "object",
+        "required": [
+          "mainPicture",
+          "title",
+          "awaitingFunding",
+          "inProcess",
+          "completed",
+          "pictures",
+          "subTitle",
+          "text",
+          "areaCompletedWorks",
+          "projectDuration",
+          "projectText"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "12f90a9c-3ece-11ee-be56-0242ac120002"
+          },
+          "mainPicture": {
+            "type": "string",
+            "example": "/pic/hero.jpg"
+          },
+          "title": {
+            "type": "string",
+            "example": "Допомога лікарням та центрам первинної медичної допомоги"
+          },
+          "awaitingFunding": {
+            "type": "boolean",
+            "example": true
+          },
+          "inProcess": {
+            "type": "boolean",
+            "example": false
+          },
+          "completed": {
+            "type": "boolean",
+            "example": false
+          },
+          "pictures": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PathToPicture"
+            }
+          },
+          "subTitle": {
+            "type": "string",
+            "example": "Ремонт кабінету лікаря Високопілльський центр первинної медико-санітарної допомоги"
+          },
+          "text": {
+            "type": "string",
+            "example": "Нова будівля Високопільського Центру первинної медицини не була призначена для лікування пацієнтів. До війни це був дитячий центр. А тому окрім руйнувань даху, потрібен був ремонт кімнат, облаштування кабінету лікарів та маніпуляційної. "
+          },
+          "areaCompletedWorks": {
+            "type": "integer",
+            "example": 100
+          },
+          "projectDuration": {
+            "type": "string",
+            "example": "08.04.2023 - 08.05.2023"
+          },
+          "projectText": {
+            "type": "string",
+            "example": "Кошти для цього проекту були передані від Української Спілки Нижньої Саксонії"
+          }
+        }
+      },
+      "Contacts": {
+        "type": "object",
+        "required": ["email", "address", "phone"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "go450.kryvyi.rih@gmail.com"
+          },
+          "address": {
+            "type": "string",
+            "example": "50014 Україна Дніпропетровська область Кривий Ріг, вул. Ракітіна, буд. 9"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+380111111111"
+          }
+        }
+      },
+      "Documents": {
+        "type": "object",
+        "required": ["rules", "publicOfferContract", "privacy", "statut", "reporting"],
+        "properties": {
+          "rules": {
+            "type": "string",
+            "example": "https://docs.google.com/document/d/1I0qXpiXBUPz2rmuV1yTYBQzRtfBUYW9Y18ZifulG348/edit?usp=sharing"
+          },
+          "publicOfferContract": {
+            "type": "string",
+            "example": "https://docs.google.com/document/d/1Ksz_Qmh-emMEPFfX40tl2y9abbsfkQejC0aprmrZ2ik/edit?usp=sharing"
+          },
+          "privacy": {
+            "type": "string",
+            "example": "https://docs.google.com/document/d/10j_AcH_D_N7n9x3Alft8eygxiIv_GjzFGb4Gt3T9mR8/edit?usp=sharing"
+          },
+          "statut": {
+            "type": "string",
+            "example": "https://docs.google.com/document/d/10j_AcH_D_N7n9x3Alft8eygxiIv_GjzFGb4Gt3T9mR8/edit?usp=sharing"
+          },
+          "reporting": {
+            "type": "string",
+            "example": "https://docs.google.com/document/d/10j_AcH_D_N7n9x3Alft8eygxiIv_GjzFGb4Gt3T9mR8/edit?usp=sharing"
+          }
+        }
+      },
+      "ConfirmRegistration": {
+        "type": "object",
+        "required": ["chapterText"],
+        "properties": {
+          "chapterText": {
+            "type": "string",
+            "example": "Видача допомоги відбудеться дд.мм.рр за адресою: м. Кривий Ріг, вул. Гетьманська 39А, о …….годині"
+          }
+        }
+      },
+      "Congrats": {
+        "type": "object",
+        "required": ["confirmRegistration"],
+        "properties": {
+          "confirmRegistration": {
+            "$ref": "#/components/schemas/ConfirmRegistration"
+          }
+        }
+      },
+      "Donat": {
+        "type": "object",
+        "required": ["id", "currency", "recipient", "IBAN", "IPN", "paymentPurpose"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "12f90a9c-3ece-11ee-be56-0242ac120002"
+          },
+          "currency": {
+            "type": "string",
+            "example": "USD"
+          },
+          "recipient": {
+            "type": "string",
+            "example": "Громадська організація 4.5.0. Кривий Ріг"
+          },
+          "IBAN": {
+            "type": "string",
+            "example": "UA693052994785426001521407112"
+          },
+          "IPN": {
+            "type": "string",
+            "example": "44867603"
+          },
+          "paymentPurpose": {
+            "type": "string",
+            "example": "Благодійний внесок"
+          }
+        }
+      }
+    }
+  }
 }
