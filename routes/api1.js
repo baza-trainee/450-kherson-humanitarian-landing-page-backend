@@ -73,7 +73,7 @@ router.post(
   controllerOrder.addOrder
 );
 router.patch(
-  '/orders/:orderId/add-person',
+  '/orders/:orderId',
   updateStatusForPastDate,
   isValidId,
   validateBody(orderJoiSchemas.addPersonToOrderSchema),
