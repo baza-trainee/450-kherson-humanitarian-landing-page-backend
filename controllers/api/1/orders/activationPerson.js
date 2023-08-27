@@ -2,7 +2,7 @@ const { Order } = require('../../../../models');
 const { HttpError } = require('../../../../utils/helpers');
 
 const activatePerson = async (req, res) => {
-  const { orderId, personId } = req.params;
+  const { orderId, link } = req.params;
 
   try {
     const existingOrder = await Order.findById(orderId);
@@ -11,7 +11,7 @@ const activatePerson = async (req, res) => {
       throw HttpError(404, 'Order not found');
     }
 
-    const personIndex = existingOrder.persons.findIndex(person => person.id === personId);
+    const personIndex = existingOrder.persons.findIndex(person => person.id === link);
     if (personIndex === -1) {
       throw HttpError(404, 'Person not found in order');
     }
