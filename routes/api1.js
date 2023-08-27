@@ -61,11 +61,11 @@ router.put('/issue-point', authMiddleware, controllerIssuePoint.updateIssuePoint
 // Order routes
 router.get('/orders', updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
 router.get(
-  '/orders/activate/:orderId/:link',
+  '/order/activate/:orderId/:link',
   updateStatusForPastDate,
   controllerOrder.activatePerson
 );
-router.get('/orders/:orderId', updateStatusForPastDate, controllerOrder.getOrderById);
+router.get('/order/:orderId', updateStatusForPastDate, controllerOrder.getOrderById);
 router.post(
   '/orders',
   updateStatusForPastDate,
@@ -73,7 +73,7 @@ router.post(
   controllerOrder.addOrder
 );
 router.patch(
-  '/orders/:orderId',
+  '/order/:orderId',
   updateStatusForPastDate,
   isValidId,
   validateBody(orderJoiSchemas.addPersonToOrderSchema),

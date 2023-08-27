@@ -10,7 +10,7 @@ const getById = async (req, res) => {
   }
 
   // Filter out persons with isActive: false and count isActive: true
-  const activePersons = result.persons.filter(person => person.isActive);
+  const activePersons = result.persons.filter(person => person.isActivated);
   const activePersonsCount = activePersons.length;
 
   // Create a copy of the result and modify the persons array
