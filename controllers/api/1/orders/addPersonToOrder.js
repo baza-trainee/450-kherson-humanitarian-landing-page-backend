@@ -1,8 +1,10 @@
 const moment = require('moment-timezone');
 const { ObjectId } = require('mongoose').Types;
-const { HttpError } = require('../../../../utils/helpers');
+const { HttpError, createVerifyEmail } = require('../../../../utils/helpers');
 const { Order } = require('../../../../models');
-// const { SendEmail } = require('../../helpers');
+require('dotenv').config();
+
+const { BASE_URL } = process.env;
 
 const TIMEZONE = 'Europe/Kiev';
 
@@ -27,14 +29,19 @@ const addPersonToOrder = async (req, res) => {
 
   const currentTime = moment().tz(TIMEZONE); // Get time on 3 hour early
 
-  const updatedOrder = await Order.updateOne(
-    { _id: id },
-    { $push: { persons: newPerson }, $set: { changedDate: currentTime } }
+  const activationLink = `${BASE_URL}/api/v1/order/activate/${id}/${newPerson._id}`;
+  const updatedOrder = await Order.findByIdAndUpdate(
+    { _id: id, 'persons._id': newPerson._id },
+    {
+      $push: { persons: newPerson },
+      $set: { 'persons.$.activationLink': activationLink, changedDate: currentTime },
+    },
+    { new: true }
   );
   if (updatedOrder.nModified === 0) {
     throw HttpError(404, 'Order not found');
   }
-  // await SendEmail(id, newPerson);
+  // await createVerifyEmail(id, newPerson);
 
   return res.status(201).json({ user: newPerson, message: 'Person added to order successfully' });
 };

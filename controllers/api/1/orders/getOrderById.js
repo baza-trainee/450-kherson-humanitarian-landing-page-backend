@@ -8,6 +8,16 @@ const getById = async (req, res) => {
   if (!result) {
     throw HttpError(404, 'Contact not found');
   }
-  res.json(result);
+
+  // Filter out persons with isActive: false and count isActive: true
+  const activePersons = result.persons.filter(person => person.isActive);
+  const activePersonsCount = activePersons.length;
+
+  // Create a copy of the result and modify the persons array
+  const sanitizedResult = { ...result.toObject() };
+  sanitizedResult.persons = activePersons;
+  sanitizedResult.activePersonsCount = activePersonsCount;
+
+  res.json(sanitizedResult);
 };
 module.exports = getById;

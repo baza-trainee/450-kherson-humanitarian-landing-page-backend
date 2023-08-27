@@ -2,9 +2,17 @@ const { Order } = require('../../../../models');
 
 const getAll = async (req, res) => {
   // const { _id: owner } = req.user;
-  const { page = 1, limit = 10 } = req.query;
-  const skip = (page - 1) * limit;
-  const result = await Order.find({}, '-createdAt, -persons', { skip, limit });
+  const { type = '', status = '' } = req.query;
+
+  // Build the query based on the provided parameters
+  const query = {};
+  if (type) {
+    query.type = type;
+  }
+  if (status) {
+    query.status = status;
+  }
+  const result = await Order.find(query, '-createdAt, -persons');
   res.json(result);
 };
 

@@ -44,12 +44,12 @@ const orderSchema = new Schema(
           match: emailRegEx,
           required: true,
         },
-        last_name: {
+        surname: {
           type: String,
           match: pibRegEx,
           required: [true, 'Поле може містити тільки кирилицю, пробіл, дефіс та апостроф'],
         },
-        patronymic_name: {
+        patrname: {
           type: String,
           match: pibRegEx,
           required: [true, 'Поле може містити тільки кирилицю, пробіл, дефіс та апостроф'],
@@ -142,8 +142,8 @@ const addSchema = Joi.object({
 const addPersonToOrderSchema = Joi.object({
   name: Joi.string().pattern(pibRegEx).required(),
   email: Joi.string().email().required(),
-  last_name: Joi.string().pattern(pibRegEx).required(),
-  patronymic_name: Joi.string().pattern(pibRegEx).required(),
+  surname: Joi.string().pattern(pibRegEx).required(),
+  patrname: Joi.string().pattern(pibRegEx).required(),
   street: Joi.string().pattern(cityRegEx).required(),
   building: Joi.string(),
   apartment: Joi.string().pattern(flatNumberRegEx),

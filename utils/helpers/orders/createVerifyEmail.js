@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const SendEmail = async (orderId, newPerson) => {
-  const activationLink = `${BASE_URL}/api/orders/${orderId}/${newPerson._id}`;
+  const activationLink = `${BASE_URL}/api/v1/order/activate${orderId}/${newPerson._id}`;
   const mailOptions = {
     from: SMTP_GMAIL_USER,
     to: newPerson.email,
