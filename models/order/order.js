@@ -12,7 +12,7 @@ const buildingRegEx = /^\d[0-9А-Яа-яІіЇїЄєҐґЁё-]*$/;
 const flatNumberRegEx = /^\d+$/;
 const emailRegEx = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/i;
 
-const idpCertificateNumberRegEx = /^\d{4}-\d{10}$/;
+// const idpCertificateNumberRegEx = /^\d{4}-\d{10}$/;
 
 const orderSchema = new Schema(
   {
