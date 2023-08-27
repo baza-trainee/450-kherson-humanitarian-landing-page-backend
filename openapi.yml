@@ -568,7 +568,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-    put:
+    patch:
       security:
         - bearerAuth: []
       summary: Редагувати ресурс
