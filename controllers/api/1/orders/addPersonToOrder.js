@@ -1,6 +1,6 @@
 const moment = require('moment-timezone');
 const { ObjectId } = require('mongoose').Types;
-const { HttpError } = require('../../../../utils/helpers');
+const { HttpError, createVerifyEmail } = require('../../../../utils/helpers');
 const { Order } = require('../../../../models');
 require('dotenv').config();
 
@@ -43,7 +43,7 @@ const addPersonToOrder = async (req, res) => {
   if (updatedOrder.nModified === 0) {
     throw HttpError(404, 'Order not found');
   }
-  // await createVerifyEmail(id, newPerson);
+  await createVerifyEmail(id, newPerson);
 
   return res.status(201).json({ user: newPerson, message: 'Person added to order successfully' });
 };
