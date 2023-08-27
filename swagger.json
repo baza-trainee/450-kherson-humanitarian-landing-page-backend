@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "{protocol}://450kr.com/api/v1/",
+      "url": "{protocol}://450kr.com",
       "description": "Production server",
       "variables": {
         "protocol": {
@@ -27,7 +27,160 @@
     }
   ],
   "paths": {
-    "/hero": {
+    "/auth/login": {
+      "post": {
+        "tags": ["Авторизація"],
+        "summary": "Авторизуватися",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Користувача авторизовано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Користувач не авторизований",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/auth/renew": {
+      "post": {
+        "tags": ["Авторизація"],
+        "summary": "Отримати посилання для відновлення паролю",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RenewGetLink"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Посилання для відновлення паролю відправлено"
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/auth/renew/{link}": {
+      "get": {
+        "tags": ["Авторизація"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "link",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "summary": "Відновити пароль",
+        "responses": {
+          "200": {
+            "description": "Токен авторизації отримано",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Посилання не дійсне",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/auth/change": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Авторизація"],
+        "summary": "Змінити пароль",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Password"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Посилання для відновлення паролю відправлено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Помилка авторизації",
+            "content": {
+              "application/json": {}
+            }
+          },
+          "500": {
+            "description": "Помилка на боці серверу",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/hero": {
       "post": {
         "security": [
           {
@@ -82,7 +235,7 @@
         }
       }
     },
-    "/hero/{id}": {
+    "/api/v1/hero/{id}": {
       "get": {
         "summary": "Отримати ресурс",
         "tags": ["Hero"],
@@ -221,7 +374,7 @@
         }
       }
     },
-    "/heroes": {
+    "/api/v1/heroes": {
       "get": {
         "summary": "Отримати ресурси",
         "tags": ["Hero"],
@@ -259,7 +412,7 @@
         }
       }
     },
-    "/fund": {
+    "/api/v1/fund": {
       "get": {
         "tags": ["Громадська організація"],
         "summary": "Отримати ресурс",
@@ -336,7 +489,7 @@
         }
       }
     },
-    "/team": {
+    "/api/v1/team": {
       "get": {
         "tags": ["Наша команда"],
         "summary": "Отримати ресурс",
@@ -413,7 +566,7 @@
         }
       }
     },
-    "/history": {
+    "/api/v1/history": {
       "get": {
         "tags": ["Історія заснування"],
         "summary": "Отримати ресурс",
@@ -490,7 +643,7 @@
         }
       }
     },
-    "/achievements": {
+    "/api/v1/achievements": {
       "get": {
         "tags": ["Наші досягнення"],
         "summary": "Отримати ресурс",
@@ -567,7 +720,7 @@
         }
       }
     },
-    "/issue-point": {
+    "/api/v1/issue-point": {
       "get": {
         "tags": ["Адреса видачі"],
         "summary": "Отримати ресурс",
@@ -644,7 +797,7 @@
         }
       }
     },
-    "/order/activate/{id}/{link}": {
+    "/api/v1/order/activate/{id}/{link}": {
       "get": {
         "summary": "Активувати людину у списку",
         "tags": ["Списки на отримання допомоги"],
@@ -692,7 +845,7 @@
         }
       }
     },
-    "/order/{id}": {
+    "/api/v1/order/{id}": {
       "get": {
         "security": [
           {
@@ -735,7 +888,7 @@
           }
         }
       },
-      "put": {
+      "patch": {
         "security": [
           {
             "bearerAuth": []
@@ -836,7 +989,7 @@
         }
       }
     },
-    "/orders": {
+    "/api/v1/orders": {
       "get": {
         "security": [
           {
@@ -948,7 +1101,7 @@
         }
       }
     },
-    "/orders/quantity": {
+    "/api/v1/orders/quantity": {
       "get": {
         "summary": "Отримати ресурси",
         "tags": ["Списки на отримання допомоги"],
@@ -976,7 +1129,7 @@
         }
       }
     },
-    "/activities": {
+    "/api/v1/activities": {
       "get": {
         "summary": "Отримати ресурси",
         "tags": ["Наша діяльність"],
@@ -1060,7 +1213,7 @@
         }
       }
     },
-    "/activity/{id}": {
+    "/api/v1/activity/{id}": {
       "get": {
         "summary": "Отримати ресурс",
         "tags": ["Наша діяльність"],
@@ -1208,7 +1361,7 @@
         }
       }
     },
-    "/projects": {
+    "/api/v1/projects": {
       "get": {
         "summary": "Отримати ресурси",
         "tags": ["Проєкти"],
@@ -1292,7 +1445,7 @@
         }
       }
     },
-    "/project/{id}": {
+    "/api/v1/project/{id}": {
       "get": {
         "summary": "Отримати ресурс",
         "tags": ["Проєкти"],
@@ -1440,7 +1593,7 @@
         }
       }
     },
-    "/logos": {
+    "/api/v1/logos": {
       "get": {
         "summary": "Отримати ресурси",
         "tags": ["Наші партнери"],
@@ -1534,7 +1687,7 @@
         }
       }
     },
-    "/logo/{id}": {
+    "/api/v1/logo/{id}": {
       "get": {
         "summary": "Отримати ресурс",
         "tags": ["Наші партнери"],
@@ -1682,7 +1835,7 @@
         }
       }
     },
-    "/contacts": {
+    "/api/v1/contacts": {
       "get": {
         "summary": "Отримати ресурс",
         "tags": ["Контакти"],
@@ -1769,7 +1922,7 @@
         }
       }
     },
-    "/documents": {
+    "/api/v1/documents": {
       "get": {
         "summary": "Отримати ресурс",
         "tags": ["Документи"],
@@ -1856,7 +2009,7 @@
         }
       }
     },
-    "/congrats": {
+    "/api/v1/congrats": {
       "get": {
         "summary": "Отримати ресурс",
         "tags": ["Вітаємо"],
@@ -1943,7 +2096,7 @@
         }
       }
     },
-    "/donats": {
+    "/api/v1/donats": {
       "get": {
         "summary": "Отримати ресурси",
         "tags": ["Донати"],
@@ -2037,7 +2190,7 @@
         }
       }
     },
-    "/donat/{id}": {
+    "/api/v1/donat/{id}": {
       "get": {
         "summary": "Отримати ресурс",
         "tags": ["Донати"],
@@ -2185,8 +2338,13 @@
         }
       }
     },
-    "/export/order/{id}": {
+    "/api/v1/export/order/{id}": {
       "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "summary": "Отримати ресурси",
         "tags": ["Експорт"],
         "parameters": [
@@ -2409,6 +2567,50 @@
           "child": {
             "type": "integer",
             "example": 125
+          }
+        }
+      },
+      "Token": {
+        "type": "object",
+        "required": ["token"],
+        "properties": {
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTYwNGY0ODg0NWU5NmUwMWNiYzkwYyIsImlhdCI6MTY5MzAwMTM5MSwiZXhwIjoxNjkzMDAyMjkxfQ.jZXON8fmQa3adBQZz75bg80NZbYlKCKtZ4326u8ixxI"
+          }
+        }
+      },
+      "Login": {
+        "type": "object",
+        "required": ["username", "password"],
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "administrator"
+          },
+          "password": {
+            "type": "string",
+            "example": "password"
+          }
+        }
+      },
+      "Password": {
+        "type": "object",
+        "required": ["password"],
+        "properties": {
+          "password": {
+            "type": "string",
+            "example": "password"
+          }
+        }
+      },
+      "RenewGetLink": {
+        "type": "object",
+        "required": ["username"],
+        "properties": {
+          "username": {
+            "type": "string",
+            "example": "administrator"
           }
         }
       },
