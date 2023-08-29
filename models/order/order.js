@@ -20,6 +20,10 @@ const orderSchema = new Schema(
       type: Number,
       required: true,
     },
+    confirmedPersons: {
+      type: Number,
+      default: null,
+    },
     status: {
       type: String,
       enum: ['active', 'ready', 'archive', 'complete'],
@@ -111,6 +115,10 @@ const orderSchema = new Schema(
           type: String,
           default: '',
         },
+        dataProcessingAgreement: {
+          type: Boolean,
+          default: true,
+        },
       },
     ],
     createdDate: {
@@ -137,6 +145,7 @@ const addSchema = Joi.object({
   status: Joi.string().valid('active', 'ready', 'archive', 'complete'),
   type: Joi.string().valid('temp_moved', 'invalid', 'child'),
   issueDate: Joi.string().required(),
+  issueTime: Joi.string().required(),
 });
 
 const addPersonToOrderSchema = Joi.object({

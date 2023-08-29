@@ -11,12 +11,12 @@ const getById = async (req, res) => {
 
   // Filter out persons with isActive: false and count isActive: true
   const activePersons = result.persons.filter(person => person.isActivated);
-  const activePersonsCount = activePersons.length;
+  const allPersons = result.persons;
 
   // Create a copy of the result and modify the persons array
   const sanitizedResult = { ...result.toObject() };
   sanitizedResult.persons = activePersons;
-  sanitizedResult.activePersonsCount = activePersonsCount;
+  sanitizedResult.allPersons = allPersons;
 
   res.json(sanitizedResult);
 };

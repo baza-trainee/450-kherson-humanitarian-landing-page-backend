@@ -18,12 +18,18 @@ const addPersonToOrder = async (req, res) => {
   if (!existingOrder) {
     throw HttpError(404, 'Order not found');
   }
-  const isDuplicate = existingOrder.persons.some(
-    person => person.email === newPersonData.email || person.phone === newPersonData.phone
-  );
+
+  // Check if the order is complete or maxQuantity is reached
+  if (
+    existingOrder.status === 'complete' ||
+    existingOrder.confirmedPersons >= existingOrder.maxQuantity
+  ) {
+    throw HttpError(400, 'Order is already complete or maxQuantity reached');
+  }
+  const isDuplicate = existingOrder.persons.some(person => person.email === newPersonData.email);
 
   if (isDuplicate) {
-    throw HttpError(400, 'Duplicate email or phone in order');
+    throw HttpError(400, 'Duplicate email in order');
   }
 
   const currentTime = moment().tz(TIMEZONE); // Get time on 3 hour early
@@ -43,7 +49,7 @@ const addPersonToOrder = async (req, res) => {
   if (updatedOrder.nModified === 0) {
     throw HttpError(404, 'Order not found');
   }
-  await createVerifyEmail(id, newPerson);
+  // await createVerifyEmail(id, newPerson);
 
   return res.status(201).json({ user: newPerson, message: 'Person added to order successfully' });
 };

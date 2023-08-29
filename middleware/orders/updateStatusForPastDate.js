@@ -3,7 +3,7 @@ const { Order } = require('../../models');
 
 const checkIssueDateAndUpdateStatus = async function (req, res, next) {
   try {
-    // console.log('triggered checkIssueDateAndUpdateStatus');
+    console.log('triggered checkIssueDateAndUpdateStatus');
     const currentDate = moment().startOf('day'); // Get the current date without time
     // Find orders with issueDate in the past and status is not 'archived'
     const ordersToUpdate = await Order.find({

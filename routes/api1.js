@@ -63,14 +63,27 @@ router.get('/orders', updateStatusForPastDate, ctrlWrapper(controllerOrder.getAl
 router.get(
   '/order/activate/:orderId/:link',
   updateStatusForPastDate,
-  controllerOrder.activatePerson
+  ctrlWrapper(controllerOrder.activatePerson)
 );
-router.get('/order/:orderId', updateStatusForPastDate, controllerOrder.getOrderById);
+// TODO: Віддати PersonData:
+// 1: ПІБ
+// 2: Issue date from order
+// 3: Issue time from order
+// 4: address ask Volodimir
+// 5:
+
+router.get(
+  '/order/:orderId/:link',
+  updateStatusForPastDate,
+  ctrlWrapper(controllerOrder.getPersonById)
+);
+
+router.get('/order/:orderId', updateStatusForPastDate, ctrlWrapper(controllerOrder.getOrderById));
 router.post(
   '/orders',
   updateStatusForPastDate,
   validateBody(orderJoiSchemas.addSchema),
-  controllerOrder.addOrder
+  ctrlWrapper(controllerOrder.addOrder)
 );
 router.patch(
   '/order/:orderId',
