@@ -6,12 +6,12 @@ const gmailParams = {
   auth: {
     user: process.env.SMTP_GMAIL_USER,
     pass: process.env.SMTP_GMAIL_PASSWORD
-  },
+  },/*
   secure: true,
   tls: {
     rejectUnauthorized: false, // Allow self-signed certificates
     minVersion: "TLSv1.2"
-  }
+  }*/
 }
 
 class MailService {
@@ -20,24 +20,26 @@ class MailService {
       this.transporter = nodemailer.createTransport(gmailParams);
       this.transporter.verify(function (error, success) {
         if (error) {
-          console.log("SMTP сервер не готовий до відправки повідомлень:", error);
+          console.log("SMTP сервер не готовий до відправки повідомлень:");
         } else {
           console.log('SMTP сервер готовий до відправки повідомлень...');
         }
       });
     } catch (err) {
-      console.log("Помилка в роботі SMTP серверу:", err);
+      console.log("-Помилка в роботі SMTP серверу:", err);
+      setTimeout(() => {
+        this.transporter = nodemailer.createTransport(gmailParams);
+      }, 5000);
     }
   }
-
   async sendActivationMail(to, link) {
-    await this.transporter.sendMail(
-      {
-        from: process.env.SMTP_USER,
+    console.log(this);
+    await this.transporter.sendMail({
+        from: process.env.SMTP_GMAIL_USER,
         to,
-        subject: `Відновлення доступу до сайту`,
+        subject: 'Відновлення доступу до сайту',
         text: '',
-        html: `
+        /*html: `
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -121,7 +123,6 @@ class MailService {
                 }
         
                 @media screen and (max-width: 500px) {
-                    /* Add responsive styles here */
                 }
             </style>
         </head>
@@ -162,8 +163,8 @@ class MailService {
             </center>
         </body>
         </html>
-        `
-    }, (err, info) => {
+        `*/
+    }, (err) => {
       console.log(err);
       console.log("Помилка при відправленні повідомлення", err);
     })
