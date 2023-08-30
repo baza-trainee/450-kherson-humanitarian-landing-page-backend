@@ -27,16 +27,22 @@ const addOrder = async (req, res) => {
     return res.status(400).json({ message: 'An order with the same issue date already exists.' });
   }
 
+  const existingOrdersWithSameType = await Order.find({
+    type: newOrderData.type,
+  });
+
   const result = await Order.create(newOrderData);
 
   const responseResult = {
-    _id: result._id,
-    maxQuantity: result.maxQuantity,
-    issueDate: result.issueDate,
-    type: result.type,
-    createdDate: result.createdDate,
-    status: result.status,
-    // Add other fields you want to include in the response
+    newOrderData: {
+      _id: result._id,
+      maxQuantity: result.maxQuantity,
+      issueDate: result.issueDate,
+      type: result.type,
+      createdDate: result.createdDate,
+      status: result.status,
+    },
+    existingOrders: existingOrdersWithSameType,
   };
 
   res.status(201).json(responseResult);
