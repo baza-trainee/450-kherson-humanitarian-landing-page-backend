@@ -644,12 +644,14 @@ paths:
           name: type
           schema:
             type: string
-            enum: [temp_moved, invalid, child]
+            enum: ['temp_moved', 'invalid', 'child']
+            default: 'temp_moved'
         - in: query
           name: status
           schema:
             type: string
-            enum: [active, archive, passive]
+            enum: ['active', 'ready', 'archive', 'complete']
+            default: 'ready'
       responses:
         '200':
           description: OK
@@ -1892,6 +1894,7 @@ components:
         - createDate
         - changedDate
         - closeDate
+        - confirmedPersons
       properties:
         _id:
           type: string 
@@ -1924,6 +1927,8 @@ components:
         closeDate:
           type: string
           example: "2023-08-17T22:58:38.831Z"
+        confirmedPersons:
+          type: boolean
         persons: 
           type: array
           items:
