@@ -18,7 +18,6 @@ const getPersonById = async (req, res) => {
 
     const orderInfo = {
       issueDate: existingOrder.issueDate,
-      // issueTime: existingOrder.issueTime, // Make sure you have this property in your Order schema
       // issueAddress: existingOrder.street + ', ' + existingOrder.building,
     };
 

@@ -29,7 +29,17 @@ const addOrder = async (req, res) => {
 
   const result = await Order.create(newOrderData);
 
-  res.status(201).json(result);
+  const responseResult = {
+    _id: result._id,
+    maxQuantity: result.maxQuantity,
+    issueDate: result.issueDate,
+    type: result.type,
+    createdDate: result.createdDate,
+    status: result.status,
+    // Add other fields you want to include in the response
+  };
+
+  res.status(201).json(responseResult);
 };
 
 module.exports = addOrder;

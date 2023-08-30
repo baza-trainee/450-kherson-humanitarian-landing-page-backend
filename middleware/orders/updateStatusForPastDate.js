@@ -19,6 +19,27 @@ const checkIssueDateAndUpdateStatus = async function (req, res, next) {
         { $set: { status: 'archived', lastUpdated: new Date() } } // Update lastUpdated field
       );
     }
+    // Find unique order types (excluding 'archived')
+    const uniqueTypes = await Order.distinct('type', { status: { $ne: 'archived' } });
+
+    for (const type of uniqueTypes) {
+      // Check if there are any active orders of this type
+      const activeOrders = await Order.exists({ type, status: 'active' });
+
+      if (!activeOrders) {
+        // Find the next closest 'ready' order of this type
+        const nextReadyOrder = await Order.findOne({
+          type,
+          status: 'ready',
+          issueDate: { $gte: currentDate },
+        }).sort('issueDate');
+
+        if (nextReadyOrder) {
+          // Update the status of the next closest 'ready' order to 'active'
+          await Order.findByIdAndUpdate(nextReadyOrder._id, { status: 'active' });
+        }
+      }
+    }
 
     next();
   } catch (error) {

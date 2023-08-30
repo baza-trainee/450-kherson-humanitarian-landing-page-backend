@@ -77,11 +77,12 @@ const orderSchema = new Schema(
           match: flatNumberRegEx,
           default: '',
         },
-        CertificateNumber: {
+        certificateNumber: {
           type: String,
           validate: {
             validator: certificateValidator,
           },
+          required: true,
           default: '',
         },
         settlementFrom: {
@@ -156,7 +157,10 @@ const addPersonToOrderSchema = Joi.object({
   street: Joi.string().pattern(cityRegEx).required(),
   building: Joi.string(),
   apartment: Joi.string().pattern(flatNumberRegEx),
-  CertificateNumber: Joi.string().custom(certificateValidatorJoi).required(),
+  certificateNumber: Joi.string().custom(certificateValidatorJoi).required(),
+  // idpCertificateNumber: Joi.string().custom(certificateValidatorJoi),
+  // birthCertificateNumber: Joi.string().custom(certificateValidatorJoi),
+  // disabilityCertificateNumber: Joi.string().custom(certificateValidatorJoi),
   settlementFrom: Joi.string(),
   regionFrom: Joi.string().valid(...address.areaCollection),
   memberNumber: Joi.number(),

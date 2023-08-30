@@ -31,16 +31,18 @@ const activatePerson = async (req, res) => {
 
     await existingOrder.save();
 
-    // TODO Causing a problem with circular dependency
     if (existingOrder.status === 'complete') {
       await updateNextClosestReadyOrder(existingOrder.type);
     }
 
-    // const frontendRedirectURL = `https://450kr.com/something?=${orderId}&${link}`;
-    // return res.redirect(frontendRedirectURL);
+    // const successfulFrontendRedirectURL = `https://450.com/successful-registration?=${orderId}&${link}`;
+    // return res.redirect(successfulFrontendRedirectURL);
+
+    // const unsuccessfulFrontendRedirectURL = `https://450.com/unsuccessful-registration?=${orderId}&${link}`;
 
     return res.status(200).json({ message: 'Person activated successfully' });
   } catch (error) {
+    // return res.redirect(unsuccessfulFrontendRedirectURL)
     return res
       .status(error.statusCode || 500)
       .json({ error: error.message || 'Internal Server Error' });
