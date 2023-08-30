@@ -510,14 +510,14 @@ paths:
           description: Помилка на боці серверу
           content:
             application/json: {}
-  /api/v1/order/activate/{id}/{link}:
+  /api/v1/order/activate/{orderId}/{link}:
     get:
       summary: Активувати людину у списку
       tags:
         - Списки на отримання допомоги
       parameters:
         - in: path
-          name: id
+          name: orderId
           required: true
           schema:
             type: string
@@ -541,7 +541,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /api/v1/order/{id}:
+  /api/v1/order/{orderId}:
     get:
       security:
         - bearerAuth: []
@@ -550,7 +550,7 @@ paths:
         - Списки на отримання допомоги
       parameters:
         - in: path
-          name: id
+          name: orderId
           required: true
           schema:
             type: string
@@ -576,7 +576,7 @@ paths:
         - Списки на отримання допомоги
       parameters:
         - in: path
-          name: id
+          name: orderId
           required: true
           schema:
             type: string
@@ -614,7 +614,7 @@ paths:
         - Списки на отримання допомоги
       parameters:
         - in: path
-          name: id
+          name: orderId
           required: true
           schema:
             type: string
@@ -1825,18 +1825,19 @@ components:
         - name
         - surname
         - patrname
-        - settlement
+        - email
+        - settlementFrom
         - street
         - building
         - apartment
-        - certificate
+        - certificateNumber
         - regionFrom
-        - settlementFrom
         - memberNumber
         - phone
         - isActivated
         - activationLink
         - approve
+        - dataProcessingAgreement
       properties:
         id:
           type: string 
@@ -1851,6 +1852,9 @@ components:
         patrname:
           type: string
           example: "григорович"
+        email:
+          type: string
+          example: "velogitara@gmail.com"
         street:
           type: string
           example: "вулиця визволення"
@@ -1860,7 +1864,7 @@ components:
         apartment:
           type: string
           example: "11"
-        certificate:
+        certificateNumber:
           type: string
           example: "1111-1111111111"
         regionFrom:
@@ -1884,6 +1888,10 @@ components:
         approve:
           type: boolean
           example: true
+        dataProcessingAgreement:
+          type: boolean
+          example: true
+          
     Order:
       type: object 
       required:
@@ -1908,7 +1916,7 @@ components:
             "temp_moved",
             "invalid",
             "child"]
-        status_: 
+        status: 
           type: string
           enum: [
             "active",
