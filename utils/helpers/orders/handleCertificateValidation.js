@@ -1,6 +1,6 @@
 const idpCertificateNumberRegEx = /^\d{4}-\d{10}$/;
-const disabilityCertificateNumberRegEx = /^\d{4}-\d{10}$/;
-const birthCertificateNumberRegEx = /^\d{4}-\d/;
+const disabilityCertificateNumberRegEx = /^\d{6}$/;
+const birthCertificateNumberRegEx = /^\d{6}$/;
 
 const certificateValidator = value => {
   return (

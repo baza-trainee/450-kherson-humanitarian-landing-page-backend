@@ -19,6 +19,10 @@ const addPersonToOrder = async (req, res) => {
     throw HttpError(404, 'Order not found');
   }
 
+  if (existingOrder.status !== 'active') {
+    throw HttpError(400, 'Order is not active');
+  }
+
   // Check if the order is complete or maxQuantity is reached
   if (
     existingOrder.status === 'complete' ||
