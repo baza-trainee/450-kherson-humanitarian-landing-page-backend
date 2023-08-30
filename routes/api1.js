@@ -59,7 +59,7 @@ router.get('/issue-point', controllerIssuePoint.getIssuePoint);
 router.put('/issue-point', authMiddleware, controllerIssuePoint.updateIssuePoint);
 
 // Order routes
-router.get('/orders', authMiddleware, updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
+router.get('/orders', updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
 router.get(
   '/order/:orderId',
   authMiddleware,
