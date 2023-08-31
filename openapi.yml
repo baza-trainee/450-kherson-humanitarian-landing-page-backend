@@ -1936,7 +1936,8 @@ components:
           type: string
           example: "2023-08-17T22:58:38.831Z"
         confirmedPersons:
-          type: boolean
+          type: integer
+          example: 51
         persons: 
           type: array
           items:
