@@ -89,29 +89,13 @@ const changePassword = async (req, res, next) => {
   }
 };
 
-// const createAdminInDB = async () => {
-//   const userCount = await User.where({}).countDocuments();
-//   if (userCount < 1) {
-//     const hashPassword = bcrypt.hashSync(process.env.START_PASSWORD, 7);
-//     const user = new User({ username: process.env.START_LOGIN, password: hashPassword });
-//     await user.save();
-//   }
-// };
-
 const createAdminInDB = async () => {
-  const adminExists = await User.findOne({ username: process.env.START_LOGIN });
-
-  if (!adminExists) {
+  const userCount = await User.where({}).countDocuments();
+  if (userCount < 1) {
     const hashPassword = bcrypt.hashSync(process.env.START_PASSWORD, 7);
     const user = new User({ username: process.env.START_LOGIN, password: hashPassword });
-
-    try {
-      await user.save();
-    } catch (error) {
-      console.error('Error creating admin user:', error);
-      // Handle the error appropriately (logging, feedback, etc.)
-    }
+    await user.save();
   }
 };
 
-module.exports = { login, renewPassword, renewPasswordLink, changePassword, createAdminInDB };
+module.exports = { login, renewPassword, renewPasswordLink, changePassword };
