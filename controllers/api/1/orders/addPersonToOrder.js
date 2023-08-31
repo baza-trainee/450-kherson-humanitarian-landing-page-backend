@@ -36,7 +36,7 @@ const addPersonToOrder = async (req, res) => {
     throw HttpError(400, 'Duplicate email in order');
   }
 
-  const currentTime = moment().tz(TIMEZONE); // Get time on 3 hour early
+  const currentTime = moment().tz(TIMEZONE);
 
   const activationLink = `${BASE_URL}/api/v1/order/activate/${id}/${newPersonData._id}`;
 
@@ -50,10 +50,18 @@ const addPersonToOrder = async (req, res) => {
     },
     { new: true }
   );
-  if (updatedOrder.nModified === 0) {
-    throw HttpError(404, 'Order not found');
+  // if (updatedOrder.nModified === 0) {
+  //   throw HttpError(404, 'Order not found');
+  // }
+  if (!updatedOrder) {
+    throw HttpError(404, 'Order not updated');
   }
-  // await createVerifyEmail(id, newPerson);
+
+  // Check if any modifications were made during the update
+  // if (updatedOrder._update.$modifiedPaths.length === 0) {
+  //   throw HttpError(404, 'Order not found');
+  // }
+  await createVerifyEmail(id, newPerson);
 
   return res.status(201).json({ user: newPerson, message: 'Person added to order successfully' });
 };
