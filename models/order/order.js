@@ -20,6 +20,10 @@ const orderSchema = new Schema(
       type: Number,
       required: true,
     },
+    confirmedPersons: {
+      type: Number,
+      default: null,
+    },
     status: {
       type: String,
       enum: ['active', 'ready', 'archive', 'complete'],
@@ -73,11 +77,12 @@ const orderSchema = new Schema(
           match: flatNumberRegEx,
           default: '',
         },
-        CertificateNumber: {
+        certificateNumber: {
           type: String,
           validate: {
             validator: certificateValidator,
           },
+          required: true,
           default: '',
         },
         settlementFrom: {
@@ -111,6 +116,10 @@ const orderSchema = new Schema(
           type: String,
           default: '',
         },
+        dataProcessingAgreement: {
+          type: Boolean,
+          default: true,
+        },
       },
     ],
     createdDate: {
@@ -137,6 +146,7 @@ const addSchema = Joi.object({
   status: Joi.string().valid('active', 'ready', 'archive', 'complete'),
   type: Joi.string().valid('temp_moved', 'invalid', 'child'),
   issueDate: Joi.string().required(),
+  issueTime: Joi.string().required(),
 });
 
 const addPersonToOrderSchema = Joi.object({
@@ -147,7 +157,10 @@ const addPersonToOrderSchema = Joi.object({
   street: Joi.string().pattern(cityRegEx).required(),
   building: Joi.string(),
   apartment: Joi.string().pattern(flatNumberRegEx),
-  CertificateNumber: Joi.string().custom(certificateValidatorJoi).required(),
+  certificateNumber: Joi.string().custom(certificateValidatorJoi).required(),
+  // idpCertificateNumber: Joi.string().custom(certificateValidatorJoi),
+  // birthCertificateNumber: Joi.string().custom(certificateValidatorJoi),
+  // disabilityCertificateNumber: Joi.string().custom(certificateValidatorJoi),
   settlementFrom: Joi.string(),
   regionFrom: Joi.string().valid(...address.areaCollection),
   memberNumber: Joi.number(),

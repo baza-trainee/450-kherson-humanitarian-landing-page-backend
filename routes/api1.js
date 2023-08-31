@@ -61,16 +61,28 @@ router.put('/issue-point', authMiddleware, controllerIssuePoint.updateIssuePoint
 // Order routes
 router.get('/orders', updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
 router.get(
+  '/order/:orderId',
+  authMiddleware,
+  updateStatusForPastDate,
+  ctrlWrapper(controllerOrder.getOrderById)
+);
+router.get(
   '/order/activate/:orderId/:link',
   updateStatusForPastDate,
-  controllerOrder.activatePerson
+  ctrlWrapper(controllerOrder.activatePerson)
 );
-router.get('/order/:orderId', updateStatusForPastDate, controllerOrder.getOrderById);
+router.get(
+  '/order/:orderId/:link',
+  updateStatusForPastDate,
+  ctrlWrapper(controllerOrder.getPersonById)
+);
+
 router.post(
   '/orders',
+  authMiddleware,
   updateStatusForPastDate,
   validateBody(orderJoiSchemas.addSchema),
-  controllerOrder.addOrder
+  ctrlWrapper(controllerOrder.addOrder)
 );
 router.patch(
   '/order/:orderId',
@@ -80,9 +92,7 @@ router.patch(
   ctrlWrapper(controllerOrder.addPersonToOrder)
 );
 
-// router.delete('/order/:id',  controllerOrder.);
-// router.get('/orders',  controllerOrder.);
-// router.post('/orders', controllerOrder.);
+// router.delete('/order/:id', authMiddleware, controllerOrder.);
 // router.get('/orders/quantity', controllerOrder.);
 
 // Activities routes
