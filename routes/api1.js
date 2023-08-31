@@ -71,13 +71,6 @@ router.get(
   updateStatusForPastDate,
   ctrlWrapper(controllerOrder.activatePerson)
 );
-// TODO: Віддати PersonData:
-// 1: ПІБ
-// 2: Issue date from order
-// 3: Issue time from order
-// 4: address ask Volodimir
-// 5:
-
 router.get(
   '/order/:orderId/:link',
   updateStatusForPastDate,
