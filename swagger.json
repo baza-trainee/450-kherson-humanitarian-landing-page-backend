@@ -797,14 +797,14 @@
         }
       }
     },
-    "/api/v1/order/activate/{id}/{link}": {
+    "/api/v1/order/activate/{orderId}/{link}": {
       "get": {
         "summary": "Активувати людину у списку",
         "tags": ["Списки на отримання допомоги"],
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "orderId",
             "required": true,
             "schema": {
               "type": "string",
@@ -845,7 +845,7 @@
         }
       }
     },
-    "/api/v1/order/{id}": {
+    "/api/v1/order/{orderId}": {
       "get": {
         "security": [
           {
@@ -857,7 +857,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "orderId",
             "required": true,
             "schema": {
               "type": "string",
@@ -899,7 +899,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "orderId",
             "required": true,
             "schema": {
               "type": "string",
@@ -959,7 +959,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "orderId",
             "required": true,
             "schema": {
               "type": "string",
@@ -1004,7 +1004,8 @@
             "name": "type",
             "schema": {
               "type": "string",
-              "enum": ["temp_moved", "invalid", "child"]
+              "enum": ["temp_moved", "invalid", "child"],
+              "default": "temp_moved"
             }
           },
           {
@@ -1012,7 +1013,8 @@
             "name": "status",
             "schema": {
               "type": "string",
-              "enum": ["active", "archive", "passive"]
+              "enum": ["active", "ready", "archive", "complete"],
+              "default": "ready"
             }
           }
         ],
@@ -2776,18 +2778,19 @@
           "name",
           "surname",
           "patrname",
-          "settlement",
+          "email",
+          "settlementFrom",
           "street",
           "building",
           "apartment",
-          "certificate",
+          "certificateNumber",
           "regionFrom",
-          "settlementFrom",
           "memberNumber",
           "phone",
           "isActivated",
           "activationLink",
-          "approve"
+          "approve",
+          "dataProcessingAgreement"
         ],
         "properties": {
           "id": {
@@ -2807,6 +2810,10 @@
             "type": "string",
             "example": "григорович"
           },
+          "email": {
+            "type": "string",
+            "example": "velogitara@gmail.com"
+          },
           "street": {
             "type": "string",
             "example": "вулиця визволення"
@@ -2819,7 +2826,7 @@
             "type": "string",
             "example": "11"
           },
-          "certificate": {
+          "certificateNumber": {
             "type": "string",
             "example": "1111-1111111111"
           },
@@ -2850,6 +2857,10 @@
           "approve": {
             "type": "boolean",
             "example": true
+          },
+          "dataProcessingAgreement": {
+            "type": "boolean",
+            "example": true
           }
         }
       },
@@ -2862,7 +2873,8 @@
           "issueDate",
           "createDate",
           "changedDate",
-          "closeDate"
+          "closeDate",
+          "confirmedPersons"
         ],
         "properties": {
           "_id": {
@@ -2877,7 +2889,7 @@
             "type": "string",
             "enum": ["temp_moved", "invalid", "child"]
           },
-          "status_": {
+          "status": {
             "type": "string",
             "enum": ["active", "archive", "ready", "complete"]
           },
@@ -2896,6 +2908,9 @@
           "closeDate": {
             "type": "string",
             "example": "2023-08-17T22:58:38.831Z"
+          },
+          "confirmedPersons": {
+            "type": "boolean"
           },
           "persons": {
             "type": "array",
