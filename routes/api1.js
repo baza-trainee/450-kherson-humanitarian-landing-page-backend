@@ -92,7 +92,7 @@ router.patch(
   ctrlWrapper(controllerOrder.addPersonToOrder)
 );
 
-// router.delete('/order/:id', authMiddleware, controllerOrder.);
+router.delete('/order/:orderId', authMiddleware, ctrlWrapper(controllerOrder.removeOrderById));
 // router.get('/orders/quantity', controllerOrder.);
 
 // Activities routes

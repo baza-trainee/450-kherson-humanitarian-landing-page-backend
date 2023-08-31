@@ -6,7 +6,7 @@ const getById = async (req, res) => {
 
   const result = await Order.findById(orderId);
   if (!result) {
-    throw HttpError(404, 'Contact not found');
+    throw HttpError(404, 'Order not found');
   }
 
   // Filter out persons with isActive: false and count isActive: true

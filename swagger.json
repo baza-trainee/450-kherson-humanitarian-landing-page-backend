@@ -894,7 +894,7 @@
             "bearerAuth": []
           }
         ],
-        "summary": "Редагувати ресурс",
+        "summary": "Додати людину до списку",
         "tags": ["Списки на отримання допомоги"],
         "parameters": [
           {
@@ -912,7 +912,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Order"
+                "$ref": "#/components/schemas/Person"
               }
             }
           }
@@ -2789,7 +2789,6 @@
           "phone",
           "isActivated",
           "activationLink",
-          "approve",
           "dataProcessingAgreement"
         ],
         "properties": {
@@ -2910,7 +2909,7 @@
             "example": "2023-08-17T22:58:38.831Z"
           },
           "confirmedPersons": {
-            "type": "boolean"
+            "type": "number"
           },
           "persons": {
             "type": "array",
