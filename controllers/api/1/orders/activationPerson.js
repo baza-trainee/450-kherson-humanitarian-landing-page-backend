@@ -4,8 +4,8 @@ const updateNextClosestReadyOrder = require('../../../../utils/helpers/orders/up
 
 const activatePerson = async (req, res) => {
   const { orderId, link } = req.params;
-  const unsuccessfulFrontendRedirectURL = `https://localhost:3000/notification/unsuccess-registration/:${orderId}/:${link}`;
-  const successfulFrontendRedirectURL = `https://localhost:3000/notification/success-registration/:${orderId}/:${link}`;
+  const unsuccessfulFrontendRedirectURL = `https://localhost:3000/notification/unsuccess-registration?orderId=${orderId}&link=${link}`;
+  const successfulFrontendRedirectURL = `https://localhost:3000/notification/success-registration?orderId=${orderId}&link=${link}`;
 
   try {
     const existingOrder = await Order.findById(orderId);
@@ -19,16 +19,20 @@ const activatePerson = async (req, res) => {
       throw HttpError(404, 'Person not found in order');
     }
 
-    // Update isActivated field of the person
-    existingOrder.persons[personIndex].isActivated = true;
+    // Check if the person is already activated
+    if (!existingOrder.persons[personIndex].isActivated) {
+      // Update isActivated field of the person
+      existingOrder.persons[personIndex].isActivated = true;
 
-    // Increase confirmedPersons count if the person is activated
-    if (existingOrder.persons[personIndex].isActivated) {
+      // Increase confirmedPersons count if the person is activated
       existingOrder.confirmedPersons = (existingOrder.confirmedPersons || 0) + 1;
 
       if (existingOrder.confirmedPersons >= existingOrder.maxQuantity) {
         existingOrder.status = 'complete';
       }
+    } else {
+      // If the person is already activated, you can return an error or a message
+      throw HttpError(400, 'Person is already activated');
     }
 
     await existingOrder.save();
@@ -36,11 +40,6 @@ const activatePerson = async (req, res) => {
     if (existingOrder.status === 'complete') {
       await updateNextClosestReadyOrder(existingOrder.type);
     }
-
-    // const successfulFrontendRedirectURL = `https://450.com/successful-registration?=${orderId}&${link}`;
-    // return res.redirect(successfulFrontendRedirectURL);
-
-    // const unsuccessfulFrontendRedirectURL = `https://450.com/unsuccessful-registration?=${orderId}&${link}`;
 
     return res.redirect(successfulFrontendRedirectURL);
     // return res.status(200).json({ message: 'Person activated successfully' });
