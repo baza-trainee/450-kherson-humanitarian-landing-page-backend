@@ -47,7 +47,7 @@ const exportExcelOrder = async (req, res) => {
     const headerRow = worksheet.addRow([
       'Номер',
       'Прізвище',
-      'Ім"я',
+      'Ім`я',
       'По-батькові',
       'Вулиця',
       'Будівля',
