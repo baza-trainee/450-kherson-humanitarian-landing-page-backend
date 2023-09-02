@@ -4,6 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
+const config = require('./config/app');
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
@@ -63,7 +64,7 @@ const startMongoDB = async () => {
     console.log('Помилка при запуску MongoDB серверу');
     setTimeout(() => {
       startMongoDB();
-    }, 5000);
+    }, config.server.MongoDB.restartSec);
   }
 }
 const startServer = async () => {

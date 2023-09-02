@@ -1,4 +1,6 @@
 const nodemailer = require('nodemailer');
+const config = require('../config/app');
+
 require('dotenv').config();
 
 const gmailParams = {
@@ -26,20 +28,20 @@ class MailService {
         }
       });
     } catch (err) {
-      console.log("-Помилка в роботі SMTP серверу:", err);
+      console.log("Помилка в роботі SMTP серверу:", err);
       setTimeout(() => {
         this.transporter = nodemailer.createTransport(gmailParams);
-      }, 5000);
+      }, config.servers.SMTPService.restartSec);
     }
   }
   async sendActivationMail(to, link) {
-    console.log(this);
+    //console.log(this);
     await this.transporter.sendMail({
         from: process.env.SMTP_GMAIL_USER,
         to,
         subject: 'Відновлення доступу до сайту',
         text: '',
-        /*html: `
+        html: `
         <!DOCTYPE html>
         <html lang="en">
         <head>
@@ -163,9 +165,9 @@ class MailService {
             </center>
         </body>
         </html>
-        `*/
+        `
     }, (err) => {
-      console.log(err);
+      //console.log(err);
       console.log("Помилка при відправленні повідомлення", err);
     })
   }

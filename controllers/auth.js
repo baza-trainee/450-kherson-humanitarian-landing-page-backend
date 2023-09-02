@@ -4,12 +4,20 @@ const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const mailService = require('../service/mail-service');
 const uuid = require('uuid');
-const { token } = require('../config/auth')
+const { token, link } = require('../config/auth')
+const { urls } = require('../config/app')
+
+/**
+ * Generator bearer tokens
+ */
 
 const generateAccessToken = (id) => {
   const payload = { id };
-  return jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: token.expiresTime()})
+  return jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: token.expiresTime})
 }
+/**
+ * Login validation
+ */
 
 const login = async (req, res, next) => {
   try {
@@ -28,10 +36,14 @@ const login = async (req, res, next) => {
     responseResult.token = generateAccessToken(user._id);
     return res.status(200).json(responseResult);
   } catch (err) {
-    console.log(err);
+    //console.log(err);
     res.status(400).json({message: 'Помилка авторизації'})
   }
 }
+
+/**
+ * Renew user's password
+ */
 
 const renewPassword = async (req, res, next) => {
   try {
@@ -46,20 +58,26 @@ const renewPassword = async (req, res, next) => {
     user.renewPasswordLink = activationLink;
     user.renewPasswordDate = new Date();
     user.save();
-    await mailService.sendActivationMail(process.env.ADMIN_EMAIL, `${process.env.APP_URL}auth/renew/${activationLink}`);
+    console.log(`${urls.APP_URL}/auth/renew/${activationLink}`);
+    await mailService.sendActivationMail(process.env.ADMIN_EMAIL, `${urls.APP_URL}/auth/renew/${activationLink}`);
     return res.status(200).json({message: 'Посилання для відновлення паролю відправлено'});
   } catch (err) {
-    console.log(err);
+    //console.log(err);
     res.status(400).json({message: 'Помилка авторизації'})
   }
 }
+
+/**
+ * Generator for link for change user's password
+ */
 
 const renewPasswordLink = async (req, res, next) => {
   try {
     const responseResult = {};
     const renewPasswordLink = req.params.link;
     const user = await User.findOne({renewPasswordLink});
-    if (!user || (user?.renewPasswordDate.getTime() + 1 * 60 * 1000) < new Date().getTime()) {
+    console.log(link.expiresTime);
+    if (!user || (user?.renewPasswordDate.getTime() + link.expiresTime) < new Date().getTime()) {
       return res.status(400).json({message: 'Посилання не дійсне'});
     }
     responseResult.token = generateAccessToken(user._id);
@@ -68,6 +86,10 @@ const renewPasswordLink = async (req, res, next) => {
     res.status(400).json({message: 'Помилка авторизації'});
   }
 }
+
+/**
+ * User's password changes realisation
+ */
 
 const changePassword = async (req, res, next) => {
   try {
@@ -85,6 +107,10 @@ const changePassword = async (req, res, next) => {
     res.status(400).json({message: 'Помилка авторизації'});
   }
 }
+
+/**
+ * It creates user in database if any users exists
+ */
 
 const createAdminInDB = async () => {
   const userCount = await User.where({}).countDocuments();
