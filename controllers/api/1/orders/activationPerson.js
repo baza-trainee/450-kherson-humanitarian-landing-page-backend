@@ -44,10 +44,10 @@ const activatePerson = async (req, res) => {
     return res.redirect(successfulFrontendRedirectURL);
     // return res.status(200).json({ message: 'Person activated successfully' });
   } catch (error) {
-    return res.redirect(unsuccessfulFrontendRedirectURL);
-    // return res
-    //   .status(error.statusCode || 500)
-    //   .json({ error: error.message || 'Internal Server Error' });
+    // return res.redirect(unsuccessfulFrontendRedirectURL);
+    return res
+      .status(error.statusCode || 500)
+      .json({ error: error.message || 'Internal Server Error' });
   }
 };
 

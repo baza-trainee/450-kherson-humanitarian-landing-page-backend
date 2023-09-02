@@ -93,6 +93,12 @@ router.patch(
 );
 
 router.delete('/order/:orderId', authMiddleware, ctrlWrapper(controllerOrder.removeOrderById));
+router.get(
+  '/export-order/:orderId',
+  // authMiddleware,
+  isValidId,
+  ctrlWrapper(controllerOrder.exportExcelOrder)
+);
 // router.get('/orders/quantity', controllerOrder.);
 
 // Activities routes

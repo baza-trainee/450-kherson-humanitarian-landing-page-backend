@@ -99,10 +99,6 @@ const orderSchema = new Schema(
           },
         },
 
-        memberNumber: {
-          type: Number,
-          default: '',
-        },
         phone: {
           type: String,
           required: true,
@@ -163,7 +159,6 @@ const addPersonToOrderSchema = Joi.object({
   // disabilityCertificateNumber: Joi.string().custom(certificateValidatorJoi),
   settlementFrom: Joi.string(),
   regionFrom: Joi.string().valid(...address.areaCollection),
-  memberNumber: Joi.number(),
   phone: Joi.string().pattern(phoneRegex).required(),
 });
 

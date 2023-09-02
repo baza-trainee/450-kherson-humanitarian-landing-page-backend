@@ -5,6 +5,7 @@ const addPersonToOrder = require('./addPersonToOrder');
 const activatePerson = require('./activationPerson');
 const getPersonById = require('./getPersonById');
 const removeOrderById = require('./removeOrderById');
+const exportExcelOrder = require('./exportExcelOrder');
 // const updateById = require('./updateById');
 
 module.exports = {
@@ -15,5 +16,6 @@ module.exports = {
   activatePerson,
   getPersonById,
   removeOrderById,
+  exportExcelOrder,
   //   updateById,
 };
