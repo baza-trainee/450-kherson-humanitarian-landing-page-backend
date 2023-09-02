@@ -23,6 +23,12 @@ const { ctrlWrapper, updateStatusForPastDate } = require('../middleware');
 const { isValidId, validateBody } = require('../utils/validators');
 const { orderJoiSchemas } = require('../models/order/order');
 
+
+const { isValidHero } = require('../middleware/api/1/hero');
+
+
+
+
 // Swagger API
 const options = {
   // explorer: true,
@@ -32,7 +38,7 @@ router.use('/docs', swaggerUi.serve);
 router.get('/docs', swaggerUi.setup(swaggerDocument, options));
 
 // Hero routes
-router.post('/hero', hasValidTocken, controllerHero.createHero);
+router.post('/hero', hasValidTocken, isValidHero, controllerHero.createHero);
 router.get('/hero/:id', controllerHero.getHeroById);
 router.put('/hero/:id', hasValidTocken, controllerHero.updateHero);
 router.delete('/hero/:id', hasValidTocken, controllerHero.updateHero);

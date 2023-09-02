@@ -5,7 +5,7 @@ const getTime = (time) => {
 module.exports = {
   token: {
     expiresTime: getTime({
-      days: 0,
+      days: 1,
       hours: 0,
       minutes: 15,
       seconds: 0,
