@@ -5,7 +5,7 @@ const { address } = require('../../config/app');
 const { handleCertificateValidation } = require('../../utils/helpers');
 const { certificateValidator, certificateValidatorJoi } = handleCertificateValidation;
 
-const phoneRegex = /^[+]?(380)[\s][0-9]{2}[\s][0-9]{3}[\s]?[0-9]{2}[\s]?[0-9]{2}[\s]?$/;
+const phoneRegex = /^\+380[0-9]{9}$/;
 const pibRegEx = /^[\sА-Яа-яІіЇїЄєҐґЁё'-]+$/;
 const cityRegEx = /^[\sА-Яа-яІіЇїЄєҐґЁё'-.]+$/;
 const buildingRegEx = /^\d[0-9А-Яа-яІіЇїЄєҐґЁё-]*$/;
@@ -74,7 +74,6 @@ const orderSchema = new Schema(
 
         apartment: {
           type: String,
-          match: flatNumberRegEx,
           default: '',
         },
         certificateNumber: {
@@ -151,12 +150,10 @@ const addPersonToOrderSchema = Joi.object({
   surname: Joi.string().pattern(pibRegEx).required(),
   patrname: Joi.string().pattern(pibRegEx).required(),
   street: Joi.string().pattern(cityRegEx).required(),
-  building: Joi.string(),
-  apartment: Joi.string().pattern(flatNumberRegEx),
+  building: Joi.string().pattern(buildingRegEx).required(),
+  apartment: Joi.string(),
   certificateNumber: Joi.string().custom(certificateValidatorJoi).required(),
-  // idpCertificateNumber: Joi.string().custom(certificateValidatorJoi),
-  // birthCertificateNumber: Joi.string().custom(certificateValidatorJoi),
-  // disabilityCertificateNumber: Joi.string().custom(certificateValidatorJoi),
+
   settlementFrom: Joi.string(),
   regionFrom: Joi.string().valid(...address.areaCollection),
   phone: Joi.string().pattern(phoneRegex).required(),
