@@ -17,11 +17,12 @@ const controllerContacts = require('../controllers/api/1/contacts');
 const controllerDocuments = require('../controllers/api/1/documents');
 const controllerCongrats = require('../controllers/api/1/congrats');
 const controllerDonats = require('../controllers/api/1/donats');
-// const controllerExport = require('../controllers/api/1/export/order');
-const authMiddleware = require('../middleware/auth');
+const { hasValidTocken } = require('../middleware/auth');
 const { ctrlWrapper, updateStatusForPastDate } = require('../middleware');
 const { isValidId, validateBody } = require('../utils/validators');
 const { orderJoiSchemas } = require('../models/order/order');
+
+const { isValidHero } = require('../middleware/api/1/hero');
 
 // Swagger API
 const options = {
@@ -32,37 +33,37 @@ router.use('/docs', swaggerUi.serve);
 router.get('/docs', swaggerUi.setup(swaggerDocument, options));
 
 // Hero routes
-router.post('/hero', authMiddleware, controllerHero.createHero);
+router.post('/hero', hasValidTocken, isValidHero, controllerHero.createHero);
 router.get('/hero/:id', controllerHero.getHeroById);
-router.put('/hero/:id', authMiddleware, controllerHero.updateHero);
-router.delete('/hero/:id', authMiddleware, controllerHero.updateHero);
+router.put('/hero/:id', hasValidTocken, controllerHero.updateHero);
+router.delete('/hero/:id', hasValidTocken, controllerHero.updateHero);
 router.get('/heroes', controllerHero.deleteHero);
 
 // Fund routes
 router.get('/fund', controllerFund.getFund);
-router.put('/fund', authMiddleware, controllerFund.updateFund);
+router.put('/fund', hasValidTocken, controllerFund.updateFund);
 
 // Team routes
 router.get('/team', controllerTeam.getTeam);
-router.put('/team', authMiddleware, controllerTeam.updateTeam);
+router.put('/team', hasValidTocken, controllerTeam.updateTeam);
 
 // History routes
 router.get('/history', controllerHistory.getHistory);
-router.put('/history', authMiddleware, controllerHistory.updateHistory);
+router.put('/history', hasValidTocken, controllerHistory.updateHistory);
 
 // Achievements routes
 router.get('/achievements', controllerAchievements.getAchievements);
-router.put('/achievements', authMiddleware, controllerAchievements.updateAchievements);
+router.put('/achievements', hasValidTocken, controllerAchievements.updateAchievements);
 
 // Issue-point routes
 router.get('/issue-point', controllerIssuePoint.getIssuePoint);
-router.put('/issue-point', authMiddleware, controllerIssuePoint.updateIssuePoint);
+router.put('/issue-point', hasValidTocken, controllerIssuePoint.updateIssuePoint);
 
 // Order routes
 router.get('/orders', updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
 router.get(
   '/order/:orderId',
-  authMiddleware,
+  hasValidTocken,
   updateStatusForPastDate,
   ctrlWrapper(controllerOrder.getOrderById)
 );
@@ -79,7 +80,7 @@ router.get(
 
 router.post(
   '/orders',
-  authMiddleware,
+  hasValidTocken,
   updateStatusForPastDate,
   validateBody(orderJoiSchemas.addSchema),
   ctrlWrapper(controllerOrder.addOrder)
@@ -92,10 +93,10 @@ router.patch(
   ctrlWrapper(controllerOrder.addPersonToOrder)
 );
 
-router.delete('/order/:orderId', authMiddleware, ctrlWrapper(controllerOrder.removeOrderById));
+router.delete('/order/:orderId', hasValidTocken, ctrlWrapper(controllerOrder.removeOrderById));
 router.get(
   '/export-order/:orderId',
-  authMiddleware,
+  hasValidTocken,
   isValidId,
   ctrlWrapper(controllerOrder.exportExcelOrder)
 );
@@ -103,45 +104,45 @@ router.get(
 
 // Activities routes
 router.get('/activities', controllerActivities.getActivities);
-router.post('/activities', authMiddleware, controllerActivities.createActivity);
+router.post('/activities', hasValidTocken, controllerActivities.createActivity);
 router.get('/activity/:id', controllerActivities.getActivityById);
-router.put('/activity/:id', authMiddleware, controllerActivities.updateActivity);
-router.delete('/activity/:id', authMiddleware, controllerActivities.deleteActivity);
+router.put('/activity/:id', hasValidTocken, controllerActivities.updateActivity);
+router.delete('/activity/:id', hasValidTocken, controllerActivities.deleteActivity);
 
 // Projects routes
 router.get('/projects', controllerProjects.getProjects);
-router.post('/projects', authMiddleware, controllerProjects.createProject);
+router.post('/projects', hasValidTocken, controllerProjects.createProject);
 router.get('/project/:id', controllerProjects.getProjectById);
-router.put('/project/:id', authMiddleware, controllerProjects.updateProject);
-router.delete('/project/:id', authMiddleware, controllerProjects.deleteProject);
+router.put('/project/:id', hasValidTocken, controllerProjects.updateProject);
+router.delete('/project/:id', hasValidTocken, controllerProjects.deleteProject);
 
 // Logos routes
 router.get('/logos', controllerLogos.getLogos);
-router.post('/logos', authMiddleware, controllerLogos.createLogo);
+router.post('/logos', hasValidTocken, controllerLogos.createLogo);
 router.get('/logo/:id', controllerLogos.getLogoById);
-router.put('/logo/:id', authMiddleware, controllerLogos.updateLogo);
-router.delete('/logo/:id', authMiddleware, controllerLogos.deleteLogo);
+router.put('/logo/:id', hasValidTocken, controllerLogos.updateLogo);
+router.delete('/logo/:id', hasValidTocken, controllerLogos.deleteLogo);
 
 // Contacts routes
 router.get('/contacts', controllerContacts.getContacts);
-router.put('/contacts', authMiddleware, controllerContacts.updateContacts);
+router.put('/contacts', hasValidTocken, controllerContacts.updateContacts);
 
 // Documents routes
 router.get('/documents', controllerDocuments.getDocuments);
-router.put('/documents', authMiddleware, controllerDocuments.updateDocuments);
+router.put('/documents', hasValidTocken, controllerDocuments.updateDocuments);
 
 // Congrats routes
 router.get('/congrats', controllerCongrats.getCongrats);
-router.put('/congrats', authMiddleware, controllerCongrats.updateCongrats);
+router.put('/congrats', hasValidTocken, controllerCongrats.updateCongrats);
 
 // Donats routes
 router.get('/donats', controllerDonats.getDonats);
-router.post('/donats', authMiddleware, controllerDonats.createDonat);
+router.post('/donats', hasValidTocken, controllerDonats.createDonat);
 router.get('/donat/:id', controllerDonats.getDonatById);
-router.put('/donat/:id', authMiddleware, controllerDonats.updateDonat);
-router.delete('/donat/:id', authMiddleware, controllerDonats.deleteDonat);
+router.put('/donat/:id', hasValidTocken, controllerDonats.updateDonat);
+router.delete('/donat/:id', hasValidTocken, controllerDonats.deleteDonat);
 
 // Export routes
-//router.post('/export/order/:id', authMiddleware, controllerExport.);
+//router.post('/export/order/:id', hasValidTocken, controllerExport.);
 
 module.exports = router;

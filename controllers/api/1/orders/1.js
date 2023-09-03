@@ -47,7 +47,7 @@ const exportExcelOrder = async (req, res) => {
     const headerRow = worksheet.addRow([
       'Номер',
       'Прізвище',
-      'Ім"я',
+      'Ім`я',
       'По-батькові',
       'Вулиця',
       'Будівля',
@@ -58,19 +58,17 @@ const exportExcelOrder = async (req, res) => {
       'Телефон',
     ]);
 
-    headerRow.eachCell((cell, index) => {
+    headerRow.eachCell(cell => {
       cell.font = { size: 12, bold: true };
       // Adjust column width based on the content
       // worksheet.getColumn(cell.col).width = Math.max(15, cell.value.length + 5); // Adjust as needed
-      // const contentWidth = cell.value.toString().length * 1.2;
-      const maxContentWidth = Math.max(
-        ...worksheet.getColumn(index).values.map(value => (value ? value.toString().length : 0))
-      );
-      worksheet.getColumn(cell.col).width = Math.max(maxContentWidth, 18);
+      const contentWidth = cell.value.toString().length * 1.2;
+      worksheet.getColumn(cell.col).width = Math.max(contentWidth, 18);
     });
 
-    let index = 1;
+    // worksheet.addRow([]);
 
+    let index = 1;
     existingOrder.persons.forEach(person => {
       if (person.isActivated) {
         // Create an array for the row with person-specific data

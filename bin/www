@@ -84,6 +84,6 @@ function onListening() {
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   debug('Listening on ' + bind);
   console.log(
-    `Сервер запущен. База даних підключена успішно, використовуй порт ${process.env.PORT}`
+    `Сервер очікує запити на ${process.env.PORT} порту...`
   );
 }

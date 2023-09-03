@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 const Joi = require('joi');
 const { handleSchemaValidationErrors, handleSchemaStatusModify } = require('../../utils/helpers');
-const { address } = require('../../config');
+const { address } = require('../../config/app');
 const { handleCertificateValidation } = require('../../utils/helpers');
 const { certificateValidator, certificateValidatorJoi } = handleCertificateValidation;
 
