@@ -17,6 +17,9 @@ function isImageValid(picObject, maxSizekB) {
 }
 
 function isColorValid(color) {
+  if ( !color ) {
+    return false;
+  }
   const colorPattern = /^(#([0-9A-Fa-f]{3}){1,2}|(rgb|hsl)a?\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*(,\s*[\d.]+\s*)?\))$/i;
   return colorPattern.test(color);
 }

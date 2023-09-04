@@ -23,14 +23,13 @@ const { ctrlWrapper, updateStatusForPastDate } = require('../middleware');
 const { isValidId, validateBody } = require('../utils/validators');
 const { orderJoiSchemas } = require('../models/order/order');
 
-
 const { isValidHero } = require('../middleware/api/1/hero');
 const { isValidFund } = require('../middleware/api/1/fund');
 const { isValidTeam } = require('../middleware/api/1/team');
 const { isValidHistory } = require('../middleware/api/1/history');
 const { isValidAchievement } = require('../middleware/api/1/achievement');
 const { isValidIssuepoint } = require('../middleware/api/1/issuepoint');
-
+const { isValidActivity } = require('../middleware/api/1/activity');
 
 // Swagger API
 const options = {
@@ -96,10 +95,10 @@ router.patch(
 
 // Activities routes
 router.get('/activities', controllerActivities.getActivities);
-router.post('/activities', hasValidTocken, controllerActivities.createActivity);
-router.get('/activity/:id', controllerActivities.getActivityById);
-router.put('/activity/:id', hasValidTocken, controllerActivities.updateActivity);
-router.delete('/activity/:id', hasValidTocken, controllerActivities.deleteActivity);
+router.post('/activities', hasValidTocken, isValidActivity, controllerActivities.createActivity);
+router.get('/activity/:id', isValidActivity, controllerActivities.getActivityById);
+router.put('/activity/:id', hasValidTocken, isValidActivity, controllerActivities.updateActivity);
+router.delete('/activity/:id', hasValidTocken, isValidActivity, controllerActivities.deleteActivity);
 
 // Projects routes
 router.get('/projects', controllerProjects.getProjects);
