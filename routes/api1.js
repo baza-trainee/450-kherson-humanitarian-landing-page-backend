@@ -27,6 +27,7 @@ const { orderJoiSchemas } = require('../models/order/order');
 const { isValidHero } = require('../middleware/api/1/hero');
 const { isValidFund } = require('../middleware/api/1/fund');
 const { isValidTeam } = require('../middleware/api/1/team');
+const { isValidHistory } = require('../middleware/api/1/history');
 
 
 // Swagger API
@@ -54,7 +55,7 @@ router.put('/team', hasValidTocken, isValidTeam, controllerTeam.updateTeam);
 
 // History routes
 router.get('/history', controllerHistory.getHistory);
-router.put('/history', hasValidTocken, controllerHistory.updateHistory);
+router.put('/history', hasValidTocken, isValidHistory, controllerHistory.updateHistory);
 
 // Achievements routes
 router.get('/achievements', controllerAchievements.getAchievements);
