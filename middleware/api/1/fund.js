@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-const { isIdValid, isImageValid, isColorValid, isTextValid } = require("../../../utils/helpers/api/simpleIssueValidator");
+const { isImageValid } = require("../../../utils/helpers/api/simpleIssueValidator");
 const  componentConfig = require("../../../config/api/v1/components");
 
 /**
@@ -12,25 +12,18 @@ const  componentConfig = require("../../../config/api/v1/components");
 
 function isValidFund(req, res, next) {
   try {
-    const { View } = req.body;
+    const { picture } = req.body;
+    // check picture
+    const isPucture = isImageValid(picture, componentConfig.fund.picture.maxSizeKb);
 
-    // check id
-    const isId = isIdValid(id);
-
-
-    if ((req.method === 'DELETE') || (req.method === 'GET')) {
-      if( ! isId ) {
-        return res.status(406).json({message: "Помилка валідації даних"})
-      }
-    }
     if (req.method === 'PUT') {
-      if (!( isId && isView && isTitle && isSubtitle)) {
+      if (!( isPucture )) {
         return res.status(406).json({message: "Помилка валідації даних"})
       }
     }
     next();
   } catch (err) {
-    return res.status(406).json({message: "-Помилка валідації даних"})
+    return res.status(406).json({message: "Помилка валідації даних"})
   }
 }
 
