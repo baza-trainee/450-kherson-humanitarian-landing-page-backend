@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-const { isIdValid, isImageValid, isColorValid, isTextValid } = require("../../../utils/helpers/api/simpleIssueValidator");
+const { isImageValid, isTextValid  } = require("../../../utils/helpers/api/simpleIssueValidator");
 const  componentConfig = require("../../../config/api/v1/components");
 
 /**
@@ -12,25 +12,23 @@ const  componentConfig = require("../../../config/api/v1/components");
 
 function isValidTeam(req, res, next) {
   try {
-    const { View } = req.body;
+    const { picture, title, text } = req.body;
 
-    // check id
-    const isId = isIdValid(id);
-
-
-    if ((req.method === 'DELETE') || (req.method === 'GET')) {
-      if( ! isId ) {
-        return res.status(406).json({message: "Помилка валідації даних"})
-      }
-    }
+    // check picture
+    const isPucture = isImageValid(picture, componentConfig.team.picture.maxSizeKb);
+    // check title
+    const isTitle = isTextValid(title, componentConfig.team.title.minLength, componentConfig.team.title.maxLength);
+    // check text
+    const isText = isTextValid(text, componentConfig.team.text.minLength, componentConfig.team.text.maxLength);
+    
     if (req.method === 'PUT') {
-      if (!( isId && isView && isTitle && isSubtitle)) {
+      if (!( isPucture && isTitle && isText )) {
         return res.status(406).json({message: "Помилка валідації даних"})
       }
     }
     next();
   } catch (err) {
-    return res.status(406).json({message: "-Помилка валідації даних"})
+    return res.status(406).json({message: "Помилка валідації даних"})
   }
 }
 
