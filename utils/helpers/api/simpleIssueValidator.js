@@ -2,13 +2,15 @@
  * Copyright (c) 2023 Volodymyr Nerovnia
  * SPDX-License-Identifier: MIT
  */
-
+const { ObjectId } = require('mongodb');
 const getBinarySize = (data) => Buffer.from(data, 'base64').length;
 
 function isImageValid(picObject, maxSizekB) {
+  const base64Pattern = /^data:image\/(png|jpeg|jpg|gif);base64,([A-Za-z0-9+/]+={0,2})$/;
   if ((picObject?.image_data === "base64_encoded_image_data_here") && 
     (picObject?.mime_type !== "") && 
-    (getBinarySize(picObject?.image) <= maxSizekB * 1024)) {
+    (getBinarySize(picObject?.image) <= maxSizekB * 1024) &&
+    (base64Pattern.test(picObject?.image))) {
     return true;
   }
   return false;
@@ -21,8 +23,8 @@ function isColorValid(color) {
 
 function isTextValid(text, minLength, maxLength) {
   // Define a regular expression pattern to match various text exclude injection code
-  const injectionPattern = /(\$|\{|\}|\[|\]|\\|\/|\(|\)|\+|\*|\?|\^|\|)/;
-  if (!isObject(text)) {
+  //const injectionPattern = /(\$|\{|\}|\[|\]|\\|\/|\(|\)|\+|\*|\?|\^|\|)/;
+  if ((text === null) || (typeof value === 'object')) {
     return false;
   }
 
@@ -32,9 +34,9 @@ function isTextValid(text, minLength, maxLength) {
   }
 
   // Check if the text include injection code
-  if (injectionPattern.test(text)) {
-    return false;
-  }
+  //if (injectionPattern.test(text)) {
+    //return false;
+  //}
 
   return true;
 }
@@ -69,9 +71,20 @@ function isDateValid(date, pminDate, pmaxDate) {
   return true;
 }
 
+function isIdValid(id) {
+  console.log(ObjectId.isValid(id) && new ObjectId(id).toString() === id);
+  return ObjectId.isValid(id) && new ObjectId(id).toString() === id;
+}
+
+function isBooleanValid() {
+  return typeof value === 'boolean';
+}
+
 module.exports = {
   isImageValid,
   isColorValid,
   isTextValid,
-  isDateValid
+  isDateValid,
+  isIdValid,
+  isBooleanValid
 };

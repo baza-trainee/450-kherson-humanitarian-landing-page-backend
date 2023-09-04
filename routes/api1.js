@@ -25,8 +25,7 @@ const { orderJoiSchemas } = require('../models/order/order');
 
 
 const { isValidHero } = require('../middleware/api/1/hero');
-
-
+const { isValidFund } = require('../middleware/api/1/fund');
 
 
 // Swagger API
@@ -39,14 +38,14 @@ router.get('/docs', swaggerUi.setup(swaggerDocument, options));
 
 // Hero routes
 router.post('/hero', hasValidTocken, isValidHero, controllerHero.createHero);
-router.get('/hero/:id', controllerHero.getHeroById);
-router.put('/hero/:id', hasValidTocken, controllerHero.updateHero);
-router.delete('/hero/:id', hasValidTocken, controllerHero.updateHero);
-router.get('/heroes', controllerHero.deleteHero);
+router.get('/hero/:id', isValidHero, controllerHero.getHeroById);
+router.put('/hero/:id', hasValidTocken, isValidHero, controllerHero.updateHero);
+router.delete('/hero/:id', hasValidTocken, isValidHero, controllerHero.deleteHero);
+router.get('/heroes', controllerHero.getHeroes);
 
 // Fund routes
 router.get('/fund', controllerFund.getFund);
-router.put('/fund', hasValidTocken, controllerFund.updateFund);
+router.put('/fund', hasValidTocken, isValidFund, controllerFund.updateFund);
 
 // Team routes
 router.get('/team', controllerTeam.getTeam);
