@@ -27,7 +27,6 @@ function isTextValid(text, minLength, maxLength) {
   if ((text === null) || (typeof value === 'object')) {
     return false;
   }
-
   // Check if the length is within the minLength to maxLength range
   if (text?.length < minLength || text?.length > maxLength) {
     return false;
@@ -43,6 +42,7 @@ function isTextValid(text, minLength, maxLength) {
 
 
 function isDateValid(inputDate, pminDate, pmaxDate) {
+  // Define a regular expression pattern to match various date formats
   const datePattern = [
     /^\d{2}\/\d{2}\/\d{4}$/,                          // 17/08/2023
     /^\d{2}-\d{2}-\d{4}$/,                          // 17-08-2023
@@ -61,18 +61,7 @@ function isDateValid(inputDate, pminDate, pmaxDate) {
   if ( !isPatternValid ) {
     return false;
   }
-  console.log(isPatternValid);
-  // Define a regular expression pattern to match various date formats
-  //const datePattern = /^(?:(?:(?:0?[13578]|1[02])(\/|-|\.)31)\1|(?:(?:0?[13-9]|1[0-2])(\/|-|\.)(?:29|30)\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:0?2(\/|-|\.)29\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:(?:0?[1-9])|(?:1[0-2]))(\/|-|\.)(?:(?:0?[1-9])|(?:1\d)|(?:2[0-8]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
 
-  console.log('==========================')
-/*  
-  // Check if the input matches the date pattern
-  if (!datePattern.test(inputDate)) {
-    console.log(inputDate)
-    return false;
-  }
-*/
   // Parse the input date into a JavaScript Date object
   const parsedDate = new Date(inputDate);
 

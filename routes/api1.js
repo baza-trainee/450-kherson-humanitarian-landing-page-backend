@@ -29,6 +29,7 @@ const { isValidFund } = require('../middleware/api/1/fund');
 const { isValidTeam } = require('../middleware/api/1/team');
 const { isValidHistory } = require('../middleware/api/1/history');
 const { isValidAchievement } = require('../middleware/api/1/achievement');
+const { isValidIssuepoint } = require('../middleware/api/1/issuepoint');
 
 
 // Swagger API
@@ -64,7 +65,7 @@ router.put('/achievements', hasValidTocken, isValidAchievement, controllerAchiev
 
 // Issue-point routes
 router.get('/issue-point', controllerIssuePoint.getIssuePoint);
-router.put('/issue-point', hasValidTocken, controllerIssuePoint.updateIssuePoint);
+router.put('/issue-point', hasValidTocken, isValidIssuepoint, controllerIssuePoint.updateIssuePoint);
 
 // Order routes
 router.get('/orders', updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));

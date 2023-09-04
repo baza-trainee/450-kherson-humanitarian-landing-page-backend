@@ -3,37 +3,33 @@
  * SPDX-License-Identifier: MIT
  */
 
-const { isIdValid, isImageValid, isColorValid, isTextValid } = require("../../../utils/helpers/api/simpleIssueValidator");
+const { isTextValid  } = require("../../../utils/helpers/api/simpleIssueValidator");
 const  componentConfig = require("../../../config/api/v1/components");
 
 /**
- * Check if Hero object is valid .
+ * Check if Issue point object is valid .
  */
 
 function isValidIssuepoint(req, res, next) {
   try {
-    const { View } = req.body;
+    const { locationDeliveryPoint, geolocation } = req.body;
 
-    // check id
-    const isId = isIdValid(id);
-
-
-    if ((req.method === 'DELETE') || (req.method === 'GET')) {
-      if( ! isId ) {
-        return res.status(406).json({message: "Помилка валідації даних"})
-      }
-    }
+    // check locationDeliveryPoint
+    const isLocationDeliveryPoint = isTextValid(locationDeliveryPoint, componentConfig.issuepoint.locationDeliveryPoint.minLength, componentConfig.issuepoint.locationDeliveryPoint.maxLength);
+    // check geolocation
+    const isGeolocation = isTextValid(geolocation, componentConfig.issuepoint.geolocation.minLength, componentConfig.issuepoint.geolocation.maxLength);
+    
     if (req.method === 'PUT') {
-      if (!( isId && isView && isTitle && isSubtitle)) {
+      if (!( isLocationDeliveryPoint && isGeolocation)) {
         return res.status(406).json({message: "Помилка валідації даних"})
       }
     }
     next();
   } catch (err) {
-    return res.status(406).json({message: "-Помилка валідації даних"})
+    return res.status(406).json({message: "-Помилка валідації даних"});
   }
 }
 
 module.exports = {
-  isValidIssuePoint
+  isValidIssuepoint
 };
