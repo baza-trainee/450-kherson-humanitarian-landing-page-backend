@@ -42,15 +42,37 @@ function isTextValid(text, minLength, maxLength) {
 }
 
 
-function isDateValid(date, pminDate, pmaxDate) {
-  // Define a regular expression pattern to match various date formats
-  const datePattern = /^(?:(?:(?:0?[13578]|1[02])(\/|-|\.)31)\1|(?:(?:0?[13-9]|1[0-2])(\/|-|\.)(?:29|30)\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:0?2(\/|-|\.)29\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:(?:0?[1-9])|(?:1[0-2]))(\/|-|\.)(?:(?:0?[1-9])|(?:1\d)|(?:2[0-8]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
+function isDateValid(inputDate, pminDate, pmaxDate) {
+  const datePattern = [
+    /^\d{2}\/\d{2}\/\d{4}$/,                          // 17/08/2023
+    /^\d{2}-\d{2}-\d{4}$/,                          // 17-08-2023
+    /^\d{2}\.\d{2}\.\d{4}$/,                        // 17.08.2023
+    /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/ // "2023-08-17T22:58:38.831Z"
+  ];
 
-  // Check if the input matches the date pattern
-  if (!datePattern.test(inputDate)) {
+  
+  let isPatternValid = false;
+  datePattern.forEach(p => {
+    if (p.test(inputDate)) {
+      isPatternValid =  true;
+    }
+  })
+
+  if ( !isPatternValid ) {
     return false;
   }
+  console.log(isPatternValid);
+  // Define a regular expression pattern to match various date formats
+  //const datePattern = /^(?:(?:(?:0?[13578]|1[02])(\/|-|\.)31)\1|(?:(?:0?[13-9]|1[0-2])(\/|-|\.)(?:29|30)\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:0?2(\/|-|\.)29\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:(?:0?[1-9])|(?:1[0-2]))(\/|-|\.)(?:(?:0?[1-9])|(?:1\d)|(?:2[0-8]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
 
+  console.log('==========================')
+/*  
+  // Check if the input matches the date pattern
+  if (!datePattern.test(inputDate)) {
+    console.log(inputDate)
+    return false;
+  }
+*/
   // Parse the input date into a JavaScript Date object
   const parsedDate = new Date(inputDate);
 
@@ -80,7 +102,17 @@ function isBooleanValid() {
   return typeof value === 'boolean';
 }
 
+function isIntegerValid(number, minNumber, maxNumber) {
+  if (number && Number.isInteger(number)) {
+    if (number >= minNumber && number <= maxNumber) {
+      return true;
+    }
+  }
+  return false;
+}
+
 module.exports = {
+  isIntegerValid,
   isImageValid,
   isColorValid,
   isTextValid,

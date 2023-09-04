@@ -54,7 +54,7 @@ module.exports = {
       maxLength: 963
     }
   },
-  achievements: {
+  achievement: {
     issuedHumanitarianKits: {
       min: 1,
       max: 9999999999
