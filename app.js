@@ -31,7 +31,7 @@ var logger = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
-const corsOption = require('./config/api/v1/corsOption');
+const corsOption = require('./utils/helpers/orders/cors/corsOption');
 const config = require('./config/app');
 
 var indexRouter = require('./routes/index');

@@ -4,8 +4,8 @@ const updateNextClosestReadyOrder = require('../../../../utils/helpers/orders/up
 
 const activatePerson = async (req, res) => {
   const { orderId, link } = req.params;
-  const unsuccessfulFrontendRedirectURL = `https://localhost:3000/notification/unsuccess-registration?orderId=${orderId}&link=${link}`;
-  const successfulFrontendRedirectURL = `https://localhost:3000/notification/success-registration?orderId=${orderId}&link=${link}`;
+  const unsuccessfulFrontendRedirectURL = `https://localhost:3000/unsuccess-registration?orderId=${orderId}&link=${link}`;
+  const successfulFrontendRedirectURL = `https://localhost:3000/success-registration?orderId=${orderId}&link=${link}`;
 
   try {
     const existingOrder = await Order.findById(orderId);
@@ -44,10 +44,10 @@ const activatePerson = async (req, res) => {
     return res.redirect(successfulFrontendRedirectURL);
     // return res.status(200).json({ message: 'Person activated successfully' });
   } catch (error) {
-    // return res.redirect(unsuccessfulFrontendRedirectURL);
-    return res
-      .status(error.statusCode || 500)
-      .json({ error: error.message || 'Internal Server Error' });
+    return res.redirect(unsuccessfulFrontendRedirectURL);
+    // return res
+    //   .status(error.statusCode || 500)
+    //   .json({ error: error.message || 'Internal Server Error' });
   }
 };
 
