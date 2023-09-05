@@ -60,7 +60,7 @@ router.get('/issue-point', controllerIssuePoint.getIssuePoint);
 router.put('/issue-point', hasValidTocken, controllerIssuePoint.updateIssuePoint);
 
 // Order routes
-router.get('/orders', updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
+router.get('/orders', hasValidTocken, updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
 router.get(
   '/order/:orderId',
   hasValidTocken,
@@ -74,6 +74,7 @@ router.get(
 );
 router.get(
   '/order/:orderId/:link',
+  hasValidTocken,
   updateStatusForPastDate,
   ctrlWrapper(controllerOrder.getPersonById)
 );
@@ -93,14 +94,19 @@ router.patch(
   ctrlWrapper(controllerOrder.addPersonToOrder)
 );
 
-router.delete('/order/:orderId', hasValidTocken, ctrlWrapper(controllerOrder.removeOrderById));
+router.delete(
+  '/order/:orderId',
+  hasValidTocken,
+  updateStatusForPastDate,
+  ctrlWrapper(controllerOrder.removeOrderById)
+);
 router.get(
   '/export-order/:orderId',
   hasValidTocken,
   isValidId,
   ctrlWrapper(controllerOrder.exportExcelOrder)
 );
-// router.get('/orders/quantity', controllerOrder.);
+router.get('/orders/quantity', updateStatusForPastDate, ctrlWrapper(controllerOrder.getQuantity));
 
 // Activities routes
 router.get('/activities', controllerActivities.getActivities);

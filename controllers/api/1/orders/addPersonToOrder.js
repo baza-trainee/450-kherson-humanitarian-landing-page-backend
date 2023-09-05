@@ -16,23 +16,24 @@ const addPersonToOrder = async (req, res) => {
 
   const existingOrder = await Order.findById(id);
   if (!existingOrder) {
-    throw HttpError(404, 'Order not found');
+    throw HttpError(400, `Список згідно запиту  не знайдено`);
   }
   if (existingOrder.status !== 'active') {
-    throw HttpError(400, 'Order is not active');
+    throw HttpError(400, 'Список не активний');
   }
-  console.log(existingOrder.status === 'active');
+
   // Check if the order is complete or maxQuantity is reached
   if (
     existingOrder.status === 'complete' ||
+    existingOrder.status === 'archived' ||
     existingOrder.confirmedPersons >= existingOrder.maxQuantity
   ) {
-    throw HttpError(400, 'Order is already complete or maxQuantity reached');
+    throw HttpError(400, 'Список заповнений чи знаходиться в архіві');
   }
   const isDuplicate = existingOrder.persons.some(person => person.email === newPersonData.email);
 
   if (isDuplicate) {
-    throw HttpError(400, 'Duplicate email in order');
+    throw HttpError(400, 'Імейл вже зареєстрований');
   }
 
   const currentTime = moment().tz(TIMEZONE);
@@ -53,16 +54,12 @@ const addPersonToOrder = async (req, res) => {
   //   throw HttpError(404, 'Order not found');
   // }
   if (!updatedOrder) {
-    throw HttpError(404, 'Order not updated');
+    throw HttpError(404, 'Список не оновлено');
   }
 
-  // Check if any modifications were made during the update
-  // if (updatedOrder._update.$modifiedPaths.length === 0) {
-  //   throw HttpError(404, 'Order not found');
-  // }
   await createVerifyEmail(id, newPerson);
 
-  return res.status(201).json({ user: newPerson, message: 'Person added to order successfully' });
+  return res.status(201).json({ user: newPersonData, message: 'Людина додана успішно' });
 };
 
 module.exports = addPersonToOrder;
