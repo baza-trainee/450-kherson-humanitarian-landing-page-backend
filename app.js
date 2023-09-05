@@ -31,6 +31,7 @@ var logger = require('morgan');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+// TODO: remove after production release
 const corsOption = require('./utils/helpers/orders/cors/corsOption');
 const config = require('./config/app');
 
