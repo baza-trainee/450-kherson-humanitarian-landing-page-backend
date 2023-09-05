@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 const Joi = require('joi');
 const { handleSchemaValidationErrors, handleSchemaStatusModify } = require('../../utils/helpers');
-const { address } = require('../../config');
+const { address } = require('../../config/app');
 const { handleCertificateValidation } = require('../../utils/helpers');
 const { certificateValidator, certificateValidatorJoi } = handleCertificateValidation;
 
@@ -158,6 +158,7 @@ const addPersonToOrderSchema = Joi.object({
   building: Joi.string().pattern(buildingRegEx).required(),
   apartment: Joi.string(),
   certificateNumber: Joi.string().custom(certificateValidatorJoi).required(),
+
   settlementFrom: Joi.string(),
   regionFrom: Joi.string().valid(...address.areaCollection),
   phone: Joi.string().pattern(phoneRegex).required(),

@@ -1,27 +1,16 @@
 var express = require('express');
 var router = express.Router();
 const controller = require('../controllers/auth');
-const authMiddleware = require('../middleware/auth');
-
-/* GET home page. */
-/*
-router.get('/login', function(req, res, next) {
-  try {
-    res.json('user work');
-  } catch (err) {
-  
-  }
-});
-*/
+const {hasValidTocken, isLoginCorrespondsConditions, isPasswordCorrespondsConditions}  = require('../middleware/auth');
 
 router.post(
   '/login',
-  //body('username').isEmail(),
-  //body('password').isLength({min: 8, max: 32}),
+  isLoginCorrespondsConditions,
+  isPasswordCorrespondsConditions,
   controller.login
 );
-router.post('/renew', controller.renewPassword);
-router.post('/change', authMiddleware, controller.changePassword);
+router.post('/renew', isLoginCorrespondsConditions, controller.renewPassword);
+router.post('/change', hasValidTocken, isPasswordCorrespondsConditions, controller.changePassword);
 router.get('/renew/:link', controller.renewPasswordLink);
 
 module.exports = router;

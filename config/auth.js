@@ -1,16 +1,30 @@
+const getTime = (time) => { 
+  return time.days * 24 * 60 * 60 * 1000 + time.hours * 60 * 60 * 1000 + time.minutes * 60 * 1000 + time.seconds*1000;
+}
+
 module.exports = {
   token: {
-    days: 0,
-    hours: 0,
-    minutes: 15,
-    seconds: 0,
-    expiresTime () { 
-      return this.days * 24 * 60 * 60 + this.hours * 60 * 60 + this.minutes * 60 + this.seconds;
-    }
+    expiresTime: getTime({
+      days: 1,
+      hours: 0,
+      minutes: 15,
+      seconds: 0,
+    })
   },
-  servers: {
-    MongoDB: {
-      restartSec: 1000
-    }
+  link: {
+    expiresTime: getTime({
+      days: 0,
+      hours: 1,
+      minutes: 0,
+      seconds: 0,
+    })
+  },
+  username: {
+    minChars: 5,
+    maxChars: 15
+  },
+  password: {
+    minChars: 8,
+    maxChars: 20
   }
 } 
