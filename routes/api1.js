@@ -60,7 +60,7 @@ router.get('/issue-point', controllerIssuePoint.getIssuePoint);
 router.put('/issue-point', hasValidTocken, controllerIssuePoint.updateIssuePoint);
 
 // Order routes
-router.get('/orders', authMiddleware, updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
+router.get('/orders', hasValidTocken, updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
 router.get(
   '/order/:orderId',
   hasValidTocken,
@@ -74,6 +74,7 @@ router.get(
 );
 router.get(
   '/order/:orderId/:link',
+  hasValidTocken,
   updateStatusForPastDate,
   ctrlWrapper(controllerOrder.getPersonById)
 );
