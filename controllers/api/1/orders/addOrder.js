@@ -2,12 +2,29 @@ const moment = require('moment');
 const { Order } = require('../../../../models');
 
 const addOrder = async (req, res) => {
-  // const { _id: owner } = req.user;
-
   const newOrderData = req.body;
 
-  const parsedIssueDate = moment.utc(newOrderData.issueDate, 'DD.MM.YYYY');
+  const currentDate = moment().startOf('day');
+
+  // Parse the input issueDate
+  const parsedIssueDate = moment(newOrderData.issueDate, 'DD.MM.YYYY');
   const parsedIssueTime = moment(newOrderData.issueTime, 'HH:mm');
+
+  // Check if the issueDate is in the past
+  if (parsedIssueDate.isBefore(currentDate)) {
+    return res.status(400).json({ message: 'Дата не може бути в минулому' });
+  }
+
+  // Check if an order with the same issueDate already exists
+  const existingOrder = await Order.findOne({
+    unparsedDate: newOrderData.issueDate,
+  });
+
+  if (existingOrder) {
+    return res.status(400).json({ message: 'Список з такою датою вже існує' });
+  }
+
+  newOrderData.unparsedDate = newOrderData.issueDate;
 
   const combinedIssueDateTime = parsedIssueDate
     .hours(parsedIssueTime.hours())
@@ -18,18 +35,19 @@ const addOrder = async (req, res) => {
 
   delete newOrderData.issueTime;
 
-  // Check if an order with the same issueDate already exists
-  const existingOrder = await Order.findOne({
-    issueDate: newOrderData.issueDate,
-  });
-
-  if (existingOrder) {
-    return res.status(400).json({ message: 'An order with the same issue date already exists.' });
-  }
-
   const existingOrdersWithSameType = await Order.find({
     type: newOrderData.type,
   });
+
+  const transformedExistingOrders = existingOrdersWithSameType.map(existingOrder => ({
+    _id: existingOrder._id,
+    maxQuantity: existingOrder.maxQuantity,
+    confirmedPersons: existingOrder.confirmedPersons,
+    issueDate: existingOrder.issueDate,
+    type: existingOrder.type,
+    createdDate: existingOrder.createdDate,
+    status: existingOrder.status,
+  }));
 
   const result = await Order.create(newOrderData);
 
@@ -37,12 +55,13 @@ const addOrder = async (req, res) => {
     newOrderData: {
       _id: result._id,
       maxQuantity: result.maxQuantity,
+      confirmedPersons: result.confirmedPersons,
       issueDate: result.issueDate,
       type: result.type,
       createdDate: result.createdDate,
       status: result.status,
     },
-    existingOrders: existingOrdersWithSameType,
+    existingOrders: transformedExistingOrders,
   };
 
   res.status(201).json(responseResult);

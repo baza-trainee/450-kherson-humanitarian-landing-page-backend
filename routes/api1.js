@@ -17,7 +17,6 @@ const controllerContacts = require('../controllers/api/1/contacts');
 const controllerDocuments = require('../controllers/api/1/documents');
 const controllerCongrats = require('../controllers/api/1/congrats');
 const controllerDonats = require('../controllers/api/1/donats');
-// const controllerExport = require('../controllers/api/1/export/order');
 const authMiddleware = require('../middleware/auth');
 const { ctrlWrapper, updateStatusForPastDate } = require('../middleware');
 const { isValidId, validateBody } = require('../utils/validators');
@@ -59,7 +58,7 @@ router.get('/issue-point', controllerIssuePoint.getIssuePoint);
 router.put('/issue-point', authMiddleware, controllerIssuePoint.updateIssuePoint);
 
 // Order routes
-router.get('/orders', updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
+router.get('/orders', authMiddleware, updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
 router.get(
   '/order/:orderId',
   authMiddleware,
@@ -92,14 +91,20 @@ router.patch(
   ctrlWrapper(controllerOrder.addPersonToOrder)
 );
 
-router.delete('/order/:orderId', authMiddleware, ctrlWrapper(controllerOrder.removeOrderById));
+router.delete(
+  '/order/:orderId',
+  authMiddleware,
+  updateStatusForPastDate,
+  ctrlWrapper(controllerOrder.removeOrderById)
+);
 router.get(
   '/export-order/:orderId',
   authMiddleware,
+  updateStatusForPastDate,
   isValidId,
   ctrlWrapper(controllerOrder.exportExcelOrder)
 );
-// router.get('/orders/quantity', controllerOrder.);
+router.get('/orders/quantity', updateStatusForPastDate, ctrlWrapper(controllerOrder.getQuantity));
 
 // Activities routes
 router.get('/activities', controllerActivities.getActivities);

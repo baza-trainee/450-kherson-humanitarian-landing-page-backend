@@ -1,22 +1,23 @@
+const moment = require('moment');
 const { Order } = require('../../../../models');
 const { HttpError } = require('../../../../utils/helpers');
 const updateNextClosestReadyOrder = require('../../../../utils/helpers/orders/updateNextClosestReadyOrder');
 
 const activatePerson = async (req, res) => {
   const { orderId, link } = req.params;
-  const unsuccessfulFrontendRedirectURL = `https://localhost:3000/unsuccess-registration?orderId=${orderId}&link=${link}`;
-  const successfulFrontendRedirectURL = `https://localhost:3000/success-registration?orderId=${orderId}&link=${link}`;
+  const unsuccessfulFrontendRedirectURL = `https://localhost:3000/unsuccess-registration`;
+  const successfulFrontendRedirectURL = `https://localhost:3000/success-registration`;
 
   try {
     const existingOrder = await Order.findById(orderId);
 
     if (!existingOrder) {
-      throw HttpError(404, 'Order not found');
+      throw HttpError(404, 'Список не знайдений');
     }
 
     const personIndex = existingOrder.persons.findIndex(person => person.id === link);
     if (personIndex === -1) {
-      throw HttpError(404, 'Person not found in order');
+      throw HttpError(404, 'Людина не знайдена у списку');
     }
 
     // Check if the person is already activated
@@ -32,7 +33,7 @@ const activatePerson = async (req, res) => {
       }
     } else {
       // If the person is already activated, you can return an error or a message
-      throw HttpError(400, 'Person is already activated');
+      throw HttpError(400, 'Людина вже активована');
     }
 
     await existingOrder.save();
@@ -40,8 +41,14 @@ const activatePerson = async (req, res) => {
     if (existingOrder.status === 'complete') {
       await updateNextClosestReadyOrder(existingOrder.type);
     }
+    const parsedTimeForQuery = moment(existingOrder.issueDate).format('HH:mm');
 
-    return res.redirect(successfulFrontendRedirectURL);
+    const queryParams = `?issueDate=${existingOrder.unparsedDate}&issueTime=${parsedTimeForQuery}&name=${existingOrder.persons[personIndex].name}&surname=${existingOrder.persons[personIndex].surname}&patrname=${existingOrder.persons[personIndex].patrname}`;
+    const redirectURL = successfulFrontendRedirectURL + queryParams;
+
+    console.log('Redirect URL with issueDate:', redirectURL);
+
+    return res.redirect(successfulFrontendRedirectURL + queryParams);
     // return res.status(200).json({ message: 'Person activated successfully' });
   } catch (error) {
     return res.redirect(unsuccessfulFrontendRedirectURL);
