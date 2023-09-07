@@ -74,17 +74,17 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message: message });
 });
 
-const startExpress = async () => {
-  app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+// const startExpress = async () => {
+//   app.use(function (err, req, res, next) {
+//     // set locals, only providing error in development
+//     res.locals.message = err.message;
+//     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
-  });
-};
+//     // render the error page
+//     res.status(err.status || 500);
+//     res.render('error');
+//   });
+// };
 
 const startMongoDB = async () => {
   try {
@@ -92,15 +92,15 @@ const startMongoDB = async () => {
     console.log('MongoDB сервер запущений');
   } catch (err) {
     console.log('Помилка при запуску MongoDB серверу');
-    setTimeout(() => {
-      startMongoDB();
-    }, config.server.MongoDB.restartSec);
+    // setTimeout(() => {
+    //   startMongoDB();
+    // }, config.servers.MongoDB.restartSec);
   }
 };
 const startServer = async () => {
   try {
     await startMongoDB();
-    startExpress();
+    // startExpress();
     console.log('API Server чекає на отримання запитів...');
   } catch (err) {
     console.log('Помилка при запуску сервера');
