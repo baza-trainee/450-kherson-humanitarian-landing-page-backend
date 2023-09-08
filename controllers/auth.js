@@ -4,17 +4,17 @@ const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 const mailService = require('../service/mail-service');
 const uuid = require('uuid');
-const { token, link } = require('../config/auth')
-const { urls } = require('../config/app')
+const { token, link } = require('../config/auth');
+const { urls } = require('../config/app');
 
 /**
  * Generator bearer tokens
  */
 
-const generateAccessToken = (id) => {
+const generateAccessToken = id => {
   const payload = { id };
-  return jwt.sign(payload, process.env.SECRET_KEY, {expiresIn: token.expiresTime})
-}
+  return jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: token.expiresTime });
+};
 /**
  * Login validation
  */
@@ -22,24 +22,24 @@ const generateAccessToken = (id) => {
 const login = async (req, res, next) => {
   try {
     const responseResult = {};
-    const {username, password} = req.body;
+    const { username, password } = req.body;
     await createAdminInDB();
-    const user = await User.findOne({username});
-    if( !user ) {
-      return res.status(400).json({message: 'Помилка авторизації'});
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(400).json({ message: 'Помилка авторизації' });
     }
-    
+
     const validPassword = bcrypt.compareSync(password, user.password);
     if (!validPassword) {
-      return res.status(400).json({message: 'Помилка авторизації'});
+      return res.status(400).json({ message: 'Помилка авторизації' });
     }
     responseResult.token = generateAccessToken(user._id);
     return res.status(200).json(responseResult);
   } catch (err) {
     //console.log(err);
-    res.status(400).json({message: 'Помилка авторизації'})
+    res.status(400).json({ message: 'Помилка авторизації' });
   }
-}
+};
 
 /**
  * Renew user's password
@@ -47,25 +47,28 @@ const login = async (req, res, next) => {
 
 const renewPassword = async (req, res, next) => {
   try {
-    const {username} = req.body;
+    const { username } = req.body;
     await createAdminInDB();
     console.log(username);
-    const user = await User.findOne({username});
-    if( !user ) {
-      return res.status(200).json({message: 'Посилання для відновлення паролю відправлено'});
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(200).json({ message: 'Посилання для відновлення паролю відправлено' });
     }
     const activationLink = uuid.v4();
     user.renewPasswordLink = activationLink;
     user.renewPasswordDate = new Date();
     user.save();
     console.log(`${urls.APP_URL}/auth/renew/${activationLink}`);
-    await mailService.sendActivationMail(process.env.ADMIN_EMAIL, `${urls.APP_URL}/auth/renew/${activationLink}`);
-    return res.status(200).json({message: 'Посилання для відновлення паролю відправлено'});
+    await mailService.sendActivationMail(
+      process.env.ADMIN_EMAIL,
+      `${urls.APP_URL}/auth/renew/${activationLink}`
+    );
+    return res.status(200).json({ message: 'Посилання для відновлення паролю відправлено' });
   } catch (err) {
     //console.log(err);
-    res.status(400).json({message: 'Помилка авторизації'})
+    res.status(400).json({ message: 'Помилка авторизації' });
   }
-}
+};
 
 /**
  * Generator for link for change user's password
@@ -75,17 +78,17 @@ const renewPasswordLink = async (req, res, next) => {
   try {
     const responseResult = {};
     const renewPasswordLink = req.params.link;
-    const user = await User.findOne({renewPasswordLink});
+    const user = await User.findOne({ renewPasswordLink });
     console.log(link.expiresTime);
-    if (!user || (user?.renewPasswordDate.getTime() + link.expiresTime) < new Date().getTime()) {
-      return res.status(400).json({message: 'Посилання не дійсне'});
+    if (!user || user?.renewPasswordDate.getTime() + link.expiresTime < new Date().getTime()) {
+      return res.status(400).json({ message: 'Посилання не дійсне' });
     }
     responseResult.token = generateAccessToken(user._id);
     return res.status(200).json(responseResult);
   } catch (err) {
-    res.status(400).json({message: 'Помилка авторизації'});
+    res.status(400).json({ message: 'Помилка авторизації' });
   }
-}
+};
 
 /**
  * User's password changes realisation
@@ -94,19 +97,19 @@ const renewPasswordLink = async (req, res, next) => {
 const changePassword = async (req, res, next) => {
   try {
     const responseResult = {};
-    const user = await User.findOne({_id: req.user.id});
-    if( !user ) {
-      return res.status(403).json({message: "Користувач не авторизований"})
+    const user = await User.findOne({ _id: req.user.id });
+    if (!user) {
+      return res.status(403).json({ message: 'Користувач не авторизований' });
     }
     const { password } = req.body;
     const hashPassword = bcrypt.hashSync(password, 7);
     user.password = hashPassword;
     await user.save();
-    return res.status(200).json({message: 'Пароль користувача змінено'});
+    return res.status(200).json({ message: 'Пароль користувача змінено' });
   } catch (err) {
-    res.status(400).json({message: 'Помилка авторизації'});
+    res.status(400).json({ message: 'Помилка авторизації' });
   }
-}
+};
 
 /**
  * It creates user in database if any users exists
@@ -114,11 +117,11 @@ const changePassword = async (req, res, next) => {
 
 const createAdminInDB = async () => {
   const userCount = await User.where({}).countDocuments();
-  if(userCount < 1) {
+  if (userCount < 1) {
     const hashPassword = bcrypt.hashSync(process.env.START_PASSWORD, 7);
-    const user = new User({username: process.env.START_LOGIN, password: hashPassword});
+    const user = new User({ username: process.env.START_LOGIN, password: hashPassword });
     await user.save();
   }
-}
+};
 
-module.exports = {login, renewPassword, renewPasswordLink, changePassword};
+module.exports = { login, renewPassword, renewPasswordLink, changePassword };

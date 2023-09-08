@@ -17,17 +17,12 @@ const controllerContacts = require('../controllers/api/1/contacts');
 const controllerDocuments = require('../controllers/api/1/documents');
 const controllerCongrats = require('../controllers/api/1/congrats');
 const controllerDonats = require('../controllers/api/1/donats');
-const controllerExport = require('../controllers/api/1/export/order');
 const { hasValidTocken } = require('../middleware/auth');
 const { ctrlWrapper, updateStatusForPastDate } = require('../middleware');
 const { isValidId, validateBody } = require('../utils/validators');
 const { orderJoiSchemas } = require('../models/order/order');
 
-
 const { isValidHero } = require('../middleware/api/1/hero');
-
-
-
 
 // Swagger API
 const options = {
@@ -65,31 +60,53 @@ router.get('/issue-point', controllerIssuePoint.getIssuePoint);
 router.put('/issue-point', hasValidTocken, controllerIssuePoint.updateIssuePoint);
 
 // Order routes
-router.get('/orders', updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
+router.get('/orders', hasValidTocken, updateStatusForPastDate, ctrlWrapper(controllerOrder.getAll));
 router.get(
-  '/orders/activate/:orderId/:link',
+  '/order/:orderId',
+  hasValidTocken,
   updateStatusForPastDate,
-  controllerOrder.activatePerson
+  ctrlWrapper(controllerOrder.getOrderById)
 );
-router.get('/orders/:orderId', updateStatusForPastDate, controllerOrder.getOrderById);
+router.get(
+  '/order/activate/:orderId/:link',
+  updateStatusForPastDate,
+  ctrlWrapper(controllerOrder.activatePerson)
+);
+router.get(
+  '/order/:orderId/:link',
+  hasValidTocken,
+  updateStatusForPastDate,
+  ctrlWrapper(controllerOrder.getPersonById)
+);
+
 router.post(
   '/orders',
+  hasValidTocken,
   updateStatusForPastDate,
   validateBody(orderJoiSchemas.addSchema),
-  controllerOrder.addOrder
+  ctrlWrapper(controllerOrder.addOrder)
 );
 router.patch(
-  '/orders/:orderId',
+  '/order/:orderId',
   updateStatusForPastDate,
   isValidId,
   validateBody(orderJoiSchemas.addPersonToOrderSchema),
   ctrlWrapper(controllerOrder.addPersonToOrder)
 );
 
-// router.delete('/order/:id',  controllerOrder.);
-// router.get('/orders',  controllerOrder.);
-// router.post('/orders', controllerOrder.);
-// router.get('/orders/quantity', controllerOrder.);
+router.delete(
+  '/order/:orderId',
+  hasValidTocken,
+  updateStatusForPastDate,
+  ctrlWrapper(controllerOrder.removeOrderById)
+);
+router.get(
+  '/export-order/:orderId',
+  hasValidTocken,
+  isValidId,
+  ctrlWrapper(controllerOrder.exportExcelOrder)
+);
+router.get('/orders/quantity', updateStatusForPastDate, ctrlWrapper(controllerOrder.getQuantity));
 
 // Activities routes
 router.get('/activities', controllerActivities.getActivities);

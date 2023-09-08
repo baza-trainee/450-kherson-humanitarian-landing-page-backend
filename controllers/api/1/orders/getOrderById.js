@@ -6,8 +6,18 @@ const getById = async (req, res) => {
 
   const result = await Order.findById(orderId);
   if (!result) {
-    throw HttpError(404, 'Contact not found');
+    throw HttpError(404, 'Order not found');
   }
-  res.json(result);
+
+  // Filter out persons with isActive: false and count isActive: true
+  const activePersons = result.persons.filter(person => person.isActivated);
+  const allPersons = result.persons;
+
+  // Create a copy of the result and modify the persons array
+  const sanitizedResult = { ...result.toObject() };
+  sanitizedResult.persons = activePersons;
+  sanitizedResult.allPersons = allPersons;
+
+  res.json(sanitizedResult);
 };
 module.exports = getById;

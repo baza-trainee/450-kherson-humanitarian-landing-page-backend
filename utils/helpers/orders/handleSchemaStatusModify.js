@@ -1,7 +1,7 @@
 async function handleSchemaStatusModify(next) {
   try {
     if (this.isModified('type')) {
-      console.log('поле type модіфіковане');
+      console.log('поле type модифіковане');
 
       const existingActiveOrder = await this.constructor.findOne({
         type: this.type,

@@ -3,7 +3,10 @@ const addOrder = require('./addOrder');
 const getOrderById = require('./getOrderById');
 const addPersonToOrder = require('./addPersonToOrder');
 const activatePerson = require('./activationPerson');
-// const removeById = require('./removeById');
+const getPersonById = require('./getPersonById');
+const removeOrderById = require('./removeOrderById');
+const exportExcelOrder = require('./exportExcelOrder');
+const getQuantity = require('./getQuantity');
 // const updateById = require('./updateById');
 
 module.exports = {
@@ -12,6 +15,9 @@ module.exports = {
   getOrderById,
   addPersonToOrder,
   activatePerson,
-  //   removeById,
+  getPersonById,
+  removeOrderById,
+  exportExcelOrder,
+  getQuantity,
   //   updateById,
 };

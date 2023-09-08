@@ -5,14 +5,14 @@ const { address } = require('../../config/app');
 const { handleCertificateValidation } = require('../../utils/helpers');
 const { certificateValidator, certificateValidatorJoi } = handleCertificateValidation;
 
-const phoneRegex = /^[+]?(380)[\s][0-9]{2}[\s][0-9]{3}[\s]?[0-9]{2}[\s]?[0-9]{2}[\s]?$/;
+const phoneRegex = /^\+380[0-9]{9}$/;
 const pibRegEx = /^[\sА-Яа-яІіЇїЄєҐґЁё'-]+$/;
 const cityRegEx = /^[\sА-Яа-яІіЇїЄєҐґЁё'-.]+$/;
 const buildingRegEx = /^\d[0-9А-Яа-яІіЇїЄєҐґЁё-]*$/;
-const flatNumberRegEx = /^\d+$/;
+const unparsedDate =
+  /^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.20(23|24|25|26|27|28|29|30|31|32|33|34|35|36|37|38|39|40|41|42|43|44|45|46|47|48|49|50|51|52|53|54|55|56|57|58|59|60|61|62|63|64|65|66|67|68|69|70|71|72|73|74|75|76|77|78|79|80|81|82|83|84|85|86|87|88|89|90|91|92|93|94|95|96|97|98|99)$/;
+// const flatNumberRegEx = /^\d+$/;
 const emailRegEx = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/i;
-
-const idpCertificateNumberRegEx = /^\d{4}-\d{10}$/;
 
 const orderSchema = new Schema(
   {
@@ -20,9 +20,18 @@ const orderSchema = new Schema(
       type: Number,
       required: true,
     },
+    confirmedPersons: {
+      type: Number,
+      default: 0,
+    },
     status: {
       type: String,
-      enum: ['active', 'ready', 'archive', 'complete'],
+      enum: ['active', 'ready', 'archived', 'complete'],
+    },
+    unparsedDate: {
+      type: String,
+      required: true,
+      match: unparsedDate,
     },
     issueDate: {
       type: Date,
@@ -44,12 +53,12 @@ const orderSchema = new Schema(
           match: emailRegEx,
           required: true,
         },
-        last_name: {
+        surname: {
           type: String,
           match: pibRegEx,
           required: [true, 'Поле може містити тільки кирилицю, пробіл, дефіс та апостроф'],
         },
-        patronymic_name: {
+        patrname: {
           type: String,
           match: pibRegEx,
           required: [true, 'Поле може містити тільки кирилицю, пробіл, дефіс та апостроф'],
@@ -70,14 +79,14 @@ const orderSchema = new Schema(
 
         apartment: {
           type: String,
-          match: flatNumberRegEx,
           default: '',
         },
-        CertificateNumber: {
+        certificateNumber: {
           type: String,
           validate: {
             validator: certificateValidator,
           },
+          required: true,
           default: '',
         },
         settlementFrom: {
@@ -94,10 +103,6 @@ const orderSchema = new Schema(
           },
         },
 
-        memberNumber: {
-          type: Number,
-          default: '',
-        },
         phone: {
           type: String,
           required: true,
@@ -110,6 +115,10 @@ const orderSchema = new Schema(
         activationLink: {
           type: String,
           default: '',
+        },
+        dataProcessingAgreement: {
+          type: Boolean,
+          default: true,
         },
       },
     ],
@@ -136,21 +145,22 @@ const addSchema = Joi.object({
   maxQuantity: Joi.number().required(),
   status: Joi.string().valid('active', 'ready', 'archive', 'complete'),
   type: Joi.string().valid('temp_moved', 'invalid', 'child'),
-  issueDate: Joi.string().required(),
+  issueDate: Joi.string().regex(unparsedDate).required(),
+  issueTime: Joi.string().required(),
 });
 
 const addPersonToOrderSchema = Joi.object({
   name: Joi.string().pattern(pibRegEx).required(),
   email: Joi.string().email().required(),
-  last_name: Joi.string().pattern(pibRegEx).required(),
-  patronymic_name: Joi.string().pattern(pibRegEx).required(),
+  surname: Joi.string().pattern(pibRegEx).required(),
+  patrname: Joi.string().pattern(pibRegEx).required(),
   street: Joi.string().pattern(cityRegEx).required(),
-  building: Joi.string(),
-  apartment: Joi.string().pattern(flatNumberRegEx),
-  CertificateNumber: Joi.string().custom(certificateValidatorJoi).required(),
+  building: Joi.string().pattern(buildingRegEx).required(),
+  apartment: Joi.string(),
+  certificateNumber: Joi.string().custom(certificateValidatorJoi).required(),
+
   settlementFrom: Joi.string(),
   regionFrom: Joi.string().valid(...address.areaCollection),
-  memberNumber: Joi.number(),
   phone: Joi.string().pattern(phoneRegex).required(),
 });
 

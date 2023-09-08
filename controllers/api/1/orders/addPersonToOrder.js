@@ -1,8 +1,10 @@
 const moment = require('moment-timezone');
 const { ObjectId } = require('mongoose').Types;
-const { HttpError } = require('../../../../utils/helpers');
+const { HttpError, createVerifyEmail } = require('../../../../utils/helpers');
 const { Order } = require('../../../../models');
-// const { SendEmail } = require('../../helpers');
+require('dotenv').config();
+
+const { BASE_URL } = process.env;
 
 const TIMEZONE = 'Europe/Kiev';
 
@@ -14,29 +16,50 @@ const addPersonToOrder = async (req, res) => {
 
   const existingOrder = await Order.findById(id);
   if (!existingOrder) {
-    throw HttpError(404, 'Order not found');
+    throw HttpError(400, `Список згідно запиту  не знайдено`);
   }
-  const isDuplicate = existingOrder.persons.some(
-    person => person.email === newPersonData.email || person.phone === newPersonData.phone
-  );
+  if (existingOrder.status !== 'active') {
+    throw HttpError(400, 'Список не активний');
+  }
+
+  // Check if the order is complete or maxQuantity is reached
+  if (
+    existingOrder.status === 'complete' ||
+    existingOrder.status === 'archived' ||
+    existingOrder.confirmedPersons >= existingOrder.maxQuantity
+  ) {
+    throw HttpError(400, 'Список заповнений чи знаходиться в архіві');
+  }
+  const isDuplicate = existingOrder.persons.some(person => person.email === newPersonData.email);
 
   if (isDuplicate) {
-    throw HttpError(400, 'Duplicate email or phone in order');
+    throw HttpError(400, 'Імейл вже зареєстрований');
   }
-  const newPerson = { ...newPersonData };
 
-  const currentTime = moment().tz(TIMEZONE); // Get time on 3 hour early
+  const currentTime = moment().tz(TIMEZONE);
 
-  const updatedOrder = await Order.updateOne(
-    { _id: id },
-    { $push: { persons: newPerson }, $set: { changedDate: currentTime } }
+  const activationLink = `${BASE_URL}/api/v1/order/activate/${id}/${newPersonData._id}`;
+
+  const newPerson = { ...newPersonData, activationLink };
+
+  const updatedOrder = await Order.findByIdAndUpdate(
+    id,
+    {
+      $push: { persons: newPerson },
+      $set: { changedDate: currentTime },
+    },
+    { new: true }
   );
-  if (updatedOrder.nModified === 0) {
-    throw HttpError(404, 'Order not found');
+  // if (updatedOrder.nModified === 0) {
+  //   throw HttpError(404, 'Order not found');
+  // }
+  if (!updatedOrder) {
+    throw HttpError(404, 'Список не оновлено');
   }
-  // await SendEmail(id, newPerson);
 
-  return res.status(201).json({ user: newPerson, message: 'Person added to order successfully' });
+  await createVerifyEmail(id, newPerson);
+
+  return res.status(201).json({ user: newPersonData, message: 'Людина додана успішно' });
 };
 
 module.exports = addPersonToOrder;
