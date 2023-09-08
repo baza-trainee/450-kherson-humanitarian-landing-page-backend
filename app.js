@@ -88,13 +88,15 @@ app.use((err, req, res, next) => {
 
 const startMongoDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 30000,
+    });
     console.log('MongoDB сервер запущений');
   } catch (err) {
     console.log('Помилка при запуску MongoDB серверу');
-    // setTimeout(() => {
-    //   startMongoDB();
-    // }, config.servers.MongoDB.restartSec);
+    setTimeout(() => {
+      startMongoDB();
+    }, config.servers.MongoDB.restartSec);
   }
 };
 const startServer = async () => {
