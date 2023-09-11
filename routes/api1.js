@@ -102,7 +102,7 @@ router.delete(
 );
 router.get(
   '/export-order/:orderId',
-  // hasValidTocken,
+  hasValidTocken,
   isValidId,
   ctrlWrapper(controllerOrder.exportExcelOrder)
 );
