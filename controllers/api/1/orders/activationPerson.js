@@ -5,8 +5,8 @@ const updateNextClosestReadyOrder = require('../../../../utils/helpers/orders/up
 
 const activatePerson = async (req, res) => {
   const { orderId, link } = req.params;
-  const unsuccessfulFrontendRedirectURL = `https://localhost:3000/unsuccess-registration`;
-  const successfulFrontendRedirectURL = `https://localhost:3000/success-registration`;
+  const unsuccessfulFrontendRedirectURL = `https://localhost:3000/notification/unsuccess-registration`;
+  const successfulFrontendRedirectURL = `https://localhost:3000/notification/success-registration`;
 
   try {
     const existingOrder = await Order.findById(orderId);
