@@ -3,58 +3,57 @@
  * SPDX-License-Identifier: MIT
  */
 
-const { isImageValid, isColorValid, isTextValid } = require("../../../utils/helpers/api/simpleIssueValidator");
+const { isIdValid, isImageValid, isColorValid, isTextValid } = require("../../../utils/helpers/api/simpleIssueValidator");
+const  componentConfig = require("../../../config/api/v1/components");
 
 /**
  * Check if Hero object is valid .
  */
 
 function isValidHero(req, res, next) {
-  //console.log(req.headers);
-  //console.log(req.body);
+  console.log(req.method);
   try {
-    const { View, Title, Subtitle} = req.body;
+    const { id, View, Title, Subtitle} = req.body;
 
+    // check id
+    const isId = isIdValid(id);
     // check View
-    const isView = (isImageValid(View.picture, 500) && 
+    const isView = (View) && (isImageValid(View.picture, componentConfig.hero.View.picture.maxSizeKb) && 
                 (isColorValid(View.bgColorStart)) && 
                 (isColorValid(View.bgColorEnd)));
-  
+                
     // check Title
-    const isTitle = (isTextValid(Title.text, minLength, maxLength) && 
+    const isTitle = (Title) && ((isTextValid(Title.text, componentConfig.hero.title.text.minLength, componentConfig.hero.title.text.maxLength) && 
                 (isColorValid(Title.colorStart)) && 
                 (isColorValid(Title.colorMiddle)) && 
-                (isColorValid(Title.colorEnd)));
-  
+                (isColorValid(Title.colorEnd))));
   
     // check Subtitle
-    const isSubtitle = (isTextValid(Subtitle.text, minLength, maxLength) && 
+    const isSubtitle = (Subtitle) && (isTextValid(Subtitle.text, componentConfig.hero.subtitle.text.minLength, componentConfig.hero.subtitle.text.maxLength) && 
                 (isColorValid(Subtitle.colorStart)) && 
                 (isColorValid(Subtitle.colorMiddle)) && 
                 (isColorValid(Subtitle.colorEnd)));
 
-    if( isView && isTitle && isSubtitle) {
-      next();
-    } else {
-      return res.status(406).json({message: "Помилка валідації даних"})
+
+    if ((req.method === 'DELETE') || (req.method === 'GET')) {
+      if( ! isId ) {
+        return res.status(406).json({message: "Помилка валідації даних"})
+      }
     }
-  } catch (err) {
-    return res.status(406).json({message: "Помилка валідації даних"})
-  }
-  /*
-  if (req.method === "OPTIONS") {
-  }
-  try {
-    const token = req.headers.authorization.split(' ')[1];
-    if(!token) {
-      return res.status(403).json({message: "Користувач не авторизований"})
+    if (req.method === 'POST') {
+      if (!( isView && isTitle && isSubtitle)) {
+        return res.status(406).json({message: "Помилка валідації даних"})
+      }
     }
-    const decodedData = jwt.verify(token, process.env.SECRET_KEY);
-    req.user = decodedData;
+    if (req.method === 'PUT') {
+      if (!( isId && isView && isTitle && isSubtitle)) {
+        return res.status(406).json({message: "Помилка валідації даних"})
+      }
+    }
     next();
-  }catch (err) {
-    return res.status(403).json({message: "Користувач не авторизований"})
-  }*/
+  } catch (err) {
+    return res.status(406).json({message: "-Помилка валідації даних"})
+  }
 }
 
 module.exports = {
