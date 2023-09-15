@@ -3,37 +3,49 @@
  * SPDX-License-Identifier: MIT
  */
 
-const { isIdValid, isImageValid, isColorValid, isTextValid } = require("../../../utils/helpers/api/simpleIssueValidator");
-const  componentConfig = require("../../../config/api/v1/components");
+const {
+  isImageValid,
+} = require("../../../utils/helpers/api/simpleIssueValidator");
+const componentConfig = require("../../../config/api/v1/components");
 
 /**
- * Check if Hero object is valid .
+ * Check if Project object is valid .
  */
 
 function isValidProject(req, res, next) {
+  //console.log(req.method);
   try {
-    const { View } = req.body;
+    const { picture } = req.body;
 
     // check id
     const isId = isIdValid(id);
+    // check picture
+    const isPicture = isImageValid(
+      View.picture,
+      componentConfig.hero.View.picture.maxSizeKb
+    );
 
-
-    if ((req.method === 'DELETE') || (req.method === 'GET')) {
-      if( ! isId ) {
-        return res.status(406).json({message: "Помилка валідації даних"})
+    if (req.method === "DELETE" || req.method === "GET") {
+      if (!isId) {
+        return res.status(406).json({ message: "Помилка валідації даних" });
       }
     }
-    if (req.method === 'PUT') {
-      if (!( isId && isView && isTitle && isSubtitle)) {
-        return res.status(406).json({message: "Помилка валідації даних"})
+    if (req.method === "POST") {
+      if (!(isView && isTitle && isSubtitle)) {
+        return res.status(406).json({ message: "Помилка валідації даних" });
+      }
+    }
+    if (req.method === "PUT") {
+      if (!(isId && isView && isTitle && isSubtitle)) {
+        return res.status(406).json({ message: "Помилка валідації даних" });
       }
     }
     next();
   } catch (err) {
-    return res.status(406).json({message: "-Помилка валідації даних"})
+    return res.status(406).json({ message: "-Помилка валідації даних" });
   }
 }
 
 module.exports = {
-  isValidProject
+  isValidProject,
 };

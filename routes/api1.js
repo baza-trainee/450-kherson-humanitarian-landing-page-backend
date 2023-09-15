@@ -29,6 +29,7 @@ const { isValidHistory } = require("../middleware/api/1/history");
 const { isValidAchievement } = require("../middleware/api/1/achievement");
 const { isValidIssuepoint } = require("../middleware/api/1/issuepoint");
 const { isValidActivity } = require("../middleware/api/1/activity");
+const { isValidProgect } = require("../middleware/api/1/project");
 
 // Swagger API
 const options = {
@@ -168,14 +169,29 @@ router.delete(
   isValidActivity,
   controllerActivities.deleteActivity
 );
-
+/*
 // Projects routes
 router.get("/projects", controllerProjects.getProjects);
-router.post("/projects", hasValidTocken, controllerProjects.createProject);
-router.get("/project/:id", controllerProjects.getProjectById);
-router.put("/project/:id", hasValidTocken, controllerProjects.updateProject);
-router.delete("/project/:id", hasValidTocken, controllerProjects.deleteProject);
-
+router.post(
+  "/projects",
+  hasValidTocken,
+  isValidProgect,
+  controllerProjects.createProject
+);
+router.get("/project/:id", isValidProgect, controllerProjects.getProjectById);
+router.put(
+  "/project/:id",
+  hasValidTocken,
+  isValidProgect,
+  controllerProjects.updateProject
+);
+router.delete(
+  "/project/:id",
+  hasValidTocken,
+  isValidProgect,
+  controllerProjects.deleteProject
+);
+*/
 // Logos routes
 router.get("/logos", controllerLogos.getLogos);
 router.post("/logos", hasValidTocken, controllerLogos.createLogo);
