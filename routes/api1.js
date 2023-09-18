@@ -34,7 +34,7 @@ const { isValidLogo } = require("../middleware/api/1/logo");
 const { isValidContact } = require("../middleware/api/1/contacts");
 
 router.use("/docs", swaggerUi.serve);
-router.get("/docs", swaggerUi.setup(swaggerDocument, options));
+router.get("/docs", swaggerUi.setup(swaggerDocument));
 
 // Hero routes
 router.post("/hero", hasValidTocken, isValidHero, controllerHero.createHero);
