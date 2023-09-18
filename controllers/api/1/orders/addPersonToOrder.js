@@ -3,8 +3,7 @@ const { ObjectId } = require('mongoose').Types;
 const { HttpError, createVerifyEmail } = require('../../../../utils/helpers');
 const { Order } = require('../../../../models');
 require('dotenv').config();
-
-const { BASE_URL } = process.env;
+const { urls } = require('../../../../config/app');
 
 const TIMEZONE = 'Europe/Kiev';
 
@@ -38,7 +37,7 @@ const addPersonToOrder = async (req, res) => {
 
   const currentTime = moment().tz(TIMEZONE);
 
-  const activationLink = `${BASE_URL}/api/v1/order/activate/${id}/${newPersonData._id}`;
+  const activationLink = `${urls.APP_URL}/api/v1/order/activate/${id}/${newPersonData._id}`;
 
   const newPerson = { ...newPersonData, activationLink };
 

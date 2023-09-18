@@ -1,7 +1,9 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-const { BASE_URL, SMTP_GMAIL_USER, SMTP_GMAIL_PASSWORD } = process.env;
+const { urls } = require('../../../config/app');
+
+const { SMTP_GMAIL_USER, SMTP_GMAIL_PASSWORD } = process.env;
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -15,7 +17,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const SendEmail = async (orderId, newPerson) => {
-  const activationLink = `${BASE_URL}/api/v1/order/activate/${orderId}/${newPerson._id}`;
+  const activationLink = `${urls.APP_URL}/api/v1/order/activate/${orderId}/${newPerson._id}`;
   const mailOptions = {
     from: SMTP_GMAIL_USER,
     to: newPerson.email,

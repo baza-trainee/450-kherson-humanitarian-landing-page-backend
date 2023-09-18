@@ -1,12 +1,21 @@
 const ExcelJS = require('exceljs');
+const CryptoJS = require('crypto-js');
 const { Order } = require('../../../../models');
+const { HttpError } = require('../../../../utils/helpers');
+
+const { SECRET_KEY } = process.env;
+const secretKey = SECRET_KEY;
 
 const exportExcelOrder = async (req, res) => {
   try {
-    const { orderId: id } = req.params;
-    const existingOrder = await Order.findById(id);
+    const { orderId: encryptedOrderId } = req.params;
+    // console.log('encryptedOrderId:', encryptedOrderId);
+    const decryptedOrderId = await decryptOrderId(encryptedOrderId);
+    // console.log('DecryptedOrderId:', decryptedOrderId);
+
+    const existingOrder = await Order.findById(decryptedOrderId);
     if (!existingOrder) {
-      throw HttpError(404, 'Order not found');
+      res.status(404).json({ error: 'Order not found' });
     }
 
     const date = new Date(existingOrder.issueDate).toLocaleDateString();
@@ -114,5 +123,14 @@ const exportExcelOrder = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+async function decryptOrderId(encryptedOrderId) {
+  try {
+    const bytes = CryptoJS.AES.decrypt(encryptedOrderId, secretKey);
+    const originalText = bytes.toString(CryptoJS.enc.Utf8);
+    return originalText;
+  } catch (error) {
+    return null; // Decryption failed
+  }
+}
 
 module.exports = exportExcelOrder;
