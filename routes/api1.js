@@ -29,7 +29,9 @@ const { isValidHistory } = require("../middleware/api/1/history");
 const { isValidAchievement } = require("../middleware/api/1/achievement");
 const { isValidIssuepoint } = require("../middleware/api/1/issuepoint");
 const { isValidActivity } = require("../middleware/api/1/activity");
-const { isValidProgect } = require("../middleware/api/1/project");
+const { isValidProject } = require("../middleware/api/1/project");
+const { isValidLogo } = require("../middleware/api/1/logo");
+const { isValidContact } = require("../middleware/api/1/contacts");
 
 // Swagger API
 const options = {
@@ -169,43 +171,82 @@ router.delete(
   isValidActivity,
   controllerActivities.deleteActivity
 );
-/*
+
 // Projects routes
 router.get("/projects", controllerProjects.getProjects);
 router.post(
   "/projects",
   hasValidTocken,
-  isValidProgect,
+  isValidProject,
   controllerProjects.createProject
 );
-router.get("/project/:id", isValidProgect, controllerProjects.getProjectById);
+router.get("/project/:id", isValidProject, controllerProjects.getProjectById);
 router.put(
-  "/project/:id",
+  "/project",
   hasValidTocken,
-  isValidProgect,
+  isValidProject,
   controllerProjects.updateProject
 );
 router.delete(
   "/project/:id",
   hasValidTocken,
-  isValidProgect,
+  isValidProject,
   controllerProjects.deleteProject
 );
-*/
+
 // Logos routes
 router.get("/logos", controllerLogos.getLogos);
-router.post("/logos", hasValidTocken, controllerLogos.createLogo);
-router.get("/logo/:id", controllerLogos.getLogoById);
-router.put("/logo/:id", hasValidTocken, controllerLogos.updateLogo);
-router.delete("/logo/:id", hasValidTocken, controllerLogos.deleteLogo);
+router.post("/logos", hasValidTocken, isValidLogo, controllerLogos.createLogo);
+router.get("/logo/:id", isValidLogo, controllerLogos.getLogoById);
+router.put(
+  "/logo/:id",
+  hasValidTocken,
+  isValidLogo,
+  controllerLogos.updateLogo
+);
+router.delete(
+  "/logo/:id",
+  hasValidTocken,
+  isValidLogo,
+  controllerLogos.deleteLogo
+);
 
 // Contacts routes
 router.get("/contacts", controllerContacts.getContacts);
-router.put("/contacts", hasValidTocken, controllerContacts.updateContacts);
+router.put(
+  "/contacts",
+  hasValidTocken,
+  isValidContact,
+  controllerContacts.updateContacts
+);
 
 // Documents routes
 router.get("/documents", controllerDocuments.getDocuments);
-router.put("/documents", hasValidTocken, controllerDocuments.updateDocuments);
+router.post(
+  "/documents/rules",
+  hasValidTocken,
+  controllerDocuments.uploadRules
+);
+router.post(
+  "/documents/publicOfferContract",
+  hasValidTocken,
+  controllerDocuments.uploadPublicOfferContract
+);
+router.post(
+  "/documents/privacy",
+  hasValidTocken,
+  controllerDocuments.uploadPrivacy
+);
+router.post(
+  "/documents/statut",
+  hasValidTocken,
+  controllerDocuments.uploadStatut
+);
+router.post(
+  "/documents/reporting",
+  hasValidTocken,
+  controllerDocuments.uploadReporting
+);
 
 // Congrats routes
 router.get("/congrats", controllerCongrats.getCongrats);
