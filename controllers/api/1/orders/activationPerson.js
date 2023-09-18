@@ -2,11 +2,12 @@ const moment = require('moment');
 const { Order } = require('../../../../models');
 const { HttpError } = require('../../../../utils/helpers');
 const updateNextClosestReadyOrder = require('../../../../utils/helpers/orders/updateNextClosestReadyOrder');
+const { urls } = require('../../../../config/app');
 
 const activatePerson = async (req, res) => {
   const { orderId, link } = req.params;
-  const unsuccessfulFrontendRedirectURL = `https://localhost:3000/notification/unsuccess-registration`;
-  const successfulFrontendRedirectURL = `https://localhost:3000/notification/success-registration`;
+  const unsuccessfulFrontendRedirectURL = `https://${urls.APP_URL}/notification/unsuccess-registration`;
+  const successfulFrontendRedirectURL = `https://${urls.APP_URL}/notification/success-registration`;
 
   try {
     const existingOrder = await Order.findById(orderId);

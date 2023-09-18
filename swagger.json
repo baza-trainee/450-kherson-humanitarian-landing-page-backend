@@ -1153,14 +1153,14 @@
         }
       }
     },
-    "/api/v1/export-order/{orderId}": {
+    "/api/v1/export-order/generate/{orderId}": {
       "get": {
         "security": [
           {
             "bearerAuth": []
           }
         ],
-        "summary": "Завантажити файл",
+        "summary": "Отримати лінк для завантаження файлу",
         "tags": ["Списки на отримання допомоги"],
         "parameters": [
           {
@@ -1175,7 +1175,26 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "downloadUrl": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "downloadUrl": "/export-order/U2FsdGVkX18ngMRq5T%2FRh4qniDaGVtMjkgdTS5qnON7Np3SJj3L%2FnqR33QMSioFa"
+                    }
+                  }
+                }
+              }
+            }
           },
           "404": {
             "description": "Ресурс відсутній",
