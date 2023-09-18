@@ -3,37 +3,54 @@
  * SPDX-License-Identifier: MIT
  */
 
-const { isIdValid, isImageValid, isColorValid, isTextValid } = require("../../../utils/helpers/api/simpleIssueValidator");
-const  componentConfig = require("../../../config/api/v1/components");
+const {
+  isTextValid,
+  isEmailValid,
+  isPhoneNumberValid,
+} = require("../../../utils/helpers/api/simpleIssueValidator");
+const componentConfig = require("../../../config/api/v1/components");
 
 /**
- * Check if Hero object is valid .
+ * Check if Contact object is valid .
  */
 
-function isValidContacts(req, res, next) {
+function isValidContact(req, res, next) {
   try {
-    const { View } = req.body;
+    const { email, address, phone } = req.body;
 
-    // check id
-    const isId = isIdValid(id);
+    // check picture
+    const isEmail = isEmailValid(
+      email,
+      componentConfig.contacts.email.minLength,
+      componentConfig.contacts.email.maxLength
+    );
 
+    // check address
+    const isAddress = isTextValid(
+      address,
+      componentConfig.contacts.address.minLength,
+      componentConfig.contacts.address.maxLength
+    );
 
-    if ((req.method === 'DELETE') || (req.method === 'GET')) {
-      if( ! isId ) {
-        return res.status(406).json({message: "Помилка валідації даних"})
-      }
-    }
-    if (req.method === 'PUT') {
-      if (!( isId && isView && isTitle && isSubtitle)) {
-        return res.status(406).json({message: "Помилка валідації даних"})
+    // check phone number
+    const isPhone = isPhoneNumberValid(
+      phone,
+      componentConfig.contacts.phone.minLength,
+      componentConfig.contacts.phone.maxLength
+    );
+
+    if (req.method === "PUT") {
+      if (!(isEmail && isAddress && isPhone)) {
+        return res.status(406).json({ message: "Помилка валідації даних" });
       }
     }
     next();
   } catch (err) {
-    return res.status(406).json({message: "-Помилка валідації даних"})
+    console.log(err);
+    return res.status(406).json({ message: "-Помилка валідації даних" });
   }
 }
 
 module.exports = {
-  isValidContacts
+  isValidContact,
 };
