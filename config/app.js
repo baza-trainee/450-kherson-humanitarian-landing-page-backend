@@ -20,14 +20,9 @@ module.exports = {
     },
   },
   urls: {
-    /*
-    APP_URL: isProduction
+    APP_URL: isProduction()
       ? `${process.env.HOST_URL}`
       : `${process.env.HOST_URL}:${process.env.PORT}`, // For confirmation via mail service
-      */
-    APP_URL: isProduction
-      ? `${process.env.HOST_URL}`
-      : `${process.env.HOST_URL}:${process.env.PORT}`,
   },
   address: address,
 };

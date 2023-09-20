@@ -48,11 +48,9 @@ const login = async (req, res, next) => {
  */
 
 const renewPassword = async (req, res, next) => {
-  console.log(urls.APP_URL);
   try {
     const { username } = req.body;
     await createAdminInDB();
-    console.log(username);
     const user = await User.findOne({ username });
     if (!user) {
       return res
@@ -63,7 +61,6 @@ const renewPassword = async (req, res, next) => {
     user.renewPasswordLink = activationLink;
     user.renewPasswordDate = new Date();
     user.save();
-    console.log(`${urls.APP_URL}/auth/renew/${activationLink}`);
     await mailService.sendActivationMail(
       process.env.ADMIN_EMAIL,
       `${urls.APP_URL}/auth/renew/${activationLink}`

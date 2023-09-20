@@ -44,7 +44,7 @@ function isValidConfirmRegistration(req, res, next) {
     }
     next();
   } catch (err) {
-    console.log(err);
+    //console.log(err);
     return res.status(406).json({ message: "-Помилка валідації даних" });
   }
 }
