@@ -54,6 +54,8 @@ const {
   isValidConfirmRegistration,
 } = require("../middleware/api/1/confirmRegistration");
 
+const { isValidDonat } = require("../middleware/api/1/donat");
+
 router.use("/docs", swaggerUi.serve);
 router.get("/docs", swaggerUi.setup(swaggerDocument));
 
@@ -292,10 +294,25 @@ router.put(
 
 // Donats routes
 router.get("/donats", controllerDonats.getDonats);
-router.post("/donats", hasValidTocken, controllerDonats.createDonat);
-router.get("/donat/:id", controllerDonats.getDonatById);
-router.put("/donat/:id", hasValidTocken, controllerDonats.updateDonat);
-router.delete("/donat/:id", hasValidTocken, controllerDonats.deleteDonat);
+router.post(
+  "/donats",
+  hasValidTocken,
+  isValidDonat,
+  controllerDonats.createDonat
+);
+router.get("/donat/:id", isValidDonat, controllerDonats.getDonatById);
+router.put(
+  "/donat/:id",
+  hasValidTocken,
+  isValidDonat,
+  controllerDonats.updateDonat
+);
+router.delete(
+  "/donat/:id",
+  hasValidTocken,
+  isValidDonat,
+  controllerDonats.deleteDonat
+);
 
 // Export routes
 //router.post('/export/order/:id', hasValidTocken, controllerExport.);
