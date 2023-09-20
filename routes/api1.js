@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023 Volodymyr Nerovnia
+ * SPDX-License-Identifier: MIT
+ */
+
 var express = require("express");
 var router = express.Router();
 const swaggerUi = require("swagger-ui-express");
@@ -15,7 +20,7 @@ const controllerProjects = require("../controllers/api/1/project");
 const controllerLogos = require("../controllers/api/1/logo");
 const controllerContacts = require("../controllers/api/1/contacts");
 const controllerDocuments = require("../controllers/api/1/documents");
-const controllerCongrats = require("../controllers/api/1/congrats");
+const controllerConfirmRegistration = require("../controllers/api/1/confirmRegistration");
 const controllerDonats = require("../controllers/api/1/donats");
 const { hasValidTocken } = require("../middleware/auth");
 const { ctrlWrapper, updateStatusForPastDate } = require("../middleware");
@@ -32,6 +37,22 @@ const { isValidActivity } = require("../middleware/api/1/activity");
 const { isValidProject } = require("../middleware/api/1/project");
 const { isValidLogo } = require("../middleware/api/1/logo");
 const { isValidContact } = require("../middleware/api/1/contacts");
+const {
+  isValidDocumentPrivacy,
+} = require("../middleware/api/1/documents/privacy");
+const {
+  isValidDocumentPublicContract,
+} = require("../middleware/api/1/documents/publicContract");
+const {
+  isValidDocumentReporting,
+} = require("../middleware/api/1/documents/reporting");
+const { isValidDocumentRules } = require("../middleware/api/1/documents/rules");
+const {
+  isValidDocumentStatut,
+} = require("../middleware/api/1/documents/statut");
+const {
+  isValidConfirmRegistration,
+} = require("../middleware/api/1/confirmRegistration");
 
 // Swagger API
 const options = {
@@ -221,36 +242,49 @@ router.put(
 );
 
 // Documents routes
-router.get("/documents", controllerDocuments.getDocuments);
+//router.get("/documents", controllerDocuments.getDocuments);
 router.post(
   "/documents/rules",
   hasValidTocken,
+  isValidDocumentRules,
   controllerDocuments.uploadRules
 );
 router.post(
   "/documents/publicOfferContract",
   hasValidTocken,
+  isValidDocumentPublicContract,
   controllerDocuments.uploadPublicOfferContract
 );
 router.post(
   "/documents/privacy",
   hasValidTocken,
+  isValidDocumentPrivacy,
   controllerDocuments.uploadPrivacy
 );
 router.post(
   "/documents/statut",
   hasValidTocken,
+  isValidDocumentStatut,
   controllerDocuments.uploadStatut
 );
 router.post(
   "/documents/reporting",
   hasValidTocken,
+  isValidDocumentReporting,
   controllerDocuments.uploadReporting
 );
 
 // Congrats routes
-router.get("/congrats", controllerCongrats.getCongrats);
-router.put("/congrats", hasValidTocken, controllerCongrats.updateCongrats);
+router.get(
+  "/confirm-registration",
+  controllerConfirmRegistration.getConfirmRegistration
+);
+router.put(
+  "/confirm-registration",
+  hasValidTocken,
+  isValidConfirmRegistration,
+  controllerConfirmRegistration.updateConfirmRegistration
+);
 
 // Donats routes
 router.get("/donats", controllerDonats.getDonats);
