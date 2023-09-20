@@ -1,10 +1,11 @@
 const address = require("./api/v1/address");
 
+require("dotenv").config();
+
 const isProduction = () => {
   if (process.env.NODE_ENV === "production") {
     return true;
   }
-  require("dotenv").config();
   return false;
 };
 
@@ -25,8 +26,8 @@ module.exports = {
       : `${process.env.HOST_URL}:${process.env.PORT}`, // For confirmation via mail service
       */
     APP_URL: isProduction
-      ? `${process.env.HOST_URL}:${process.env.PORT}`
-      : `${process.env.HOST_URL}`,
+      ? `${process.env.HOST_URL}`
+      : `${process.env.HOST_URL}:${process.env.PORT}`,
   },
   address: address,
 };
