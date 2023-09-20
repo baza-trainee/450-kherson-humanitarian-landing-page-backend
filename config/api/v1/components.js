@@ -165,21 +165,9 @@ module.exports = {
     },
   },
   donats: {
-    currency: {
-      minLength: 3,
-      maxLength: 3,
-    },
     recipient: {
       minLength: 40,
       maxLength: 98,
-    },
-    IBAN: {
-      minLength: 29,
-      maxLength: 29,
-    },
-    IPN: {
-      minLength: 8,
-      maxLength: 10,
     },
     paymentPurpose: {
       minLength: 18,
