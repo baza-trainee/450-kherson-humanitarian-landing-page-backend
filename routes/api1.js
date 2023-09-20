@@ -54,13 +54,8 @@ const {
   isValidConfirmRegistration,
 } = require("../middleware/api/1/confirmRegistration");
 
-// Swagger API
-const options = {
-  // explorer: true,
-};
-
 router.use("/docs", swaggerUi.serve);
-router.get("/docs", swaggerUi.setup(swaggerDocument, options));
+router.get("/docs", swaggerUi.setup(swaggerDocument));
 
 // Hero routes
 router.post("/hero", hasValidTocken, isValidHero, controllerHero.createHero);
@@ -156,9 +151,17 @@ router.delete(
   ctrlWrapper(controllerOrder.removeOrderById)
 );
 router.get(
-  "/export-order/:orderId",
+  "/export-order/generate/:orderId",
   hasValidTocken,
   isValidId,
+  updateStatusForPastDate,
+  ctrlWrapper(controllerOrder.generateLinkForExportExcel)
+);
+
+router.get(
+  "/export-order/:orderId",
+  // hasValidTocken,
+  // isValidId,
   ctrlWrapper(controllerOrder.exportExcelOrder)
 );
 router.get(
@@ -194,6 +197,7 @@ router.delete(
 );
 
 // Projects routes
+
 router.get("/projects", controllerProjects.getProjects);
 router.post(
   "/projects",
