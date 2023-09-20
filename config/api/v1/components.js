@@ -3,6 +3,10 @@
  * SPDX-License-Identifier: MIT
  */
 
+const getFileBase64SizeMb = (size) => {
+  return size * 1024 * 1024 + (size * 1024 * 1024 * 33) / 100;
+};
+
 module.exports = {
   hero: {
     View: {
@@ -137,19 +141,19 @@ module.exports = {
   },
   documents: {
     rules: {
-      maxSizeMb: 50 * 1024 * 1024,
+      maxSizeMb: getFileBase64SizeMb(50),
     },
     publicOfferContract: {
-      maxSizeMb: 50 * 1024 * 1024,
+      maxSizeMb: getFileBase64SizeMb(50),
     },
     privacy: {
-      maxSizeMb: 50 * 1024 * 1024,
+      maxSizeMb: getFileBase64SizeMb(50),
     },
     statut: {
-      maxSizeMb: 50 * 1024 * 1024,
+      maxSizeMb: getFileBase64SizeMb(50),
     },
     reporting: {
-      maxSizeMb: 50 * 1024 * 1024,
+      maxSizeMb: getFileBase64SizeMb(50),
     },
   },
   congrats: {
