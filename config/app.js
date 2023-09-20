@@ -1,11 +1,10 @@
 const address = require("./api/v1/address");
 
-require("dotenv").config();
-
 const isProduction = () => {
   if (process.env.NODE_ENV === "production") {
     return true;
   }
+  require("dotenv").config();
   return false;
 };
 
