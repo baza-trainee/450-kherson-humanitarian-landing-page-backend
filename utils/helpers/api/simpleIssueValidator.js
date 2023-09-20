@@ -37,6 +37,20 @@ function isImageValid(picObject, maxSizekB) {
   return false;
 }
 
+function isIBANValid(iban) {
+  return /^([A-Z]{2}[ \-]?[0-9]{2})(?=(?:[ \-]?[A-Z0-9]){9,30}$)((?:[ \-]?[A-Z0-9]{3,5}){2,7})([ \-]?[A-Z0-9]{1,3})?$/.test(
+    iban
+  );
+}
+
+function isIPNValid(ipn) {
+  return /^\d{8}(\d{2})?$/.test(ipn);
+}
+
+function isCurrencyValid(currency) {
+  return /^[A-Z]{3}?$/.test(currency);
+}
+
 function isDocumentValid(docObject, maxSize) {
   return isFileValid(docObject, maxSize, mimeDocumentTypes);
 }
@@ -180,4 +194,7 @@ module.exports = {
   isPhoneNumberValid,
   isDocumentValid,
   isReportValid,
+  isCurrencyValid,
+  isIBANValid,
+  isIPNValid,
 };
