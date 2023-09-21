@@ -186,13 +186,13 @@ router.get(
   controllerActivities.getActivityById
 );
 router.put(
-  "/activity/:id",
+  "/activity",
   hasValidTocken,
   isValidActivity,
   controllerActivities.updateActivity
 );
 router.delete(
-  "/activity/:id",
+  "/activity",
   hasValidTocken,
   isValidActivity,
   controllerActivities.deleteActivity
@@ -215,7 +215,7 @@ router.put(
   controllerProjects.updateProject
 );
 router.delete(
-  "/project/:id",
+  "/project",
   hasValidTocken,
   isValidProject,
   controllerProjects.deleteProject
@@ -225,18 +225,8 @@ router.delete(
 router.get("/logos", controllerLogos.getLogos);
 router.post("/logos", hasValidTocken, isValidLogo, controllerLogos.createLogo);
 router.get("/logo/:id", isValidLogo, controllerLogos.getLogoById);
-router.put(
-  "/logo/:id",
-  hasValidTocken,
-  isValidLogo,
-  controllerLogos.updateLogo
-);
-router.delete(
-  "/logo/:id",
-  hasValidTocken,
-  isValidLogo,
-  controllerLogos.deleteLogo
-);
+router.put("/logo", hasValidTocken, isValidLogo, controllerLogos.updateLogo);
+router.delete("/logo", hasValidTocken, isValidLogo, controllerLogos.deleteLogo);
 
 // Contacts routes
 router.get("/contacts", controllerContacts.getContacts);
@@ -248,7 +238,7 @@ router.put(
 );
 
 // Documents routes
-//router.get("/documents", controllerDocuments.getDocuments);
+router.get("/documents", controllerDocuments.getDocuments);
 router.post(
   "/documents/rules",
   hasValidTocken,
