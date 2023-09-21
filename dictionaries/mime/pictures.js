@@ -32,4 +32,12 @@ module.exports = [
     mimeName: "image/webp",
     extension: ".webp",
   },
+  {
+    mimeName: "image/bmp",
+    extension: ".bmp",
+  },
+  {
+    mimeName: "image/tiff",
+    extension: ".tif",
+  },
 ];
