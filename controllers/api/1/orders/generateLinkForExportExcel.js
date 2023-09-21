@@ -18,9 +18,9 @@ const generateLinkForExportExcel = async (req, res) => {
 
         const encryptedOrderId = encryptOrderId(id);
 
-        const downloadUrl = `${urls.APP_URL}/export-order/${encodeURIComponent(
-            encryptedOrderId
-        )}`;
+        const downloadUrl = `${
+            urls.APP_URL
+        }/api/v1/export-order/${encodeURIComponent(encryptedOrderId)}`;
         console.log(downloadUrl);
 
         res.json({ downloadUrl });
