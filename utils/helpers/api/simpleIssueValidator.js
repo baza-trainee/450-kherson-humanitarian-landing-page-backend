@@ -4,14 +4,20 @@
  */
 const { ObjectId } = require("mongodb");
 const mimeImageTypes = require("../../../dictionaries/mime/pictures");
+const mimeDocumentTypes = require("../../../dictionaries/mime/documents");
+const mimeReportTypes = require("../../../dictionaries/mime/reports");
 
 const getBinarySize = (data) => Buffer.from(data, "base64").length;
 
 function isValidPictureMimeType(type) {
+  return isValidMimeType(mimeImageTypes, type);
+}
+
+function isValidMimeType(arrMimes, type) {
   if (!type || type === "") {
     return false;
   }
-  if (mimeImageTypes.find((mtype) => mtype.mimeName === type)) {
+  if (arrMimes.find((mtype) => mtype.mimeName === type)) {
     return true;
   }
   return false;
@@ -25,6 +31,38 @@ function isImageValid(picObject, maxSizekB) {
     isValidPictureMimeType(picObject?.mime_type) &&
     getBinarySize(picObject?.image) <= maxSizekB * 1024 &&
     base64Pattern.test(picObject?.image)
+  ) {
+    return true;
+  }
+  return false;
+}
+
+function isIBANValid(iban) {
+  return /^([A-Z]{2}[ \-]?[0-9]{2})(?=(?:[ \-]?[A-Z0-9]){9,30}$)((?:[ \-]?[A-Z0-9]{3,5}){2,7})([ \-]?[A-Z0-9]{1,3})?$/.test(
+    iban
+  );
+}
+
+function isIPNValid(ipn) {
+  return /^\d{8}(\d{2})?$/.test(ipn);
+}
+
+function isCurrencyValid(currency) {
+  return /^[A-Z]{3}?$/.test(currency);
+}
+
+function isDocumentValid(docObject, maxSize) {
+  return isFileValid(docObject, maxSize, mimeDocumentTypes);
+}
+
+function isReportValid(reportObject, maxSize) {
+  return isFileValid(reportObject, maxSize, mimeReportTypes);
+}
+
+function isFileValid(fileObject, maxSize, arrMimes) {
+  if (
+    isValidMimeType(arrMimes, fileObject?.mime) &&
+    getBinarySize(fileObject?.data) <= maxSize
   ) {
     return true;
   }
@@ -154,4 +192,9 @@ module.exports = {
   isPicturesArray,
   isEmailValid,
   isPhoneNumberValid,
+  isDocumentValid,
+  isReportValid,
+  isCurrencyValid,
+  isIBANValid,
+  isIPNValid,
 };
