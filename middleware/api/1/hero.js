@@ -18,7 +18,9 @@ const componentConfig = require("../../../config/api/v1/components");
 function isValidHero(req, res, next) {
   //console.log(req.method);
   try {
-    const { id, View, Title, Subtitle } = req.body;
+    const { View, Title, Subtitle } = req.body;
+
+    const id = req.body.id ? req.body.id : req.params.id;
 
     // check id
     const isId = isIdValid(id);
@@ -70,7 +72,7 @@ function isValidHero(req, res, next) {
     }
     next();
   } catch (err) {
-    return res.status(406).json({ message: "-Помилка валідації даних" });
+    return res.status(406).json({ message: "Помилка валідації даних" });
   }
 }
 

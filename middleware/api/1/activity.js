@@ -4,6 +4,7 @@
  */
 
 const {
+  isIdValid,
   isImageValid,
 } = require("../../../utils/helpers/api/simpleIssueValidator");
 const componentConfig = require("../../../config/api/v1/components");
@@ -16,12 +17,14 @@ function isValidActivity(req, res, next) {
   try {
     const { picture } = req.body;
 
+    const id = req.body.id ? req.body.id : req.params.id;
+
     // check id
     const isId = isIdValid(id);
     // check picture
     const isPicture = isImageValid(
-      View.picture,
-      componentConfig.hero.View.picture.maxSizeKb
+      picture,
+      componentConfig.activity.picture.maxSizeKb
     );
 
     if (req.method === "DELETE" || req.method === "GET") {
@@ -30,12 +33,12 @@ function isValidActivity(req, res, next) {
       }
     }
     if (req.method === "POST") {
-      if (!(isView && isTitle && isSubtitle)) {
+      if (!isPicture) {
         return res.status(406).json({ message: "Помилка валідації даних" });
       }
     }
     if (req.method === "PUT") {
-      if (!(isId && isView && isTitle && isSubtitle)) {
+      if (!(isId && isPicture)) {
         return res.status(406).json({ message: "Помилка валідації даних" });
       }
     }

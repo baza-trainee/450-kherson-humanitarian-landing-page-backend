@@ -15,7 +15,7 @@ const componentConfig = require("../../../config/api/v1/components");
 
 function isValidLogo(req, res, next) {
   try {
-    const { picture } = req.body;
+    const picture = req.body;
 
     const id = req.body.id ? req.body.id : req.params.id;
     // check id
@@ -44,8 +44,8 @@ function isValidLogo(req, res, next) {
     }
     next();
   } catch (err) {
-    console.log(err);
-    return res.status(406).json({ message: "-Помилка валідації даних" });
+    //console.log(err);
+    return res.status(406).json({ message: "Помилка валідації даних" });
   }
 }
 
