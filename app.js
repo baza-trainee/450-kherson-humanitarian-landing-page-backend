@@ -22,6 +22,9 @@
  *
  * SPDX-License-Identifier: MIT
  */
+// TODO: remove after production release
+const cors = require("cors");
+const corsOption = require("./utils/helpers/orders/cors/corsOption");
 
 var createError = require("http-errors");
 var express = require("express");
@@ -59,6 +62,8 @@ app.use(
     "/resources/documents/company",
     express.static(path.join(__dirname, "public/documents/company"))
 );
+// TODO: remove after production release
+app.use(cors(corsOption));
 
 //app.use('/', indexRouter);
 app.use("/auth", authRouter);
