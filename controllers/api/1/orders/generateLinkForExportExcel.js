@@ -13,7 +13,7 @@ const generateLinkForExportExcel = async (req, res) => {
 
         const existingOrder = await Order.findById(id);
         if (!existingOrder) {
-            throw HttpError(404, "Order not found");
+            throw HttpError(432, "Список не знайдений");
         }
 
         const encryptedOrderId = encryptOrderId(id);
@@ -26,7 +26,7 @@ const generateLinkForExportExcel = async (req, res) => {
         res.json({ downloadUrl });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).json({ error: "Помилка на боці сервера" });
     }
 };
 

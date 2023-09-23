@@ -13,7 +13,7 @@ const addOrder = async (req, res) => {
     // Check if the issueDate is in the past
     if (parsedIssueDate.isBefore(currentDate)) {
         return res
-            .status(400)
+            .status(406)
             .json({ message: "Дата не може бути в минулому" });
     }
 
@@ -24,7 +24,7 @@ const addOrder = async (req, res) => {
 
     if (existingOrder) {
         return res
-            .status(400)
+            .status(439)
             .json({ message: "Список з такою датою вже існує" });
     }
 

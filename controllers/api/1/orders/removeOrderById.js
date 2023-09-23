@@ -6,12 +6,12 @@ const removeOrderById = async (req, res) => {
     const existingOrder = await Order.findById(orderId);
 
     if (!existingOrder) {
-        throw HttpError(404, "Order not found");
+        throw HttpError(432, "Список не знайдено");
     }
 
     const result = await Order.findByIdAndDelete(orderId);
     if (!result) {
-        throw HttpError(404, "Order not found");
+        throw HttpError(432, "Список не знайдено");
     }
 
     res.json({
