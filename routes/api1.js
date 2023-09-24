@@ -62,7 +62,7 @@ router.get("/docs", swaggerUi.setup(swaggerDocument));
 // Hero routes
 router.post("/hero", hasValidTocken, isValidHero, controllerHero.createHero);
 router.get("/hero/:id", isValidHero, controllerHero.getHeroById);
-router.put("/hero/:id", hasValidTocken, isValidHero, controllerHero.updateHero);
+router.put("/hero", hasValidTocken, isValidHero, controllerHero.updateHero);
 router.delete(
   "/hero/:id",
   hasValidTocken,
