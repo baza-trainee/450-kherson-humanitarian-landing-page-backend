@@ -7,6 +7,7 @@ const {
   isIdValid,
   isImageValid,
 } = require("../../../utils/helpers/api/simpleIssueValidator");
+const appConfig = require("../../../config/app");
 const componentConfig = require("../../../config/api/v1/components");
 
 /**
@@ -24,7 +25,8 @@ function isValidActivity(req, res, next) {
     // check picture
     const isPicture = isImageValid(
       picture,
-      componentConfig.activity.picture.maxSizeKb
+      componentConfig.activity.picture.maxSizeKb,
+      appConfig.publicResources.pictures.directory
     );
 
     if (req.method === "DELETE" || req.method === "GET") {

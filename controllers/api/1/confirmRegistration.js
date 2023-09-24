@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023 Volodymyr Nerovnia
+ * SPDX-License-Identifier: MIT
+ */
+
 const getConfirmRegistration = async (req, res, next) => {
   try {
     res.status(501).json({ message: "Очікує на реалізацію" });

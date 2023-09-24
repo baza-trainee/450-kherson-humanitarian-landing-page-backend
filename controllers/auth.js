@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023 Volodymyr Nerovnia
+ * SPDX-License-Identifier: MIT
+ */
+
 const User = require("../models/auth/User");
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");

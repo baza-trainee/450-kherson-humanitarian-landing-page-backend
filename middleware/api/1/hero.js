@@ -9,6 +9,7 @@ const {
   isColorValid,
   isTextValid,
 } = require("../../../utils/helpers/api/simpleIssueValidator");
+const appConfig = require("../../../config/app");
 const componentConfig = require("../../../config/api/v1/components");
 
 /**
@@ -27,7 +28,12 @@ function isValidHero(req, res, next) {
     // check View
     const isView =
       View &&
-      isImageValid(View.picture, componentConfig.hero.View.picture.maxSizeKb) &&
+      isImageValid(
+        View.picture,
+        componentConfig.hero.View.picture.maxSizeKb,
+        appConfig.publicResources.pictures.directory,
+        appConfig.publicResources.pictures.route
+      ) &&
       isColorValid(View.bgColorStart) &&
       isColorValid(View.bgColorEnd);
 
@@ -72,7 +78,7 @@ function isValidHero(req, res, next) {
     }
     next();
   } catch (err) {
-    return res.status(406).json({ message: "Помилка валідації даних" });
+    return res.status(406).json({ message: "-Помилка валідації даних" });
   }
 }
 

@@ -7,6 +7,7 @@ const {
   isImageValid,
   isTextValid,
 } = require("../../../utils/helpers/api/simpleIssueValidator");
+const appConfig = require("../../../config/app");
 const componentConfig = require("../../../config/api/v1/components");
 
 /**
@@ -20,7 +21,8 @@ function isValidTeam(req, res, next) {
     // check picture
     const isPucture = isImageValid(
       picture,
-      componentConfig.team.picture.maxSizeKb
+      componentConfig.team.picture.maxSizeKb,
+      appConfig.publicResources.pictures.directory
     );
     // check title
     const isTitle = isTextValid(
