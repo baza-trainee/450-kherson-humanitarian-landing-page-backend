@@ -34,13 +34,14 @@ const config = require("./config/app");
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 var api1Router = require("./routes/api1");
+const appConfig = require("./config/app");
 
 const helmet = require("helmet");
 
 require("dotenv").config();
 
 var app = express();
-
+app.use(express.json({ limit: appConfig.JSONRequestSizeLimit }));
 app.use(helmet());
 app.disable("x-powered-by");
 
@@ -56,8 +57,16 @@ app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 //app.use("/resources", express.static(path.join(__dirname, "public")));
 app.use(
-  "/resources/documents/company",
-  express.static(path.join(__dirname, "public/documents/company"))
+  appConfig.publicResources.documents.route,
+  express.static(
+    path.join(__dirname, appConfig.publicResources.documents.directory)
+  )
+);
+app.use(
+  appConfig.publicResources.pictures.route,
+  express.static(
+    path.join(__dirname, appConfig.publicResources.pictures.directory)
+  )
 );
 
 //app.use('/', indexRouter);
