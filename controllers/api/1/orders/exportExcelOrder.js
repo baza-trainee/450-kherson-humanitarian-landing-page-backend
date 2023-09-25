@@ -10,7 +10,7 @@ const exportExcelOrder = async (req, res) => {
     try {
         const { orderId: encryptedOrderId } = req.params;
         const decryptedOrderId = await decryptOrderId(encryptedOrderId);
-
+        console.log(decryptedOrderId);
         const existingOrder = await Order.findById(decryptedOrderId);
         if (!existingOrder) {
             res.status(432).json({ error: "Список не знайдено" });
