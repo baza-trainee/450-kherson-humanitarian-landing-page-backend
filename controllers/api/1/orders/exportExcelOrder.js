@@ -1,18 +1,17 @@
 const ExcelJS = require("exceljs");
-const CryptoJS = require("crypto-js");
-const { Order } = require("../../../../models");
+const { Order, Token } = require("../../../../models");
 // const { HttpError } = require('../../../../utils/helpers');
-
-const { SECRET_KEY } = process.env;
-const secretKey = SECRET_KEY;
 
 const exportExcelOrder = async (req, res) => {
     try {
-        const { orderId: encryptedOrderId } = req.params;
-        const decryptedOrderId = await decryptOrderId(encryptedOrderId);
-        const id = decodeURIComponent(encryptedOrderId);
-        console.log(decryptedOrderId);
-        const existingOrder = await Order.findById(id);
+        const { orderId: token } = req.params;
+        console.log(token);
+        const tokenRecord = await Token.findOne({ token });
+        if (!tokenRecord) {
+            return res.status(432).json({ error: "Список не знайдено" });
+        }
+
+        const existingOrder = await Order.findById(tokenRecord.orderId);
         if (!existingOrder) {
             res.status(432).json({ error: "Список не знайдено" });
         }
@@ -103,6 +102,8 @@ const exportExcelOrder = async (req, res) => {
                 row.getCell(1).alignment = { horizontal: "left" };
             }
         });
+
+        await Token.deleteOne({ token });
         // Set response headers for Excel file download
         res.setHeader(
             "Content-Type",
@@ -122,14 +123,5 @@ const exportExcelOrder = async (req, res) => {
         res.status(500).json({ error: "Помилка на боці сервера" });
     }
 };
-async function decryptOrderId(encryptedOrderId) {
-    try {
-        const bytes = CryptoJS.AES.decrypt(encryptedOrderId, secretKey);
-        const originalText = bytes.toString(CryptoJS.enc.Utf8);
-        return originalText;
-    } catch (error) {
-        return null; // Decryption failed
-    }
-}
 
 module.exports = exportExcelOrder;
