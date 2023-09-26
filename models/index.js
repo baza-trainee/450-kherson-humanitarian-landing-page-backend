@@ -1,2 +1,3 @@
-const { Order } = require('./order/');
-module.exports = { Order };
+const { Order, Token } = require("./order");
+
+module.exports = { Order, Token };
