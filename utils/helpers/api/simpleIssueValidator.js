@@ -226,6 +226,7 @@ function isPicturesArray(arrPictures, maxSizekB, realPathToImage) {
 module.exports = {
   isIntegerValid,
   isImageValid,
+  isImageContentValid,
   isColorValid,
   isTextValid,
   isDateValid,
