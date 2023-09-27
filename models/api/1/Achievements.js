@@ -1,10 +1,10 @@
-const { Schema, model} = require('mongoose');
+const { Schema, model } = require("mongoose");
 
 const Achievements = new Schema({
   issuedHumanitarianKits: { type: Number },
   receivedHumanitarianAid: { type: Number },
   sumDonats: { type: Number },
-  infoAtDate: {type: Date | DateTime},
+  infoAtDate: { type: Date },
 });
 
-module.exports = model('Achievements', Achievements);
+module.exports = model("Achievements", Achievements);

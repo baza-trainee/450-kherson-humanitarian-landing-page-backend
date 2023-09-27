@@ -50,7 +50,7 @@ const updateFund = async (req, res, next) => {
         `${appConfig.publicResources.pictures.directory}${currentFund.picture.image}`
       );
     } else {
-      currentFund = new FundDBModel(fundToSave).save();
+      currentFund = await new FundDBModel(fundToSave).save();
       return res.status(200).json(currentFund);
     }
 
