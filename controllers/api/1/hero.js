@@ -10,7 +10,9 @@ const {
 } = require("../../../utils/helpers/api/imageProcessor");
 const appConfig = require("../../../config/app");
 
-const heroPrepareToRequest = (hero) => {
+const heroPrepareToRequest = (_hero) => {
+  const { _id, ...hero } = _hero;
+  hero.id = _id;
   hero.View.picture.image = `${appConfig.publicResources.pictures.directory}${hero.View.picture.image}`;
   return hero;
 };
@@ -50,8 +52,14 @@ const createHero = async (req, res, next) => {
 const getHeroById = async (req, res, next) => {
   try {
     const query = HeroDBModel.where({ _id: req.params.id });
-    const hero = heroPrepareToRequest({ ...(await query.findOne())._doc });
-    res.status(200).json(hero);
+    const hero = await query.findOne();
+    if (hero) {
+      const result = heroPrepareToRequest({ ...hero._doc });
+      return res.status(200).json(result);
+    }
+    return res.status(404).json({
+      message: "Ресурс не знайдено",
+    });
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
@@ -95,6 +103,10 @@ const updateHero = async (req, res, next) => {
         deletePicture(
           `${appConfig.publicResources.pictures.directory}${currentHero.View.picture.image}`
         );
+      } else {
+        return res.status(404).json({
+          message: "Ресурс не знайдено",
+        });
       }
 
       heroToSave.View.picture.image = await savePicture(
@@ -105,7 +117,7 @@ const updateHero = async (req, res, next) => {
     const result = await HeroDBModel.findByIdAndUpdate(hero.id, heroToSave, {
       returnDocument: "after",
     });
-    return res.status(200).json(result);
+    return res.status(200).json(heroPrepareToRequest(result._doc));
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
@@ -116,10 +128,15 @@ const deleteHero = async (req, res, next) => {
     const hero = await HeroDBModel.findOneAndRemove({
       _id: req.params.id,
     });
+    if (!hero) {
+      return res.status(404).json({
+        message: "Ресурс не знайдено",
+      });
+    }
     deletePicture(
       `${appConfig.publicResources.pictures.directory}${hero.View.picture.image}`
     );
-    res.status(200).json(hero);
+    res.status(200).json(heroPrepareToRequest(hero._doc));
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
