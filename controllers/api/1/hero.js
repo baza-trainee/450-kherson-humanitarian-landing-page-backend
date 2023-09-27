@@ -3,49 +3,12 @@
  * SPDX-License-Identifier: MIT
  */
 
-const { writeFile, unlink } = require("node:fs/promises");
-const { existsSync } = require("node:fs");
-const { Buffer } = require("node:buffer");
-const path = require("path");
-const mimeTypes = require("../../../dictionaries/mime/pictures");
 const HeroDBModel = require("../../../models/api/1/Hero");
-const ViewDBModel = require("../../../models/api/1/Hero/View");
-const TitleDBModel = require("../../../models/api/1/Hero/Title");
 const {
-  generateUniqueImageFileName,
+  savePicture,
+  deletePicture,
 } = require("../../../utils/helpers/api/imageProcessor");
 const appConfig = require("../../../config/app");
-
-const saveViewPicture = async (picture, mime) => {
-  const controller = new AbortController();
-  const { signal } = controller;
-
-  const picFileExtension = mimeTypes.find(
-    (type) => type.mimeName === mime
-  ).extension;
-  const buff = Buffer.from(picture, "base64");
-  const fileName = generateUniqueImageFileName(picFileExtension);
-  console.log(appConfig.publicResources.pictures.directory);
-  await writeFile(
-    path.join(appConfig.publicResources.pictures.directory, `${fileName}`),
-    buff,
-    {
-      signal,
-    }
-  );
-  return fileName;
-};
-
-const deleteViewPicture = async (picture) => {
-  if (existsSync(picture)) {
-    await unlink(picture, (err) => {
-      if (err) {
-        throw err;
-      }
-    });
-    return true;
-  }
-};
 
 const heroPrepareToRequest = (hero) => {
   hero.View.picture.image = `${appConfig.publicResources.pictures.directory}${hero.View.picture.image}`;
@@ -72,7 +35,7 @@ const saveToDB = async (picture, hero) => {
 const createHero = async (req, res, next) => {
   try {
     const hero = req.body;
-    const picture = await saveViewPicture(
+    const picture = await savePicture(
       hero.View.picture.image,
       hero.View.picture.mime_type
     );
@@ -80,7 +43,6 @@ const createHero = async (req, res, next) => {
       .status(200)
       .json(heroPrepareToRequest({ ...(await saveToDB(picture, hero))._doc }));
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
@@ -91,7 +53,6 @@ const getHeroById = async (req, res, next) => {
     const hero = heroPrepareToRequest({ ...(await query.findOne())._doc });
     res.status(200).json(hero);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
@@ -103,7 +64,6 @@ const getHeroes = async (req, res, next) => {
     const result = heroes.map((hero) => heroPrepareToRequest({ ...hero._doc }));
     res.status(200).json(result);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
@@ -132,12 +92,12 @@ const updateHero = async (req, res, next) => {
       const query = HeroDBModel.where({ _id: req.body.id });
       const currentHero = await query.findOne();
       if (currentHero) {
-        deleteViewPicture(
+        deletePicture(
           `${appConfig.publicResources.pictures.directory}${currentHero.View.picture.image}`
         );
       }
 
-      heroToSave.View.picture.image = await saveViewPicture(
+      heroToSave.View.picture.image = await savePicture(
         hero.View.picture.image,
         hero.View.picture.mime_type
       );
@@ -147,7 +107,6 @@ const updateHero = async (req, res, next) => {
     });
     return res.status(200).json(result);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
@@ -157,7 +116,7 @@ const deleteHero = async (req, res, next) => {
     const hero = await HeroDBModel.findOneAndRemove({
       _id: req.params.id,
     });
-    deleteViewPicture(
+    deletePicture(
       `${appConfig.publicResources.pictures.directory}${hero.View.picture.image}`
     );
     res.status(200).json(hero);
