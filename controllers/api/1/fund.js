@@ -10,12 +10,6 @@ const {
 } = require("../../../utils/helpers/api/imageProcessor");
 const appConfig = require("../../../config/app");
 
-/*
-const fundPrepareToRequest = (fund) => {
-  fund.picture.image = `${appConfig.publicResources.pictures.directory}${fund.picture.image}`;
-  return fund;
-};
-*/
 const getFund = async (req, res, next) => {
   try {
     const query = (await FundDBModel.findOne({}).exec()) ?? {
@@ -24,6 +18,9 @@ const getFund = async (req, res, next) => {
         image: "",
       },
     };
+    if (query.picture.image !== "") {
+      query.picture.image = `${appConfig.publicResources.pictures.directory}${query.picture.image}`;
+    }
     res.status(200).json(query);
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
@@ -58,8 +55,6 @@ const updateFund = async (req, res, next) => {
       return res.status(200).json(currentFund);
     }
 
-    fundToSave.picture.image = `${appConfig.publicResources.pictures.directory}${fund.picture.image}`;
-    //console.log(currentFund._id);
     const result = await FundDBModel.findByIdAndUpdate(
       currentFund._id,
       fundToSave,
@@ -70,7 +65,6 @@ const updateFund = async (req, res, next) => {
 
     res.status(200).json(result);
   } catch (err) {
-    //console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
