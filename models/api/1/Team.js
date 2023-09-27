@@ -1,4 +1,5 @@
-const { Schema, model} = require('mongoose');
+const { Schema, model } = require("mongoose");
+const Picture = require("./Common/Picture");
 
 const Team = new Schema({
   picture: Picture,
@@ -6,4 +7,4 @@ const Team = new Schema({
   text: { type: String, required: true },
 });
 
-module.exports = model('Team', Team);
+module.exports = model("Team", Team);
