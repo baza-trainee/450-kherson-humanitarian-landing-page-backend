@@ -128,6 +128,7 @@ const deleteHero = async (req, res, next) => {
     const hero = await HeroDBModel.findOneAndRemove({
       _id: req.params.id,
     });
+
     if (!hero) {
       return res.status(404).json({
         message: "Ресурс не знайдено",
