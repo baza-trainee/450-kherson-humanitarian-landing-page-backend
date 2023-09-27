@@ -192,7 +192,7 @@ router.put(
   controllerActivities.updateActivity
 );
 router.delete(
-  "/activity",
+  "/activity/:id",
   hasValidTocken,
   isValidActivity,
   controllerActivities.deleteActivity
