@@ -14,7 +14,8 @@ const getAchievements = async (req, res, next) => {
       infoAtDate: "",
     };
 
-    res.status(501).json(query);
+    const { _id, __v, ...clearResult } = query._doc;
+    res.status(501).json(clearResult);
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
@@ -47,9 +48,9 @@ const updateAchievements = async (req, res, next) => {
       }
     );
 
-    res.status(200).json(result);
+    const { _id, __v, ...clearResult } = result._doc;
+    res.status(200).json(clearResult);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
