@@ -13,17 +13,20 @@ const appConfig = require("../../../config/app");
 const getFund = async (req, res, next) => {
   try {
     const query = (await FundDBModel.findOne({}).exec()) ?? {
-      picture: {
-        mime_type: "",
-        image: "",
+      _doc: {
+        picture: {
+          mime_type: "",
+          image: "",
+        },
       },
     };
-    if (query.picture.image !== "") {
-      query.picture.image = `${appConfig.publicResources.pictures.directory}${query.picture.image}`;
-    }
     const { _id, __v, ...result } = query._doc;
+    if (result.picture.image !== "") {
+      result.picture.image = `${appConfig.publicResources.pictures.directory}${result.picture.image}`;
+    }
     res.status(200).json(result);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
@@ -52,7 +55,8 @@ const updateFund = async (req, res, next) => {
       );
     } else {
       currentFund = await new FundDBModel(fundToSave).save();
-      return res.status(200).json(currentFund);
+      const { _id, __v, ...clearResult } = currentFund._doc;
+      return res.status(200).json(clearResult);
     }
 
     const result = await FundDBModel.findByIdAndUpdate(
