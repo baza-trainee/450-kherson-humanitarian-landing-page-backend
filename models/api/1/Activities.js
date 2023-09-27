@@ -1,8 +1,8 @@
-const { Schema, model} = require('mongoose');
-const Picture = require('./Common/Picture');
+const { Schema, model } = require("mongoose");
+const Picture = require("./Common/Picture");
 
 const Activities = new Schema({
-  path: Picture
+  picture: Picture,
 });
 
-module.exports = model('Activities', Activities);
+module.exports = model("Activities", Activities);
