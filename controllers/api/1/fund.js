@@ -21,7 +21,8 @@ const getFund = async (req, res, next) => {
     if (query.picture.image !== "") {
       query.picture.image = `${appConfig.publicResources.pictures.directory}${query.picture.image}`;
     }
-    res.status(200).json(query);
+    const { _id, __v, ...result } = query._doc;
+    res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
@@ -62,7 +63,8 @@ const updateFund = async (req, res, next) => {
       }
     );
 
-    res.status(200).json(result);
+    const { _id, __v, ...clearResult } = result._doc;
+    res.status(200).json(clearResult);
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
