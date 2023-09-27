@@ -39,7 +39,6 @@ const updateFund = async (req, res, next) => {
 
     // Delete picture on disk
     let currentFund = await FundDBModel.findOne({}).exec();
-    console.log(currentFund);
 
     fundToSave.picture.image = await savePicture(
       fund.picture.image,
