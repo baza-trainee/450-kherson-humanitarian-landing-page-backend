@@ -19,11 +19,12 @@ function isValidTeam(req, res, next) {
     const { picture, title, text } = req.body;
 
     // check picture
-    const isPucture = isImageValid(
+    const isPicture = isImageValid(
       picture,
       componentConfig.team.picture.maxSizeKb,
       appConfig.publicResources.pictures.directory
     );
+
     // check title
     const isTitle = isTextValid(
       title,
@@ -38,7 +39,7 @@ function isValidTeam(req, res, next) {
     );
 
     if (req.method === "PUT") {
-      if (!(isPucture && isTitle && isText)) {
+      if (!(isPicture && isTitle && isText)) {
         return res.status(406).json({ message: "Помилка валідації даних" });
       }
     }
