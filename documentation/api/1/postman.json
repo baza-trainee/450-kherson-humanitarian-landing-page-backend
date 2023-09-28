@@ -776,7 +776,7 @@
 													"variable": [
 														{
 															"key": "id",
-															"value": "650cb5d8a78021db5e42bb4e"
+															"value": "6515d693f442670da48d0e19"
 														}
 													]
 												}
@@ -805,7 +805,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -820,7 +821,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"id\": \"<uuid>\",\n  \"View\": {\n    \"picture\": {\n      \"id\": \"<uuid>\",\n      \"path\": \"<string>\",\n      \"image_data\": \"deserunt aliquip veniam dolor\",\n      \"mime_type\": -24837661\n    },\n    \"bgColorStart\": \"<string>\",\n    \"bgColorEnd\": \"<string>\"\n  },\n  \"Title\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  },\n  \"Subtitle\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  }\n}"
+													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695930003812-fb6205d9.png\",\n            \"_id\": \"6515d693f442670da48d0e1b\"\n        },\n        \"bgColorStart\": \"#ff0000\",\n        \"bgColorMiddle\": \"#ff0000\",\n        \"bgColorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1a\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1c\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1d\"\n    },\n    \"__v\": 0,\n    \"id\": \"6515d693f442670da48d0e19\"\n}"
 												},
 												{
 													"name": "Ресурс відсутній",
@@ -845,7 +846,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": "sdfjgh"
 																}
 															]
 														}
@@ -860,7 +862,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
+													"body": "{\n    \"message\": \"Ресурс не знайдено\"\n}"
 												}
 											]
 										},
@@ -943,7 +945,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -958,7 +961,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"id\": \"<uuid>\",\n  \"View\": {\n    \"picture\": {\n      \"id\": \"<uuid>\",\n      \"path\": \"<string>\",\n      \"image_data\": \"deserunt aliquip veniam dolor\",\n      \"mime_type\": -24837661\n    },\n    \"bgColorStart\": \"<string>\",\n    \"bgColorEnd\": \"<string>\"\n  },\n  \"Title\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  },\n  \"Subtitle\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  }\n}"
+													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695930003812-fb6205d9.png\",\n            \"_id\": \"6515d693f442670da48d0e1b\"\n        },\n        \"bgColorStart\": \"#ff0000\",\n        \"bgColorMiddle\": \"#ff0000\",\n        \"bgColorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1a\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1c\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1d\"\n    },\n    \"__v\": 0,\n    \"id\": \"6515d693f442670da48d0e19\"\n}"
 												},
 												{
 													"name": "Ресурс не знайдено",
@@ -1002,7 +1005,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -1017,7 +1021,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Ресурс не знайдено\"\n}"
 												},
 												{
 													"name": "Помилка валідації даних",
@@ -1120,7 +1124,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -1135,7 +1140,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 												}
 											]
 										},
@@ -1218,7 +1223,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -1233,7 +1239,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"id\": \"<uuid>\",\n  \"View\": {\n    \"picture\": {\n      \"id\": \"<uuid>\",\n      \"path\": \"<string>\",\n      \"image_data\": \"deserunt aliquip veniam dolor\",\n      \"mime_type\": -24837661\n    },\n    \"bgColorStart\": \"<string>\",\n    \"bgColorEnd\": \"<string>\"\n  },\n  \"Title\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  },\n  \"Subtitle\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  }\n}"
+													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695930003812-fb6205d9.png\",\n            \"_id\": \"6515d693f442670da48d0e1b\"\n        },\n        \"bgColorStart\": \"#ff0000\",\n        \"bgColorMiddle\": \"#ff0000\",\n        \"bgColorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1a\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1c\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1d\"\n    },\n    \"__v\": 0,\n    \"id\": \"6515d693f442670da48d0e19\"\n}"
 												},
 												{
 													"name": "Ресурс не знайдено",
@@ -1277,7 +1283,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -1292,7 +1299,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Ресурс не знайдено\"\n}"
 												},
 												{
 													"name": "Помилка валідації даних",
@@ -1395,7 +1402,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -1410,7 +1418,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 												}
 											]
 										},
@@ -1472,7 +1480,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -1487,7 +1496,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695930003812-fb6205d9.png\",\n            \"_id\": \"6515d693f442670da48d0e1b\"\n        },\n        \"bgColorStart\": \"#ff0000\",\n        \"bgColorMiddle\": \"#ff0000\",\n        \"bgColorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1a\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1c\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1d\"\n    },\n    \"__v\": 0,\n    \"id\": \"6515d693f442670da48d0e19\"\n}"
 												},
 												{
 													"name": "Ресурс не знайдено",
@@ -1562,7 +1571,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -1577,7 +1587,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 												}
 											]
 										}
@@ -1671,60 +1681,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"id\": \"<uuid>\",\n  \"View\": {\n    \"picture\": {\n      \"id\": \"<uuid>\",\n      \"path\": \"<string>\",\n      \"image_data\": \"deserunt aliquip veniam dolor\",\n      \"mime_type\": -24837661\n    },\n    \"bgColorStart\": \"<string>\",\n    \"bgColorEnd\": \"<string>\"\n  },\n  \"Title\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  },\n  \"Subtitle\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  }\n}"
-										},
-										{
-											"name": "Ресурс відсутній",
-											"originalRequest": {
-												"method": "POST",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"description": "Added as a part of security scheme: bearer",
-														"key": "Authorization",
-														"value": "Bearer <token>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"id\": \"<uuid>\",\n  \"View\": {\n    \"picture\": {\n      \"image_data\": \"<string>\",\n      \"mime_type\": \"<string>\",\n      \"image\": \"<string>\",\n      \"id\": \"<uuid>\"\n    },\n    \"bgColorStart\": \"<string>\",\n    \"bgColorEnd\": \"<string>\"\n  },\n  \"Title\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  },\n  \"Subtitle\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  }\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/hero",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"hero"
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
+											"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695930003812-fb6205d9.png\",\n            \"_id\": \"6515d693f442670da48d0e1b\"\n        },\n        \"bgColorStart\": \"#ff0000\",\n        \"bgColorMiddle\": \"#ff0000\",\n        \"bgColorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1a\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1c\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1d\"\n    },\n    \"__v\": 0,\n    \"id\": \"6515d693f442670da48d0e19\"\n}"
 										},
 										{
 											"name": "Помилка валідації даних",
@@ -1747,7 +1704,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"id\": \"<uuid>\",\n  \"View\": {\n    \"picture\": {\n      \"image_data\": \"<string>\",\n      \"mime_type\": \"<string>\",\n      \"image\": \"<string>\",\n      \"id\": \"<uuid>\"\n    },\n    \"bgColorStart\": \"<string>\",\n    \"bgColorEnd\": \"<string>\"\n  },\n  \"Title\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  },\n  \"Subtitle\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  }\n}",
+													"raw": "{\n  \"View\": {\n    \"picture\": {\n      \"mime_type\": \"image/pnga\",\n      \"image\": \"/9j/4AAQSkZJRgABAQEAAAAAAAD/4QBCRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAkAAAAMAAAABAJcAAEABAAEAAAABAAAAAAAAAAAAAP/bAEMAUDc8RjwyUEZBRlpVUF94yIJ4bm549a+5kcj////////////////////////////////////////////////////bAEMBVVpaeGl464KC6//////////////////////////////////////////////////////////////////////////AABEIANUBQAMBIgACEQEDEQH/xAAZAAEBAQEBAQAAAAAAAAAAAAABAAIDBAX/xAAqEAEBAAICAgIBBAEEAwAAAAAAAQIRITEDQRJRYQQiMnGBFEKRoRMjM//EABcBAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/AHQ00HJGbGbG2aoydIxQaFbYpBiqKqKrUakZjcRDjHSMR0gJmxpUVhzzdK55gw3iw1itHSLYlTCK1mkWAzRTYKoKy1WWhJIACFVNRkwR0jUYjUYo0EAKSEdggiqs00VQNRkwDWMm2KQYqhMjSmNQRqMoY3Kw1EDsWq1i1Q2ueVNrNVQYDitG4VCwg0K0KDFZrdZqjNUwuV4jcxtvD1+LCTHrTUHnx/TWzub+lf0uWrzN+nr0ouK8f+kyuPfLGP6fK27mtXT6CB8zLx5S3WN1v6Z1q6r6jl5PBjnz1RHjjUWWFwy1f+TGaJHQQRBBsEVAUGhoDcYjcSiYybrGRBkwGNDcajEbiUKRZGazW6xkQZoNDUUUxKKNxpiNMoQhtAVrDxXK/g+PD55fh6prGNSDOHjxxnDSnIrSlMkChtbUKZ2tiDyYTLHTy2fG6r2OPmx43EsHEVbVZAtqsg9Aq2zagqybQoY0ydgrWLTazSCMEMUajcZjUSjUIhZAzY2zQc7GW6y1FCka0dFRQhIIEA9PgmsN/bWV1Nufhzlnx+nXJpVj1sW6PrhjObFcs/1GM3MZbpvxZ/PHby5eLPepzHr8GNx8erzVDadq48xXiW/Qg2v6eW/qMvlua09GGcyx3FR0lXcZvSxvAOPlw1zHJ68pMo8mXFsZsAFsA6fJbZCDW1AYodrYQK0HS0Ky1BoyCNRuMRqINHbKQa2KEgzRGrFI1BaWikGaGqzoEDoaBS6u47Y+TLLKf9uOnXw7uU+lHoWjBVaWodxn08nn8uXzuOuJ7Ue3bGePyndjyeLzX5Sbr2b2qPF/p8vl+HXH9mpOo7WcOdxQby/jKsehZvCfgY3hUb28vlsud035c7brG/25aSjKOhpAlFBSHShQGjooBpaaWjRnS03paNGdHRJoEUgDpEBpaKNAigZ0tNLQjGlprS0Kxp08P8uIzprG3G8KPQxllozLeG2Ly1WoMspjNvL5ZMsty9vV8Y45YS+kgz4MJMt5WV6fk89w106Y3ifhrUdt8MXimXhSbqoznlcZw4Xdu3by9SOembRnQ01paQZ0NN6GgZIIEgoGFmNQEQUEUgSSBJERJIEkQSRAIgAiBUCAaxt265Y8OE7ejfEaixzrFrplqsXDXIrEMnJ45550ceuY1IjUmmpedPPl5bzI6eCW/uv+FReWWXbm9GePyxcLNViwAKQAKBzIaUBgMQMajLUQJZ2QaQIJJCBFAkkBSQFBAQkCCQIECt+ObydKvHjJjsZXWV31puLGYL7PynUcs/LMZdCrPKY8/wCHO+TLOzGcMT5eXOT3Xqwwxw6nP37aRnxeLVvyd5NCEQuPlx526qyWapZo8wdM8Pj0wxgEkg5w7CiiMBiDUQIGEQxAxqMxr0CQl2QSSBJICNoCNbQiBJIEERQQ1hzlAdsJrFw/VbmOXestf9PT6ZslmrNx0V4sP/lnd9Tjljm3mber/wAGEl705Xwa5xuvwDp4fHMMbe8q6ZTbyXyeTxXmN4/qpv8AdP8AhR6J0WfH5MfJP23prYhQlIK8xyzw+nVFg8qds8Ppxs5YwczBCBkUEvDUQKgPtAwiLYE7ZtMoKUys+6gaUoQNIbQNQKVWgjWdnYJEUEKpVQTXjusmGsP5xR6KyazttUgrfpBanP053w+Oz+MdOxrtQY444TWMkbjnNyuk6VFpL0FCWSBc/JhucRsoPB01Wb21vif0wJqdM8WGWya/PaBV7U62ryB9FmZKcAbwRe1LyB9oXe/qqcewJnQy46WuAKXcVmgS2DeoBCxu6r/LgD0rRvgbQO+FsbSib8f8oxG8L+6A71i9t3pzvbSq1SsXtfL7oN7k9q1yltyjfy9Aeq1NsS8/lqZRqI0zWts5dKKUysbMoNQsymA8LfUjN7PbmGdW7/wf9v8AbM4vN4WINS6Q+x7A+mpyxN975bnEQWtS1S60r/HS6v8AYHui9jG92m80GvVUZ21O9gt8ngSyje7x0BvZvMov/alAzUu/s32zPr6NvG/8Atcfgdzal5rMv7ZPwDV5UH9rYNT6WF6ZgnAPXLuM5csfOSxn5fyjStWe2MtyjO28zpm25e0DLflq+jhl+6xz3ZdrGX5bUerCezIxhd5/4Od+PKwPfTncv3VvG9/Vcsr+66iodtS64c92H1sR1MrnLcuuJ9tS+u1Hk9mdUWqMKf8AaZQKgZd3aEaUagyo3wrzpBr0L1BWpOIA6tql47GRgH01Ld3bB2gcP50y6lGHFtXoFvZZw/l+IbsDL7U6XoXoDB6XoXiAcr+1TqC9aUoHYHuqX0DWV3qtfbmce6Bvexu64NU6UHU5UvpWelIgrbJde9O293LG9a4rnZx/fJl/dwsGpf8A137jHMyq+Vg+W8r+YuhuUutfZtYksnKlt2ujrjlL/hb1nw5y66W/cNRxpSRVezekgUKQBrSSCqvSQM0xIEfaQNTqhJBrH2qkBnTnlb8tJEG+sWbzUgVVSAQJA1IUlBez7SAe0kgb0klFeoOrtIGrOIxpIFi1OEgf/9k=\"\n    },\n    \"bgColorStart\": \"#ff0000\",\n    \"bgColorMiddle\": \"#ff0000\",\n    \"bgColorEnd\": \"#ff0000\"\n  },\n  \"Title\": {\n    \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n    \"colorStart\": \"#ff0000\",\n    \"colorMiddle\": \"#ff0000\",\n    \"colorEnd\": \"#ff0000\"\n  },\n  \"Subtitle\": {\n    \"text\": \"м. Кривий Ріг\",\n    \"colorStart\": \"#ff0000\",\n    \"colorMiddle\": \"#ff0000\",\n    \"colorEnd\": \"#ff0000\"\n  }\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -1777,7 +1734,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -1800,7 +1757,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"id\": \"<uuid>\",\n  \"View\": {\n    \"picture\": {\n      \"image_data\": \"<string>\",\n      \"mime_type\": \"<string>\",\n      \"image\": \"<string>\",\n      \"id\": \"<uuid>\"\n    },\n    \"bgColorStart\": \"<string>\",\n    \"bgColorEnd\": \"<string>\"\n  },\n  \"Title\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  },\n  \"Subtitle\": {\n    \"text\": \"<string>\",\n    \"colorStart\": \"<string>\",\n    \"colorMiddle\": \"<string>\",\n    \"colorEnd\": \"<string>\"\n  }\n}",
+													"raw": "{\n  \"View\": {\n    \"picture\": {\n      \"mime_type\": \"image/png1\",\n      \"image\": \"/9j/4AAQSkZJRgABAQEAAAAAAAD/4QBCRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAkAAAAMAAAABAJcAAEABAAEAAAABAAAAAAAAAAAAAP/bAEMAUDc8RjwyUEZBRlpVUF94yIJ4bm549a+5kcj////////////////////////////////////////////////////bAEMBVVpaeGl464KC6//////////////////////////////////////////////////////////////////////////AABEIANUBQAMBIgACEQEDEQH/xAAZAAEBAQEBAQAAAAAAAAAAAAABAAIDBAX/xAAqEAEBAAICAgIBBAEEAwAAAAAAAQIRITEDQRJRYQQiMnGBFEKRoRMjM//EABcBAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/AHQ00HJGbGbG2aoydIxQaFbYpBiqKqKrUakZjcRDjHSMR0gJmxpUVhzzdK55gw3iw1itHSLYlTCK1mkWAzRTYKoKy1WWhJIACFVNRkwR0jUYjUYo0EAKSEdggiqs00VQNRkwDWMm2KQYqhMjSmNQRqMoY3Kw1EDsWq1i1Q2ueVNrNVQYDitG4VCwg0K0KDFZrdZqjNUwuV4jcxtvD1+LCTHrTUHnx/TWzub+lf0uWrzN+nr0ouK8f+kyuPfLGP6fK27mtXT6CB8zLx5S3WN1v6Z1q6r6jl5PBjnz1RHjjUWWFwy1f+TGaJHQQRBBsEVAUGhoDcYjcSiYybrGRBkwGNDcajEbiUKRZGazW6xkQZoNDUUUxKKNxpiNMoQhtAVrDxXK/g+PD55fh6prGNSDOHjxxnDSnIrSlMkChtbUKZ2tiDyYTLHTy2fG6r2OPmx43EsHEVbVZAtqsg9Aq2zagqybQoY0ydgrWLTazSCMEMUajcZjUSjUIhZAzY2zQc7GW6y1FCka0dFRQhIIEA9PgmsN/bWV1Nufhzlnx+nXJpVj1sW6PrhjObFcs/1GM3MZbpvxZ/PHby5eLPepzHr8GNx8erzVDadq48xXiW/Qg2v6eW/qMvlua09GGcyx3FR0lXcZvSxvAOPlw1zHJ68pMo8mXFsZsAFsA6fJbZCDW1AYodrYQK0HS0Ky1BoyCNRuMRqINHbKQa2KEgzRGrFI1BaWikGaGqzoEDoaBS6u47Y+TLLKf9uOnXw7uU+lHoWjBVaWodxn08nn8uXzuOuJ7Ue3bGePyndjyeLzX5Sbr2b2qPF/p8vl+HXH9mpOo7WcOdxQby/jKsehZvCfgY3hUb28vlsud035c7brG/25aSjKOhpAlFBSHShQGjooBpaaWjRnS03paNGdHRJoEUgDpEBpaKNAigZ0tNLQjGlprS0Kxp08P8uIzprG3G8KPQxllozLeG2Ly1WoMspjNvL5ZMsty9vV8Y45YS+kgz4MJMt5WV6fk89w106Y3ifhrUdt8MXimXhSbqoznlcZw4Xdu3by9SOembRnQ01paQZ0NN6GgZIIEgoGFmNQEQUEUgSSBJERJIEkQSRAIgAiBUCAaxt265Y8OE7ejfEaixzrFrplqsXDXIrEMnJ45550ceuY1IjUmmpedPPl5bzI6eCW/uv+FReWWXbm9GePyxcLNViwAKQAKBzIaUBgMQMajLUQJZ2QaQIJJCBFAkkBSQFBAQkCCQIECt+ObydKvHjJjsZXWV31puLGYL7PynUcs/LMZdCrPKY8/wCHO+TLOzGcMT5eXOT3Xqwwxw6nP37aRnxeLVvyd5NCEQuPlx526qyWapZo8wdM8Pj0wxgEkg5w7CiiMBiDUQIGEQxAxqMxr0CQl2QSSBJICNoCNbQiBJIEERQQ1hzlAdsJrFw/VbmOXestf9PT6ZslmrNx0V4sP/lnd9Tjljm3mber/wAGEl705Xwa5xuvwDp4fHMMbe8q6ZTbyXyeTxXmN4/qpv8AdP8AhR6J0WfH5MfJP23prYhQlIK8xyzw+nVFg8qds8Ppxs5YwczBCBkUEvDUQKgPtAwiLYE7ZtMoKUys+6gaUoQNIbQNQKVWgjWdnYJEUEKpVQTXjusmGsP5xR6KyazttUgrfpBanP053w+Oz+MdOxrtQY444TWMkbjnNyuk6VFpL0FCWSBc/JhucRsoPB01Wb21vif0wJqdM8WGWya/PaBV7U62ryB9FmZKcAbwRe1LyB9oXe/qqcewJnQy46WuAKXcVmgS2DeoBCxu6r/LgD0rRvgbQO+FsbSib8f8oxG8L+6A71i9t3pzvbSq1SsXtfL7oN7k9q1yltyjfy9Aeq1NsS8/lqZRqI0zWts5dKKUysbMoNQsymA8LfUjN7PbmGdW7/wf9v8AbM4vN4WINS6Q+x7A+mpyxN975bnEQWtS1S60r/HS6v8AYHui9jG92m80GvVUZ21O9gt8ngSyje7x0BvZvMov/alAzUu/s32zPr6NvG/8Atcfgdzal5rMv7ZPwDV5UH9rYNT6WF6ZgnAPXLuM5csfOSxn5fyjStWe2MtyjO28zpm25e0DLflq+jhl+6xz3ZdrGX5bUerCezIxhd5/4Od+PKwPfTncv3VvG9/Vcsr+66iodtS64c92H1sR1MrnLcuuJ9tS+u1Hk9mdUWqMKf8AaZQKgZd3aEaUagyo3wrzpBr0L1BWpOIA6tql47GRgH01Ld3bB2gcP50y6lGHFtXoFvZZw/l+IbsDL7U6XoXoDB6XoXiAcr+1TqC9aUoHYHuqX0DWV3qtfbmce6Bvexu64NU6UHU5UvpWelIgrbJde9O293LG9a4rnZx/fJl/dwsGpf8A137jHMyq+Vg+W8r+YuhuUutfZtYksnKlt2ujrjlL/hb1nw5y66W/cNRxpSRVezekgUKQBrSSCqvSQM0xIEfaQNTqhJBrH2qkBnTnlb8tJEG+sWbzUgVVSAQJA1IUlBez7SAe0kgb0klFeoOrtIGrOIxpIFi1OEgf/9k=\"\n    },\n    \"bgColorStart\": \"#ff0000\",\n    \"bgColorMiddle\": \"#ff0000\",\n    \"bgColorEnd\": \"#ff0000\"\n  },\n  \"Title\": {\n    \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n    \"colorStart\": \"#ff0000\",\n    \"colorMiddle\": \"#ff0000\",\n    \"colorEnd\": \"#ff0000\"\n  },\n  \"Subtitle\": {\n    \"text\": \"м. Кривий Ріг\",\n    \"colorStart\": \"#ff0000\",\n    \"colorMiddle\": \"#ff0000\",\n    \"colorEnd\": \"#ff0000\"\n  }\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -1830,7 +1787,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -1894,75 +1851,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "[\n  {\n    \"id\": \"<uuid>\",\n    \"View\": {\n      \"picture\": {\n        \"id\": \"<uuid>\",\n        \"path\": \"<string>\",\n        \"image_data\": 39077110.71563643,\n        \"mime_type\": true\n      },\n      \"bgColorStart\": \"<string>\",\n      \"bgColorEnd\": \"<string>\"\n    },\n    \"Title\": {\n      \"text\": \"<string>\",\n      \"colorStart\": \"<string>\",\n      \"colorMiddle\": \"<string>\",\n      \"colorEnd\": \"<string>\"\n    },\n    \"Subtitle\": {\n      \"text\": \"<string>\",\n      \"colorStart\": \"<string>\",\n      \"colorMiddle\": \"<string>\",\n      \"colorEnd\": \"<string>\"\n    }\n  },\n  {\n    \"id\": \"<uuid>\",\n    \"View\": {\n      \"picture\": {\n        \"id\": \"<uuid>\",\n        \"path\": \"<string>\",\n        \"image_data\": false,\n        \"mime_type\": \"eu Ut tempor\"\n      },\n      \"bgColorStart\": \"<string>\",\n      \"bgColorEnd\": \"<string>\"\n    },\n    \"Title\": {\n      \"text\": \"<string>\",\n      \"colorStart\": \"<string>\",\n      \"colorMiddle\": \"<string>\",\n      \"colorEnd\": \"<string>\"\n    },\n    \"Subtitle\": {\n      \"text\": \"<string>\",\n      \"colorStart\": \"<string>\",\n      \"colorMiddle\": \"<string>\",\n      \"colorEnd\": \"<string>\"\n    }\n  }\n]"
-										},
-										{
-											"name": "Невірний запит",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Accept",
-														"value": "application/json"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/heroes",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"heroes"
-													]
-												}
-											},
-											"status": "Bad Request",
-											"code": 400,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
-										},
-										{
-											"name": "Ресурс відсутній",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Accept",
-														"value": "application/json"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/heroes",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"heroes"
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
+											"body": "[\n    {\n        \"View\": {\n            \"picture\": {\n                \"mime_type\": \"text/plain\",\n                \"image\": \"/resources/pictures1695930003812-fb6205d9.png\",\n                \"_id\": \"6515d693f442670da48d0e1b\"\n            },\n            \"bgColorStart\": \"#ff0000\",\n            \"bgColorMiddle\": \"#ff0000\",\n            \"bgColorEnd\": \"#ff0000\",\n            \"_id\": \"6515d693f442670da48d0e1a\"\n        },\n        \"Title\": {\n            \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n            \"colorStart\": \"#ff0000\",\n            \"colorMiddle\": \"#ff0000\",\n            \"colorEnd\": \"#ff0000\",\n            \"_id\": \"6515d693f442670da48d0e1c\"\n        },\n        \"Subtitle\": {\n            \"text\": \"м. Кривий Ріг\",\n            \"colorStart\": \"#ff0000\",\n            \"colorMiddle\": \"#ff0000\",\n            \"colorEnd\": \"#ff0000\",\n            \"_id\": \"6515d693f442670da48d0e1d\"\n        },\n        \"__v\": 0,\n        \"id\": \"6515d693f442670da48d0e19\"\n    }\n]"
 										}
 									]
 								}
@@ -2931,7 +2820,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"picture\": {\n    \"mime_type\": \"text/plain\",\n    \"image\": \"public/pictures/1695910107406-3f73fe0b.jpg\"\n  },\n  \"title\": \"наша командаio\",\n  \"text\": \"Голова правління – Польовий Ростислав Олексійович. Співзасновник організації – Кулакевич Олександр Ігорович. Проект-менеджер (напрямок відбудови) – Хромих Артем Валерійович. Проект-менеджер (гуманітарний напрямок) – Кулакевич Катерина Сергіївна.\"\n}",
+											"raw": "{\n  \"picture\": {\n    \"mime_type\": \"text/plain\",\n    \"image\": \"/resources/pictures/1695918971686-03814bd6.jpg\"\n\n  },\n  \"title\": \"наша команда\",\n  \"text\": \"Голова правління – Польовий Ростислав Олексійович. Співзасновник організації – Кулакевич Олександр Ігорович. Проект-менеджер (напрямок відбудови) – Хромих Артем Валерійович. Проект-менеджер (гуманітарний напрямок) – Кулакевич Катерина Сергіївна.\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -3280,7 +3169,258 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"picture\": {\n    \"image_data\": \"base64_encoded_image_data_here\",\n    \"mime_type\": \"image/jpeg\",\n    \"image\": \"data:image/png;base64,iVBORw0KGg\"\n  },\n  \"title\": \"Історія заснування\",\n  \"text\": \"Громадська організація «4.5.0. Кривий Ріг» офіційно зареєстрована 27 травня 2022 року в місті Кривий Ріг. З початку своєї діяльності, ми надавали допомогу тимчасово переміщеним особам та людям з тяжкими фінансовими обставинами. З липня місяця 2022 року почали втілювати перший проєкт з відбудови. Відремонтували тимчасове укриття в Криворізькому обласному ліцеї для сільської молоді. \\nЗа рік плідної праці орендуємо вже 3 склади для гуманітарної допомоги. Завдяки нашим партнерам ми продовжуємо закривати потреби цивільних та долучатись до допомоги медичним закладам міста та Херсонської області.\"\n}",
+											"raw": "{\n  \"picture\": {\n      \"mime_type\": \"image/jpeg\",\n      \"image\": \"/9j/4AAQSkZJRgABAQEAAAAAAAD/4QBCRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAkAAAAMAAAABAJcAAEABAAEAAAABAAAAAAAAAAAAAP/bAEMAUDc8RjwyUEZBRlpVUF94yIJ4bm549a+5kcj////////////////////////////////////////////////////bAEMBVVpaeGl464KC6//////////////////////////////////////////////////////////////////////////AABEIANUBQAMBIgACEQEDEQH/xAAZAAEBAQEBAQAAAAAAAAAAAAABAAIDBAX/xAAqEAEBAAICAgIBBAEEAwAAAAAAAQIRITEDQRJRYQQiMnGBFEKRoRMjM//EABcBAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/AHQ00HJGbGbG2aoydIxQaFbYpBiqKqKrUakZjcRDjHSMR0gJmxpUVhzzdK55gw3iw1itHSLYlTCK1mkWAzRTYKoKy1WWhJIACFVNRkwR0jUYjUYo0EAKSEdggiqs00VQNRkwDWMm2KQYqhMjSmNQRqMoY3Kw1EDsWq1i1Q2ueVNrNVQYDitG4VCwg0K0KDFZrdZqjNUwuV4jcxtvD1+LCTHrTUHnx/TWzub+lf0uWrzN+nr0ouK8f+kyuPfLGP6fK27mtXT6CB8zLx5S3WN1v6Z1q6r6jl5PBjnz1RHjjUWWFwy1f+TGaJHQQRBBsEVAUGhoDcYjcSiYybrGRBkwGNDcajEbiUKRZGazW6xkQZoNDUUUxKKNxpiNMoQhtAVrDxXK/g+PD55fh6prGNSDOHjxxnDSnIrSlMkChtbUKZ2tiDyYTLHTy2fG6r2OPmx43EsHEVbVZAtqsg9Aq2zagqybQoY0ydgrWLTazSCMEMUajcZjUSjUIhZAzY2zQc7GW6y1FCka0dFRQhIIEA9PgmsN/bWV1Nufhzlnx+nXJpVj1sW6PrhjObFcs/1GM3MZbpvxZ/PHby5eLPepzHr8GNx8erzVDadq48xXiW/Qg2v6eW/qMvlua09GGcyx3FR0lXcZvSxvAOPlw1zHJ68pMo8mXFsZsAFsA6fJbZCDW1AYodrYQK0HS0Ky1BoyCNRuMRqINHbKQa2KEgzRGrFI1BaWikGaGqzoEDoaBS6u47Y+TLLKf9uOnXw7uU+lHoWjBVaWodxn08nn8uXzuOuJ7Ue3bGePyndjyeLzX5Sbr2b2qPF/p8vl+HXH9mpOo7WcOdxQby/jKsehZvCfgY3hUb28vlsud035c7brG/25aSjKOhpAlFBSHShQGjooBpaaWjRnS03paNGdHRJoEUgDpEBpaKNAigZ0tNLQjGlprS0Kxp08P8uIzprG3G8KPQxllozLeG2Ly1WoMspjNvL5ZMsty9vV8Y45YS+kgz4MJMt5WV6fk89w106Y3ifhrUdt8MXimXhSbqoznlcZw4Xdu3by9SOembRnQ01paQZ0NN6GgZIIEgoGFmNQEQUEUgSSBJERJIEkQSRAIgAiBUCAaxt265Y8OE7ejfEaixzrFrplqsXDXIrEMnJ45550ceuY1IjUmmpedPPl5bzI6eCW/uv+FReWWXbm9GePyxcLNViwAKQAKBzIaUBgMQMajLUQJZ2QaQIJJCBFAkkBSQFBAQkCCQIECt+ObydKvHjJjsZXWV31puLGYL7PynUcs/LMZdCrPKY8/wCHO+TLOzGcMT5eXOT3Xqwwxw6nP37aRnxeLVvyd5NCEQuPlx526qyWapZo8wdM8Pj0wxgEkg5w7CiiMBiDUQIGEQxAxqMxr0CQl2QSSBJICNoCNbQiBJIEERQQ1hzlAdsJrFw/VbmOXestf9PT6ZslmrNx0V4sP/lnd9Tjljm3mber/wAGEl705Xwa5xuvwDp4fHMMbe8q6ZTbyXyeTxXmN4/qpv8AdP8AhR6J0WfH5MfJP23prYhQlIK8xyzw+nVFg8qds8Ppxs5YwczBCBkUEvDUQKgPtAwiLYE7ZtMoKUys+6gaUoQNIbQNQKVWgjWdnYJEUEKpVQTXjusmGsP5xR6KyazttUgrfpBanP053w+Oz+MdOxrtQY444TWMkbjnNyuk6VFpL0FCWSBc/JhucRsoPB01Wb21vif0wJqdM8WGWya/PaBV7U62ryB9FmZKcAbwRe1LyB9oXe/qqcewJnQy46WuAKXcVmgS2DeoBCxu6r/LgD0rRvgbQO+FsbSib8f8oxG8L+6A71i9t3pzvbSq1SsXtfL7oN7k9q1yltyjfy9Aeq1NsS8/lqZRqI0zWts5dKKUysbMoNQsymA8LfUjN7PbmGdW7/wf9v8AbM4vN4WINS6Q+x7A+mpyxN975bnEQWtS1S60r/HS6v8AYHui9jG92m80GvVUZ21O9gt8ngSyje7x0BvZvMov/alAzUu/s32zPr6NvG/8Atcfgdzal5rMv7ZPwDV5UH9rYNT6WF6ZgnAPXLuM5csfOSxn5fyjStWe2MtyjO28zpm25e0DLflq+jhl+6xz3ZdrGX5bUerCezIxhd5/4Od+PKwPfTncv3VvG9/Vcsr+66iodtS64c92H1sR1MrnLcuuJ9tS+u1Hk9mdUWqMKf8AaZQKgZd3aEaUagyo3wrzpBr0L1BWpOIA6tql47GRgH01Ld3bB2gcP50y6lGHFtXoFvZZw/l+IbsDL7U6XoXoDB6XoXiAcr+1TqC9aUoHYHuqX0DWV3qtfbmce6Bvexu64NU6UHU5UvpWelIgrbJde9O293LG9a4rnZx/fJl/dwsGpf8A137jHMyq+Vg+W8r+YuhuUutfZtYksnKlt2ujrjlL/hb1nw5y66W/cNRxpSRVezekgUKQBrSSCqvSQM0xIEfaQNTqhJBrH2qkBnTnlb8tJEG+sWbzUgVVSAQJA1IUlBez7SAe0kgb0klFeoOrtIGrOIxpIFi1OEgf/9k=\"\n  },\n  \"title\": \"Історія заснування\",\n  \"text\": \"Громадська організація «4.5.0. Кривий Ріг» офіційно зареєстрована 27 травня 2022 року в місті Кривий Ріг. З початку своєї діяльності, ми надавали допомогу тимчасово переміщеним особам та людям з тяжкими фінансовими обставинами. З липня місяця 2022 року почали втілювати перший проєкт з відбудови. Відремонтували тимчасове укриття в Криворізькому обласному ліцеї для сільської молоді. \\nЗа рік плідної праці орендуємо вже 3 склади для гуманітарної допомоги. Завдяки нашим партнерам ми продовжуємо закривати потреби цивільних та долучатись до допомоги медичним закладам міста та Херсонської області.\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/history",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"history"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "Ресурс відредаговано",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"text\": \"<string>\",\n  \"colorStart\": \"<string>\",\n  \"colorMiddle\": \"<string>\",\n  \"colorEnd\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/history",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"history"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"text\": \"<string>\",\n  \"colorStart\": \"<string>\",\n  \"colorMiddle\": \"<string>\",\n  \"colorEnd\": \"<string>\"\n}"
+										},
+										{
+											"name": "Ресурс не знайдено",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"text\": \"<string>\",\n  \"colorStart\": \"<string>\",\n  \"colorMiddle\": \"<string>\",\n  \"colorEnd\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/history",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"history"
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Помилка валідації даних",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"text\": \"<string>\",\n  \"colorStart\": \"<string>\",\n  \"colorMiddle\": \"<string>\",\n  \"colorEnd\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/history",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"history"
+													]
+												}
+											},
+											"status": "Not Acceptable",
+											"code": 406,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Помилка на боці серверу",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n  \"text\": \"<string>\",\n  \"colorStart\": \"<string>\",\n  \"colorMiddle\": \"<string>\",\n  \"colorEnd\": \"<string>\"\n}",
+													"options": {
+														"raw": {
+															"headerFamily": "json",
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/history",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"history"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "Редагувати ресурс (Без зміни зображення)",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"picture\": {\n      \"mime_type\": \"text/plain\",\n      \"image\": \"/resources/pictures/1695918971686-03814bd6.jpg\"\n  },\n  \"title\": \"Історія заснування\",\n  \"text\": \"Громадська організація «4.5.0. Кривий Ріг» офіційно зареєстрована 27 травня 2022 року в місті Кривий Ріг. З початку своєї діяльності, ми надавали допомогу тимчасово переміщеним особам та людям з тяжкими фінансовими обставинами. З липня місяця 2022 року почали втілювати перший проєкт з відбудови. Відремонтували тимчасове укриття в Криворізькому обласному ліцеї для сільської молоді. \\nЗа рік плідної праці орендуємо вже 3 склади для гуманітарної допомоги. Завдяки нашим партнерам ми продовжуємо закривати потреби цивільних та долучатись до допомоги медичним закладам міста та Херсонської області.\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
