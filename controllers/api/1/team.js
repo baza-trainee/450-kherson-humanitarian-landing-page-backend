@@ -23,7 +23,7 @@ const getTeam = async (req, res, next) => {
     };
     const { _id, __v, ...result } = query._doc;
     if (result.picture.image !== "") {
-      result.picture.image = `${appConfig.publicResources.pictures.directory}${result.picture.image}`;
+      result.picture.image = `${appConfig.publicResources.pictures.route}${result.picture.image}`;
     }
     res.status(200).json(result);
   } catch (err) {
@@ -38,28 +38,33 @@ const updateTeam = async (req, res, next) => {
       picture: {
         mime_type: "text/plain",
       },
-      title: req.body.title,
-      text: req.body.text,
+      title: team.title,
+      text: team.text,
     };
 
     // Delete picture on disk
     let currentTeam = await TeamDBModel.findOne({}).exec();
 
-    teamToSave.picture.image = await savePicture(
-      team.picture.image,
-      team.picture.mime_type
-    );
-
-    if (currentTeam && currentTeam.picture.image !== "") {
-      deletePicture(
-        `${appConfig.publicResources.pictures.directory}${currentTeam.picture.image}`
-      );
+    const fileNameExp = /\/([^/]+)$/;
+    if (team.picture.mime_type === "text/plain") {
+      teamToSave.picture.image = team.picture.image.match(fileNameExp)[1];
     } else {
-      currentTeam = await new TeamDBModel(teamToSave).save();
-      const { _id, __v, ...clearResult } = currentTeam._doc;
-      return res.status(200).json(clearResult);
-    }
+      teamToSave.picture.image = await savePicture(
+        team.picture.image,
+        team.picture.mime_type
+      );
 
+      if (currentTeam && currentTeam.picture.image !== "") {
+        deletePicture(
+          `${appConfig.publicResources.pictures.directory}${currentTeam.picture.image}`
+        );
+      } else {
+        currentTeam = await new TeamDBModel(teamToSave).save();
+        const { _id, __v, ...clearResult } = currentTeam._doc;
+        clearResult.picture.image = `${appConfig.publicResources.pictures.route}${clearResult.picture.image}`;
+        return res.status(200).json(clearResult);
+      }
+    }
     const result = await TeamDBModel.findByIdAndUpdate(
       currentTeam._id,
       teamToSave,
@@ -69,9 +74,9 @@ const updateTeam = async (req, res, next) => {
     );
 
     const { _id, __v, ...clearResult } = result._doc;
+    clearResult.picture.image = `${appConfig.publicResources.pictures.route}${clearResult.picture.image}`;
     res.status(200).json(clearResult);
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
