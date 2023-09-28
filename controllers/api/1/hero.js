@@ -13,7 +13,7 @@ const appConfig = require("../../../config/app");
 const heroPrepareToRequest = (_hero) => {
   const { _id, ...hero } = _hero;
   hero.id = _id;
-  hero.View.picture.image = `${appConfig.publicResources.pictures.directory}${hero.View.picture.image}`;
+  hero.View.picture.image = `${appConfig.publicResources.pictures.route}${hero.View.picture.image}`;
   return hero;
 };
 
