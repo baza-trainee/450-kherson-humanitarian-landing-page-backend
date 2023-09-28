@@ -22,7 +22,7 @@ const getFund = async (req, res, next) => {
     };
     const { _id, __v, ...result } = query._doc;
     if (result.picture.image !== "") {
-      result.picture.image = `${appConfig.publicResources.pictures.directory}${result.picture.image}`;
+      result.picture.image = `${appConfig.publicResources.pictures.route}${result.picture.image}`;
     }
     res.status(200).json(result);
   } catch (err) {
@@ -55,6 +55,7 @@ const updateFund = async (req, res, next) => {
     } else {
       currentFund = await new FundDBModel(fundToSave).save();
       const { _id, __v, ...clearResult } = currentFund._doc;
+      clearResult.picture.image = `${appConfig.publicResources.pictures.route}${clearResult.picture.image}`;
       return res.status(200).json(clearResult);
     }
 
@@ -67,6 +68,7 @@ const updateFund = async (req, res, next) => {
     );
 
     const { _id, __v, ...clearResult } = result._doc;
+    clearResult.picture.image = `${appConfig.publicResources.pictures.route}${clearResult.picture.image}`;
     res.status(200).json(clearResult);
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
