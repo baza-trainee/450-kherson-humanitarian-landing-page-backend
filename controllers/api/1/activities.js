@@ -13,7 +13,7 @@ const appConfig = require("../../../config/app");
 const activityPrepareToRequest = (_activity) => {
   const { _id, __v, ...activity } = _activity;
   activity.id = _id;
-  activity.picture.image = `${appConfig.publicResources.pictures.directory}${activity.picture.image}`;
+  activity.picture.image = `${appConfig.publicResources.pictures.route}${activity.picture.image}`;
   return activity;
 };
 
