@@ -37,7 +37,8 @@ const updateAchievements = async (req, res, next) => {
       currentAchievement = await new AchievementDBModel(
         achievementToSave
       ).save();
-      return res.status(200).json(currentAchievement);
+      const { _id, __v, ...clearResult } = currentAchievement._doc;
+      return res.status(200).json(clearResult);
     }
 
     const result = await AchievementDBModel.findByIdAndUpdate(
