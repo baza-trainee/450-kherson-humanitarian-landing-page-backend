@@ -33,8 +33,7 @@ function isValidHero(req, res, next) {
         appConfig.publicResources.pictures.directory,
         appConfig.publicResources.pictures.route
       ) &&
-      isColorValid(View.bgColorStart) &&
-      isColorValid(View.bgColorEnd);
+      isColorValid(View.color);
 
     // check Title
     const isTitle =
@@ -44,9 +43,7 @@ function isValidHero(req, res, next) {
         componentConfig.hero.title.text.minLength,
         componentConfig.hero.title.text.maxLength
       ) &&
-      isColorValid(Title.colorStart) &&
-      isColorValid(Title.colorMiddle) &&
-      isColorValid(Title.colorEnd);
+      isColorValid(Title.color);
 
     // check Subtitle
     const isSubtitle =
@@ -56,9 +53,7 @@ function isValidHero(req, res, next) {
         componentConfig.hero.subtitle.text.minLength,
         componentConfig.hero.subtitle.text.maxLength
       ) &&
-      isColorValid(Subtitle.colorStart) &&
-      isColorValid(Subtitle.colorMiddle) &&
-      isColorValid(Subtitle.colorEnd);
+      isColorValid(Subtitle.color);
 
     if (req.method === "DELETE" || req.method === "GET") {
       if (!isId) {
@@ -77,8 +72,7 @@ function isValidHero(req, res, next) {
     }
     next();
   } catch (err) {
-    console.log(err);
-    return res.status(406).json({ message: "-Помилка валідації даних" });
+    return res.status(500).json({ message: "Помилка на боці серверу" });
   }
 }
 

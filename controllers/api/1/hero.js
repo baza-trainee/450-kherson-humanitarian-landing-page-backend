@@ -11,7 +11,7 @@ const {
 const appConfig = require("../../../config/app");
 
 const heroPrepareToRequest = (_hero) => {
-  const { _id, ...hero } = _hero;
+  const { _id, __v, ...hero } = _hero;
   hero.id = _id;
   hero.View.picture.image = `${appConfig.publicResources.pictures.route}${hero.View.picture.image}`;
   return hero;
@@ -24,9 +24,7 @@ const saveToDB = async (picture, hero) => {
         mime_type: "text/plain",
         image: picture,
       },
-      bgColorStart: hero.View.bgColorStart,
-      bgColorMiddle: hero.View.bgColorMiddle,
-      bgColorEnd: hero.View.bgColorEnd,
+      color: hero.View.color,
     },
     Title: hero.Title,
     Subtitle: hero.Subtitle,
@@ -41,9 +39,8 @@ const createHero = async (req, res, next) => {
       hero.View.picture.image,
       hero.View.picture.mime_type
     );
-    res
-      .status(200)
-      .json(heroPrepareToRequest({ ...(await saveToDB(picture, hero))._doc }));
+    const { __v, ...result } = (await saveToDB(picture, hero))._doc;
+    res.status(200).json(heroPrepareToRequest(result));
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
@@ -54,8 +51,8 @@ const getHeroById = async (req, res, next) => {
     const query = HeroDBModel.where({ _id: req.params.id });
     const hero = await query.findOne();
     if (hero) {
-      const result = heroPrepareToRequest({ ...hero._doc });
-      return res.status(200).json(result);
+      const { __v, ...result } = hero._doc;
+      return res.status(200).json(heroPrepareToRequest(result));
     }
     return res.status(404).json({
       message: "Ресурс не знайдено",
@@ -84,9 +81,7 @@ const updateHero = async (req, res, next) => {
         picture: {
           mime_type: "text/plain",
         },
-        bgColorStart: hero.View.bgColorStart,
-        bgColorMiddle: hero.View.bgColorMiddle,
-        bgColorEnd: hero.View.bgColorEnd,
+        color: hero.View.color,
       },
       Title: req.body.Title,
       Subtitle: req.body.Subtitle,
