@@ -42,7 +42,6 @@ const updateTeam = async (req, res, next) => {
       text: team.text,
     };
 
-    // Delete picture on disk
     let currentTeam = await TeamDBModel.findOne({}).exec();
 
     const fileNameExp = /\/([^/]+)$/;
@@ -54,6 +53,7 @@ const updateTeam = async (req, res, next) => {
         team.picture.mime_type
       );
 
+      // Delete picture on disk
       if (currentTeam && currentTeam.picture.image !== "") {
         deletePicture(
           `${appConfig.publicResources.pictures.directory}${currentTeam.picture.image}`
@@ -65,6 +65,7 @@ const updateTeam = async (req, res, next) => {
         return res.status(200).json(clearResult);
       }
     }
+    console.log(currentTeam);
     const result = await TeamDBModel.findByIdAndUpdate(
       currentTeam._id,
       teamToSave,
@@ -77,6 +78,7 @@ const updateTeam = async (req, res, next) => {
     clearResult.picture.image = `${appConfig.publicResources.pictures.route}${clearResult.picture.image}`;
     res.status(200).json(clearResult);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };

@@ -22,7 +22,8 @@ function isValidTeam(req, res, next) {
     const isPicture = isImageValid(
       picture,
       componentConfig.team.picture.maxSizeKb,
-      appConfig.publicResources.pictures.directory
+      appConfig.publicResources.pictures.directory,
+      appConfig.publicResources.pictures.route
     );
 
     // check title
