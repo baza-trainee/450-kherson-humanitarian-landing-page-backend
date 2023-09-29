@@ -571,7 +571,79 @@ paths:
                             schema:
                                 type: string
                                 example: 'https://localhost:3000/notification/unsuccess-registration?error=500&message="помилка%на%боці%сервера"'
-
+    /api/v1/order/{orderId}/{link}:
+        delete:
+            security:
+                - bearerAuth: []
+            summary: Видалити людину з списку
+            tags:
+                - Списки на отримання допомоги
+            parameters:
+                - in: path
+                  name: orderId
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                - in: path
+                  name: link
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 200,
+                                        message: "Людина видалена зі списку",
+                                    }
+                "432":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    { code: 432, message: "Список не знайдено" }
+                "437":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 437,
+                                        message: "Людина не знайдена у списку",
+                                    }
+                "440":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 440,
+                                        message: "Людина ще не активована",
+                                    }
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 500,
+                                        message: "помилка на боці сервера",
+                                    }
     /api/v1/order/{orderId}:
         get:
             security:
