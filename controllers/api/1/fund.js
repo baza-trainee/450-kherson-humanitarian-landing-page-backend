@@ -40,7 +40,6 @@ const updateFund = async (req, res, next) => {
       },
     };
 
-    // Delete picture on disk
     let currentFund = await FundDBModel.findOne({}).exec();
 
     fundToSave.picture.image = await savePicture(
@@ -48,6 +47,7 @@ const updateFund = async (req, res, next) => {
       fund.picture.mime_type
     );
 
+    // Delete picture on disk
     if (currentFund && currentFund.picture.image !== "") {
       deletePicture(
         `${appConfig.publicResources.pictures.directory}${currentFund.picture.image}`
