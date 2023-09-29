@@ -154,7 +154,7 @@
 										}
 									],
 									"cookie": [],
-									"body": ""
+									"body": "{\n    \"message\": \"Помилка авторизації\"\n}"
 								},
 								{
 									"name": "Помилка на боці серверу",
@@ -201,60 +201,9 @@
 										}
 									],
 									"cookie": [],
-									"body": ""
+									"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 								}
 							]
-						},
-						{
-							"name": "{{baseUrl}}/auth/login",
-							"event": [
-								{
-									"listen": "test",
-									"script": {
-										"exec": [
-											"pm.test(\"Status code is 200\", function () {",
-											"    pm.response.to.have.status(200);",
-											"    pm.response.to.be.json;",
-											"});"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "POST",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n  \"username\": \"SiteAdmin\",\n  \"password\": \"nimdAetiS\"\n}",
-									"options": {
-										"raw": {
-											"headerFamily": "json",
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/auth/login",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"auth",
-										"login"
-									]
-								}
-							},
-							"response": []
 						}
 					]
 				},
@@ -294,45 +243,6 @@
 									},
 									"response": [
 										{
-											"name": "Токен авторизації отримано",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Accept",
-														"value": "application/json"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/auth/renew/:link",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"auth",
-														"renew",
-														":link"
-													],
-													"variable": [
-														{
-															"key": "link"
-														}
-													]
-												}
-											},
-											"status": "OK",
-											"code": 200,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n  \"token\": \"<string>\"\n}"
-										},
-										{
 											"name": "Посилання не дійсне",
 											"originalRequest": {
 												"method": "GET",
@@ -354,7 +264,8 @@
 													],
 													"variable": [
 														{
-															"key": "link"
+															"key": "link",
+															"value": ""
 														}
 													]
 												}
@@ -369,7 +280,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Посилання не дійсне\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -393,7 +304,8 @@
 													],
 													"variable": [
 														{
-															"key": "link"
+															"key": "link",
+															"value": ""
 														}
 													]
 												}
@@ -408,7 +320,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -450,6 +362,58 @@
 								}
 							},
 							"response": [
+								{
+									"name": "Отримання токену авторизації",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"description": "Added as a part of security scheme: bearer",
+												"key": "Authorization",
+												"value": "Bearer <token>"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"password\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/auth/change",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"auth",
+												"change"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"token\": \"<string>\"\n}"
+								},
 								{
 									"name": "Посилання для відновлення паролю відправлено",
 									"originalRequest": {
@@ -533,7 +497,7 @@
 										}
 									],
 									"cookie": [],
-									"body": ""
+									"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 								}
 							]
 						}
@@ -579,7 +543,7 @@
 							},
 							"response": [
 								{
-									"name": "Посилання для відновлення паролю відправлено",
+									"name": "Пароль користувача змінено",
 									"originalRequest": {
 										"method": "POST",
 										"header": [
@@ -628,7 +592,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"token\": \"<string>\"\n}"
+									"body": "{\n    \"message\": \"Пароль користувача змінено\"\n}"
 								},
 								{
 									"name": "Помилка авторизації",
@@ -670,8 +634,8 @@
 											]
 										}
 									},
-									"status": "Bad Request",
-									"code": 400,
+									"status": "Forbidden",
+									"code": 403,
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
@@ -680,7 +644,7 @@
 										}
 									],
 									"cookie": [],
-									"body": ""
+									"body": "{\n    \"message\": \"Користувач не авторизований\"\n}"
 								},
 								{
 									"name": "Помилка на боці серверу",
@@ -732,7 +696,7 @@
 										}
 									],
 									"cookie": [],
-									"body": ""
+									"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 								}
 							]
 						}
@@ -776,7 +740,7 @@
 													"variable": [
 														{
 															"key": "id",
-															"value": "6515d693f442670da48d0e19"
+															"value": "6516bbc16928be396da739b2"
 														}
 													]
 												}
@@ -821,7 +785,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695930003812-fb6205d9.png\",\n            \"_id\": \"6515d693f442670da48d0e1b\"\n        },\n        \"bgColorStart\": \"#ff0000\",\n        \"bgColorMiddle\": \"#ff0000\",\n        \"bgColorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1a\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1c\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1d\"\n    },\n    \"__v\": 0,\n    \"id\": \"6515d693f442670da48d0e19\"\n}"
+													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695987550549-fdd602f0.jpg\",\n            \"_id\": \"6516b75e6928be396da739ac\"\n        },\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b75e6928be396da739ab\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b75e6928be396da739ad\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b75e6928be396da739ae\"\n    },\n    \"id\": \"6516b75e6928be396da739aa\"\n}"
 												},
 												{
 													"name": "Ресурс відсутній",
@@ -961,7 +925,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695930003812-fb6205d9.png\",\n            \"_id\": \"6515d693f442670da48d0e1b\"\n        },\n        \"bgColorStart\": \"#ff0000\",\n        \"bgColorMiddle\": \"#ff0000\",\n        \"bgColorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1a\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1c\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1d\"\n    },\n    \"__v\": 0,\n    \"id\": \"6515d693f442670da48d0e19\"\n}"
+													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695987550549-fdd602f0.jpg\",\n            \"_id\": \"6516b75e6928be396da739ac\"\n        },\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b75e6928be396da739ab\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b75e6928be396da739ad\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b75e6928be396da739ae\"\n    },\n    \"id\": \"6516b75e6928be396da739aa\"\n}"
 												},
 												{
 													"name": "Ресурс не знайдено",
@@ -1065,7 +1029,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -1080,7 +1045,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 												},
 												{
 													"name": "Помилка на боці серверу",
@@ -1239,7 +1204,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695930003812-fb6205d9.png\",\n            \"_id\": \"6515d693f442670da48d0e1b\"\n        },\n        \"bgColorStart\": \"#ff0000\",\n        \"bgColorMiddle\": \"#ff0000\",\n        \"bgColorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1a\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1c\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1d\"\n    },\n    \"__v\": 0,\n    \"id\": \"6515d693f442670da48d0e19\"\n}"
+													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695987550549-fdd602f0.jpg\",\n            \"_id\": \"6516b75e6928be396da739ac\"\n        },\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b75e6928be396da739ab\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b75e6928be396da739ad\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b75e6928be396da739ae\"\n    },\n    \"id\": \"6516b75e6928be396da739aa\"\n}"
 												},
 												{
 													"name": "Ресурс не знайдено",
@@ -1343,7 +1308,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -1358,7 +1324,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 												},
 												{
 													"name": "Помилка на боці серверу",
@@ -1496,7 +1462,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695930003812-fb6205d9.png\",\n            \"_id\": \"6515d693f442670da48d0e1b\"\n        },\n        \"bgColorStart\": \"#ff0000\",\n        \"bgColorMiddle\": \"#ff0000\",\n        \"bgColorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1a\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1c\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1d\"\n    },\n    \"__v\": 0,\n    \"id\": \"6515d693f442670da48d0e19\"\n}"
+													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695987550549-fdd602f0.jpg\",\n            \"_id\": \"6516b75e6928be396da739ac\"\n        },\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b75e6928be396da739ab\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b75e6928be396da739ad\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b75e6928be396da739ae\"\n    },\n    \"id\": \"6516b75e6928be396da739aa\"\n}"
 												},
 												{
 													"name": "Ресурс не знайдено",
@@ -1526,7 +1492,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -1541,7 +1508,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Ресурс не знайдено\"\n}"
 												},
 												{
 													"name": "Помилка на боці серверу",
@@ -1609,7 +1576,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"View\": {\n    \"picture\": {\n      \"mime_type\": \"image/png\",\n      \"image\": \"/9j/4AAQSkZJRgABAQEAAAAAAAD/4QBCRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAkAAAAMAAAABAJcAAEABAAEAAAABAAAAAAAAAAAAAP/bAEMAUDc8RjwyUEZBRlpVUF94yIJ4bm549a+5kcj////////////////////////////////////////////////////bAEMBVVpaeGl464KC6//////////////////////////////////////////////////////////////////////////AABEIANUBQAMBIgACEQEDEQH/xAAZAAEBAQEBAQAAAAAAAAAAAAABAAIDBAX/xAAqEAEBAAICAgIBBAEEAwAAAAAAAQIRITEDQRJRYQQiMnGBFEKRoRMjM//EABcBAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/AHQ00HJGbGbG2aoydIxQaFbYpBiqKqKrUakZjcRDjHSMR0gJmxpUVhzzdK55gw3iw1itHSLYlTCK1mkWAzRTYKoKy1WWhJIACFVNRkwR0jUYjUYo0EAKSEdggiqs00VQNRkwDWMm2KQYqhMjSmNQRqMoY3Kw1EDsWq1i1Q2ueVNrNVQYDitG4VCwg0K0KDFZrdZqjNUwuV4jcxtvD1+LCTHrTUHnx/TWzub+lf0uWrzN+nr0ouK8f+kyuPfLGP6fK27mtXT6CB8zLx5S3WN1v6Z1q6r6jl5PBjnz1RHjjUWWFwy1f+TGaJHQQRBBsEVAUGhoDcYjcSiYybrGRBkwGNDcajEbiUKRZGazW6xkQZoNDUUUxKKNxpiNMoQhtAVrDxXK/g+PD55fh6prGNSDOHjxxnDSnIrSlMkChtbUKZ2tiDyYTLHTy2fG6r2OPmx43EsHEVbVZAtqsg9Aq2zagqybQoY0ydgrWLTazSCMEMUajcZjUSjUIhZAzY2zQc7GW6y1FCka0dFRQhIIEA9PgmsN/bWV1Nufhzlnx+nXJpVj1sW6PrhjObFcs/1GM3MZbpvxZ/PHby5eLPepzHr8GNx8erzVDadq48xXiW/Qg2v6eW/qMvlua09GGcyx3FR0lXcZvSxvAOPlw1zHJ68pMo8mXFsZsAFsA6fJbZCDW1AYodrYQK0HS0Ky1BoyCNRuMRqINHbKQa2KEgzRGrFI1BaWikGaGqzoEDoaBS6u47Y+TLLKf9uOnXw7uU+lHoWjBVaWodxn08nn8uXzuOuJ7Ue3bGePyndjyeLzX5Sbr2b2qPF/p8vl+HXH9mpOo7WcOdxQby/jKsehZvCfgY3hUb28vlsud035c7brG/25aSjKOhpAlFBSHShQGjooBpaaWjRnS03paNGdHRJoEUgDpEBpaKNAigZ0tNLQjGlprS0Kxp08P8uIzprG3G8KPQxllozLeG2Ly1WoMspjNvL5ZMsty9vV8Y45YS+kgz4MJMt5WV6fk89w106Y3ifhrUdt8MXimXhSbqoznlcZw4Xdu3by9SOembRnQ01paQZ0NN6GgZIIEgoGFmNQEQUEUgSSBJERJIEkQSRAIgAiBUCAaxt265Y8OE7ejfEaixzrFrplqsXDXIrEMnJ45550ceuY1IjUmmpedPPl5bzI6eCW/uv+FReWWXbm9GePyxcLNViwAKQAKBzIaUBgMQMajLUQJZ2QaQIJJCBFAkkBSQFBAQkCCQIECt+ObydKvHjJjsZXWV31puLGYL7PynUcs/LMZdCrPKY8/wCHO+TLOzGcMT5eXOT3Xqwwxw6nP37aRnxeLVvyd5NCEQuPlx526qyWapZo8wdM8Pj0wxgEkg5w7CiiMBiDUQIGEQxAxqMxr0CQl2QSSBJICNoCNbQiBJIEERQQ1hzlAdsJrFw/VbmOXestf9PT6ZslmrNx0V4sP/lnd9Tjljm3mber/wAGEl705Xwa5xuvwDp4fHMMbe8q6ZTbyXyeTxXmN4/qpv8AdP8AhR6J0WfH5MfJP23prYhQlIK8xyzw+nVFg8qds8Ppxs5YwczBCBkUEvDUQKgPtAwiLYE7ZtMoKUys+6gaUoQNIbQNQKVWgjWdnYJEUEKpVQTXjusmGsP5xR6KyazttUgrfpBanP053w+Oz+MdOxrtQY444TWMkbjnNyuk6VFpL0FCWSBc/JhucRsoPB01Wb21vif0wJqdM8WGWya/PaBV7U62ryB9FmZKcAbwRe1LyB9oXe/qqcewJnQy46WuAKXcVmgS2DeoBCxu6r/LgD0rRvgbQO+FsbSib8f8oxG8L+6A71i9t3pzvbSq1SsXtfL7oN7k9q1yltyjfy9Aeq1NsS8/lqZRqI0zWts5dKKUysbMoNQsymA8LfUjN7PbmGdW7/wf9v8AbM4vN4WINS6Q+x7A+mpyxN975bnEQWtS1S60r/HS6v8AYHui9jG92m80GvVUZ21O9gt8ngSyje7x0BvZvMov/alAzUu/s32zPr6NvG/8Atcfgdzal5rMv7ZPwDV5UH9rYNT6WF6ZgnAPXLuM5csfOSxn5fyjStWe2MtyjO28zpm25e0DLflq+jhl+6xz3ZdrGX5bUerCezIxhd5/4Od+PKwPfTncv3VvG9/Vcsr+66iodtS64c92H1sR1MrnLcuuJ9tS+u1Hk9mdUWqMKf8AaZQKgZd3aEaUagyo3wrzpBr0L1BWpOIA6tql47GRgH01Ld3bB2gcP50y6lGHFtXoFvZZw/l+IbsDL7U6XoXoDB6XoXiAcr+1TqC9aUoHYHuqX0DWV3qtfbmce6Bvexu64NU6UHU5UvpWelIgrbJde9O293LG9a4rnZx/fJl/dwsGpf8A137jHMyq+Vg+W8r+YuhuUutfZtYksnKlt2ujrjlL/hb1nw5y66W/cNRxpSRVezekgUKQBrSSCqvSQM0xIEfaQNTqhJBrH2qkBnTnlb8tJEG+sWbzUgVVSAQJA1IUlBez7SAe0kgb0klFeoOrtIGrOIxpIFi1OEgf/9k=\"\n    },\n    \"bgColorStart\": \"#ff0000\",\n    \"bgColorMiddle\": \"#ff0000\",\n    \"bgColorEnd\": \"#ff0000\"\n  },\n  \"Title\": {\n    \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n    \"colorStart\": \"#ff0000\",\n    \"colorMiddle\": \"#ff0000\",\n    \"colorEnd\": \"#ff0000\"\n  },\n  \"Subtitle\": {\n    \"text\": \"м. Кривий Ріг\",\n    \"colorStart\": \"#ff0000\",\n    \"colorMiddle\": \"#ff0000\",\n    \"colorEnd\": \"#ff0000\"\n  }\n}",
+											"raw": "{\n  \"View\": {\n    \"picture\": {\n      \"mime_type\": \"image/jpeg\",\n      \"image\": \"/9j/4AAQSkZJRgABAQEAAAAAAAD/4QBCRXhpZgAATU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAkAAAAMAAAABAJcAAEABAAEAAAABAAAAAAAAAAAAAP/bAEMAUDc8RjwyUEZBRlpVUF94yIJ4bm549a+5kcj////////////////////////////////////////////////////bAEMBVVpaeGl464KC6//////////////////////////////////////////////////////////////////////////AABEIANUBQAMBIgACEQEDEQH/xAAZAAEBAQEBAQAAAAAAAAAAAAABAAIDBAX/xAAqEAEBAAICAgIBBAEEAwAAAAAAAQIRITEDQRJRYQQiMnGBFEKRoRMjM//EABcBAQEBAQAAAAAAAAAAAAAAAAABAgP/xAAWEQEBAQAAAAAAAAAAAAAAAAAAARH/2gAMAwEAAhEDEQA/AHQ00HJGbGbG2aoydIxQaFbYpBiqKqKrUakZjcRDjHSMR0gJmxpUVhzzdK55gw3iw1itHSLYlTCK1mkWAzRTYKoKy1WWhJIACFVNRkwR0jUYjUYo0EAKSEdggiqs00VQNRkwDWMm2KQYqhMjSmNQRqMoY3Kw1EDsWq1i1Q2ueVNrNVQYDitG4VCwg0K0KDFZrdZqjNUwuV4jcxtvD1+LCTHrTUHnx/TWzub+lf0uWrzN+nr0ouK8f+kyuPfLGP6fK27mtXT6CB8zLx5S3WN1v6Z1q6r6jl5PBjnz1RHjjUWWFwy1f+TGaJHQQRBBsEVAUGhoDcYjcSiYybrGRBkwGNDcajEbiUKRZGazW6xkQZoNDUUUxKKNxpiNMoQhtAVrDxXK/g+PD55fh6prGNSDOHjxxnDSnIrSlMkChtbUKZ2tiDyYTLHTy2fG6r2OPmx43EsHEVbVZAtqsg9Aq2zagqybQoY0ydgrWLTazSCMEMUajcZjUSjUIhZAzY2zQc7GW6y1FCka0dFRQhIIEA9PgmsN/bWV1Nufhzlnx+nXJpVj1sW6PrhjObFcs/1GM3MZbpvxZ/PHby5eLPepzHr8GNx8erzVDadq48xXiW/Qg2v6eW/qMvlua09GGcyx3FR0lXcZvSxvAOPlw1zHJ68pMo8mXFsZsAFsA6fJbZCDW1AYodrYQK0HS0Ky1BoyCNRuMRqINHbKQa2KEgzRGrFI1BaWikGaGqzoEDoaBS6u47Y+TLLKf9uOnXw7uU+lHoWjBVaWodxn08nn8uXzuOuJ7Ue3bGePyndjyeLzX5Sbr2b2qPF/p8vl+HXH9mpOo7WcOdxQby/jKsehZvCfgY3hUb28vlsud035c7brG/25aSjKOhpAlFBSHShQGjooBpaaWjRnS03paNGdHRJoEUgDpEBpaKNAigZ0tNLQjGlprS0Kxp08P8uIzprG3G8KPQxllozLeG2Ly1WoMspjNvL5ZMsty9vV8Y45YS+kgz4MJMt5WV6fk89w106Y3ifhrUdt8MXimXhSbqoznlcZw4Xdu3by9SOembRnQ01paQZ0NN6GgZIIEgoGFmNQEQUEUgSSBJERJIEkQSRAIgAiBUCAaxt265Y8OE7ejfEaixzrFrplqsXDXIrEMnJ45550ceuY1IjUmmpedPPl5bzI6eCW/uv+FReWWXbm9GePyxcLNViwAKQAKBzIaUBgMQMajLUQJZ2QaQIJJCBFAkkBSQFBAQkCCQIECt+ObydKvHjJjsZXWV31puLGYL7PynUcs/LMZdCrPKY8/wCHO+TLOzGcMT5eXOT3Xqwwxw6nP37aRnxeLVvyd5NCEQuPlx526qyWapZo8wdM8Pj0wxgEkg5w7CiiMBiDUQIGEQxAxqMxr0CQl2QSSBJICNoCNbQiBJIEERQQ1hzlAdsJrFw/VbmOXestf9PT6ZslmrNx0V4sP/lnd9Tjljm3mber/wAGEl705Xwa5xuvwDp4fHMMbe8q6ZTbyXyeTxXmN4/qpv8AdP8AhR6J0WfH5MfJP23prYhQlIK8xyzw+nVFg8qds8Ppxs5YwczBCBkUEvDUQKgPtAwiLYE7ZtMoKUys+6gaUoQNIbQNQKVWgjWdnYJEUEKpVQTXjusmGsP5xR6KyazttUgrfpBanP053w+Oz+MdOxrtQY444TWMkbjnNyuk6VFpL0FCWSBc/JhucRsoPB01Wb21vif0wJqdM8WGWya/PaBV7U62ryB9FmZKcAbwRe1LyB9oXe/qqcewJnQy46WuAKXcVmgS2DeoBCxu6r/LgD0rRvgbQO+FsbSib8f8oxG8L+6A71i9t3pzvbSq1SsXtfL7oN7k9q1yltyjfy9Aeq1NsS8/lqZRqI0zWts5dKKUysbMoNQsymA8LfUjN7PbmGdW7/wf9v8AbM4vN4WINS6Q+x7A+mpyxN975bnEQWtS1S60r/HS6v8AYHui9jG92m80GvVUZ21O9gt8ngSyje7x0BvZvMov/alAzUu/s32zPr6NvG/8Atcfgdzal5rMv7ZPwDV5UH9rYNT6WF6ZgnAPXLuM5csfOSxn5fyjStWe2MtyjO28zpm25e0DLflq+jhl+6xz3ZdrGX5bUerCezIxhd5/4Od+PKwPfTncv3VvG9/Vcsr+66iodtS64c92H1sR1MrnLcuuJ9tS+u1Hk9mdUWqMKf8AaZQKgZd3aEaUagyo3wrzpBr0L1BWpOIA6tql47GRgH01Ld3bB2gcP50y6lGHFtXoFvZZw/l+IbsDL7U6XoXoDB6XoXiAcr+1TqC9aUoHYHuqX0DWV3qtfbmce6Bvexu64NU6UHU5UvpWelIgrbJde9O293LG9a4rnZx/fJl/dwsGpf8A137jHMyq+Vg+W8r+YuhuUutfZtYksnKlt2ujrjlL/hb1nw5y66W/cNRxpSRVezekgUKQBrSSCqvSQM0xIEfaQNTqhJBrH2qkBnTnlb8tJEG+sWbzUgVVSAQJA1IUlBez7SAe0kgb0klFeoOrtIGrOIxpIFi1OEgf/9k=\"\n    },\n    \"color\": \"#ff0000\"\n  },\n  \"Title\": {\n    \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n    \"color\": \"#ff0000\"\n  },\n  \"Subtitle\": {\n    \"text\": \"м. Кривий Ріг\",\n    \"color\": \"#ff0000\"\n  }\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -1681,7 +1648,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695930003812-fb6205d9.png\",\n            \"_id\": \"6515d693f442670da48d0e1b\"\n        },\n        \"bgColorStart\": \"#ff0000\",\n        \"bgColorMiddle\": \"#ff0000\",\n        \"bgColorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1a\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1c\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"colorStart\": \"#ff0000\",\n        \"colorMiddle\": \"#ff0000\",\n        \"colorEnd\": \"#ff0000\",\n        \"_id\": \"6515d693f442670da48d0e1d\"\n    },\n    \"__v\": 0,\n    \"id\": \"6515d693f442670da48d0e19\"\n}"
+											"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1695986276481-b37c8889.png\",\n            \"_id\": \"6516b26463edbcd3cad9707d\"\n        },\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b26463edbcd3cad9707c\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b26463edbcd3cad9707e\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"color\": \"#ff0000\",\n        \"_id\": \"6516b26463edbcd3cad9707f\"\n    },\n    \"id\": \"6516b26463edbcd3cad9707b\"\n}"
 										},
 										{
 											"name": "Помилка валідації даних",
@@ -1851,7 +1818,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "[\n    {\n        \"View\": {\n            \"picture\": {\n                \"mime_type\": \"text/plain\",\n                \"image\": \"/resources/pictures1695930003812-fb6205d9.png\",\n                \"_id\": \"6515d693f442670da48d0e1b\"\n            },\n            \"bgColorStart\": \"#ff0000\",\n            \"bgColorMiddle\": \"#ff0000\",\n            \"bgColorEnd\": \"#ff0000\",\n            \"_id\": \"6515d693f442670da48d0e1a\"\n        },\n        \"Title\": {\n            \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n            \"colorStart\": \"#ff0000\",\n            \"colorMiddle\": \"#ff0000\",\n            \"colorEnd\": \"#ff0000\",\n            \"_id\": \"6515d693f442670da48d0e1c\"\n        },\n        \"Subtitle\": {\n            \"text\": \"м. Кривий Ріг\",\n            \"colorStart\": \"#ff0000\",\n            \"colorMiddle\": \"#ff0000\",\n            \"colorEnd\": \"#ff0000\",\n            \"_id\": \"6515d693f442670da48d0e1d\"\n        },\n        \"__v\": 0,\n        \"id\": \"6515d693f442670da48d0e19\"\n    }\n]"
+											"body": "[\n    {\n        \"View\": {\n            \"picture\": {\n                \"mime_type\": \"text/plain\",\n                \"image\": \"/resources/pictures1695988673540-c3d795af.jpg\",\n                \"_id\": \"6516bbc16928be396da739b4\"\n            },\n            \"color\": \"#ff0000\",\n            \"_id\": \"6516bbc16928be396da739b3\"\n        },\n        \"Title\": {\n            \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n            \"color\": \"#ff0000\",\n            \"_id\": \"6516bbc16928be396da739b5\"\n        },\n        \"Subtitle\": {\n            \"text\": \"м. Кривий Ріг\",\n            \"color\": \"#ff0000\",\n            \"_id\": \"6516bbc16928be396da739b6\"\n        },\n        \"id\": \"6516bbc16928be396da739b2\"\n    }\n]"
 										}
 									]
 								}
@@ -1916,40 +1883,6 @@
 											],
 											"cookie": [],
 											"body": "{\n  \"picture\": {\n    \"id\": \"<uuid>\",\n    \"path\": \"<string>\",\n    \"image_data\": \"ipsum qui quis\",\n    \"mime_type\": -48723738\n  }\n}"
-										},
-										{
-											"name": "Ресурс відсутній",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Accept",
-														"value": "application/json"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/fund",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"fund"
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
 										}
 									]
 								},
@@ -2041,60 +1974,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"picture\": {\n    \"id\": \"<uuid>\",\n    \"path\": \"<string>\",\n    \"image_data\": \"ipsum qui quis\",\n    \"mime_type\": -48723738\n  }\n}"
-										},
-										{
-											"name": "Ресурс не знайдено",
-											"originalRequest": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"description": "Added as a part of security scheme: bearer",
-														"key": "Authorization",
-														"value": "Bearer <token>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"picture\": {\n    \"image_data\": \"<string>\",\n    \"mime_type\": \"<string>\",\n    \"image\": \"<string>\",\n    \"id\": \"<uuid>\"\n  }\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/fund",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"fund"
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": ""
+											"body": "{\n    \"picture\": {\n        \"mime_type\": \"text/plain\",\n        \"image\": \"/resources/pictures1695931885486-bde93c9e.jpg\",\n        \"_id\": \"6515dded2096477f9f092eb2\"\n    }\n}"
 										},
 										{
 											"name": "Помилка валідації даних",
@@ -2147,7 +2027,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -2200,258 +2080,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
-										}
-									]
-								},
-								{
-									"name": "Редагувати ресурс (Validate Error)",
-									"request": {
-										"method": "PUT",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json"
-											},
-											{
-												"key": "Accept",
-												"value": "application/json"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"picture\": {\n      \"mime_type\": \"plain/text\",\n      \"image\": \"\"\n    }\n}\n",
-											"options": {
-												"raw": {
-													"headerFamily": "json",
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/v1/fund",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"v1",
-												"fund"
-											]
-										}
-									},
-									"response": [
-										{
-											"name": "Ресурс відредаговано",
-											"originalRequest": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"description": "Added as a part of security scheme: bearer",
-														"key": "Authorization",
-														"value": "Bearer <token>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"picture\": {\n    \"image_data\": \"<string>\",\n    \"mime_type\": \"<string>\",\n    \"image\": \"<string>\",\n    \"id\": \"<uuid>\"\n  }\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/fund",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"fund"
-													]
-												}
-											},
-											"status": "OK",
-											"code": 200,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n  \"picture\": {\n    \"id\": \"<uuid>\",\n    \"path\": \"<string>\",\n    \"image_data\": \"ipsum qui quis\",\n    \"mime_type\": -48723738\n  }\n}"
-										},
-										{
-											"name": "Ресурс не знайдено",
-											"originalRequest": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"description": "Added as a part of security scheme: bearer",
-														"key": "Authorization",
-														"value": "Bearer <token>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"picture\": {\n    \"image_data\": \"<string>\",\n    \"mime_type\": \"<string>\",\n    \"image\": \"<string>\",\n    \"id\": \"<uuid>\"\n  }\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/fund",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"fund"
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": ""
-										},
-										{
-											"name": "Помилка валідації даних",
-											"originalRequest": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"description": "Added as a part of security scheme: bearer",
-														"key": "Authorization",
-														"value": "Bearer <token>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"picture\": {\n    \"image_data\": \"<string>\",\n    \"mime_type\": \"<string>\",\n    \"image\": \"<string>\",\n    \"id\": \"<uuid>\"\n  }\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/fund",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"fund"
-													]
-												}
-											},
-											"status": "Not Acceptable",
-											"code": 406,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": ""
-										},
-										{
-											"name": "Помилка на боці серверу",
-											"originalRequest": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"description": "Added as a part of security scheme: bearer",
-														"key": "Authorization",
-														"value": "Bearer <token>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"picture\": {\n    \"image_data\": \"<string>\",\n    \"mime_type\": \"<string>\",\n    \"image\": \"<string>\",\n    \"id\": \"<uuid>\"\n  }\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/fund",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"fund"
-													]
-												}
-											},
-											"status": "Internal Server Error",
-											"code": 500,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -2515,41 +2144,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"picture\": {\n    \"id\": \"<uuid>\",\n    \"path\": \"<string>\",\n    \"image_data\": false,\n    \"mime_type\": -35526748\n  },\n  \"title\": \"<string>\",\n  \"text\": \"<string>\"\n}"
-										},
-										{
-											"name": "Ресурс відсутній",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Accept",
-														"value": "application/json"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/team",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"team"
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
+											"body": "{\n    \"picture\": {\n        \"mime_type\": \"text/plain\",\n        \"image\": \"/resources/pictures1695915864220-f4aa399f.jpg\",\n        \"_id\": \"65159f5895d22d9d99b07f4d\"\n    },\n    \"title\": \"наша команда\",\n    \"text\": \"Голова правління – Польовий Ростислав Олексійович. Співзасновник організації – Кулакевич Олександр Ігорович. Проект-менеджер (напрямок відбудови) – Хромих Артем Валерійович. Проект-менеджер (гуманітарний напрямок) – Кулакевич Катерина Сергіївна.\"\n}"
 										}
 									]
 								},
@@ -2641,60 +2236,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"picture\": {\n    \"id\": \"<uuid>\",\n    \"path\": \"<string>\",\n    \"image_data\": false,\n    \"mime_type\": -35526748\n  },\n  \"title\": \"<string>\",\n  \"text\": \"<string>\"\n}"
-										},
-										{
-											"name": "Ресурс не знайдено",
-											"originalRequest": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"description": "Added as a part of security scheme: bearer",
-														"key": "Authorization",
-														"value": "Bearer <token>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"picture\": {\n    \"image_data\": \"<string>\",\n    \"mime_type\": \"<string>\",\n    \"image\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"title\": \"<string>\",\n  \"text\": \"<string>\"\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/team",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"team"
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": ""
+											"body": "{\n    \"picture\": {\n        \"mime_type\": \"text/plain\",\n        \"image\": \"/resources/pictures1695915864220-f4aa399f.jpg\",\n        \"_id\": \"65159f5895d22d9d99b07f4d\"\n    },\n    \"title\": \"наша команда\",\n    \"text\": \"Голова правління – Польовий Ростислав Олексійович. Співзасновник організації – Кулакевич Олександр Ігорович. Проект-менеджер (напрямок відбудови) – Хромих Артем Валерійович. Проект-менеджер (гуманітарний напрямок) – Кулакевич Катерина Сергіївна.\"\n}"
 										},
 										{
 											"name": "Помилка валідації даних",
@@ -2747,7 +2289,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -2800,7 +2342,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								},
@@ -2892,60 +2434,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"picture\": {\n    \"id\": \"<uuid>\",\n    \"path\": \"<string>\",\n    \"image_data\": false,\n    \"mime_type\": -35526748\n  },\n  \"title\": \"<string>\",\n  \"text\": \"<string>\"\n}"
-										},
-										{
-											"name": "Ресурс не знайдено",
-											"originalRequest": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"description": "Added as a part of security scheme: bearer",
-														"key": "Authorization",
-														"value": "Bearer <token>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"picture\": {\n    \"image_data\": \"<string>\",\n    \"mime_type\": \"<string>\",\n    \"image\": \"<string>\",\n    \"id\": \"<uuid>\"\n  },\n  \"title\": \"<string>\",\n  \"text\": \"<string>\"\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/team",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"team"
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": ""
+											"body": "{\n    \"picture\": {\n        \"mime_type\": \"text/plain\",\n        \"image\": \"/resources/pictures1695915864220-f4aa399f.jpg\",\n        \"_id\": \"65159f5895d22d9d99b07f4d\"\n    },\n    \"title\": \"наша команда\",\n    \"text\": \"Голова правління – Польовий Ростислав Олексійович. Співзасновник організації – Кулакевич Олександр Ігорович. Проект-менеджер (напрямок відбудови) – Хромих Артем Валерійович. Проект-менеджер (гуманітарний напрямок) – Кулакевич Катерина Сергіївна.\"\n}"
 										},
 										{
 											"name": "Помилка валідації даних",
@@ -2998,7 +2487,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -3051,7 +2540,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -3347,7 +2836,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -3400,7 +2889,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								},
@@ -3598,7 +3087,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -3651,7 +3140,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -3715,10 +3204,10 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"issuedHumanitarianKits\": \"<integer>\",\n  \"receivedHumanitarianAid\": \"<integer>\",\n  \"sumDonats\": \"<integer>\",\n  \"infoAtDate\": \"<string>\"\n}"
+											"body": "{\n    \"issuedHumanitarianKits\": 267,\n    \"receivedHumanitarianAid\": 260,\n    \"sumDonats\": 104228,\n    \"infoAtDate\": \"2023-08-17T22:58:38.831Z\"\n}"
 										},
 										{
-											"name": "Ресурс відсутній",
+											"name": "Помилка на боці серверу",
 											"originalRequest": {
 												"method": "GET",
 												"header": [
@@ -3739,8 +3228,8 @@
 													]
 												}
 											},
-											"status": "Not Found",
-											"code": 404,
+											"status": "Internal Server Error",
+											"code": 500,
 											"_postman_previewlanguage": "json",
 											"header": [
 												{
@@ -3749,7 +3238,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								},
@@ -3841,60 +3330,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"issuedHumanitarianKits\": \"<integer>\",\n  \"receivedHumanitarianAid\": \"<integer>\",\n  \"sumDonats\": \"<integer>\",\n  \"infoAtDate\": \"<string>\"\n}"
-										},
-										{
-											"name": "Ресурс не знайдено",
-											"originalRequest": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"description": "Added as a part of security scheme: bearer",
-														"key": "Authorization",
-														"value": "Bearer <token>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"issuedHumanitarianKits\": \"<integer>\",\n  \"receivedHumanitarianAid\": \"<integer>\",\n  \"sumDonats\": \"<integer>\",\n  \"infoAtDate\": \"<string>\"\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/achievements",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"achievements"
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": ""
+											"body": "{\n    \"issuedHumanitarianKits\": 267,\n    \"receivedHumanitarianAid\": 260,\n    \"sumDonats\": 104228,\n    \"infoAtDate\": \"2023-08-17T22:58:38.831Z\"\n}"
 										},
 										{
 											"name": "Помилка валідації даних",
@@ -3947,7 +3383,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -4000,7 +3436,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -4306,7 +3742,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -4359,7 +3795,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -6144,8 +5580,8 @@
 													]
 												}
 											},
-											"status": "Not Found",
-											"code": 404,
+											"status": "Internal Server Error",
+											"code": 500,
 											"_postman_previewlanguage": "json",
 											"header": [
 												{
@@ -6352,7 +5788,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -6405,7 +5841,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -6486,46 +5922,6 @@
 													],
 													"cookie": [],
 													"body": "{\n  \"id\": \"<uuid>\",\n  \"path\": \"<string>\",\n  \"image_data\": 94992836,\n  \"mime_type\": true\n}"
-												},
-												{
-													"name": "Невірний запит",
-													"originalRequest": {
-														"method": "GET",
-														"header": [
-															{
-																"key": "Accept",
-																"value": "application/json"
-															}
-														],
-														"url": {
-															"raw": "{{baseUrl}}/api/v1/activity/:id",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"api",
-																"v1",
-																"activity",
-																":id"
-															],
-															"variable": [
-																{
-																	"key": "id"
-																}
-															]
-														}
-													},
-													"status": "Bad Request",
-													"code": 400,
-													"_postman_previewlanguage": "json",
-													"header": [
-														{
-															"key": "Content-Type",
-															"value": "application/json"
-														}
-													],
-													"cookie": [],
-													"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
 												},
 												{
 													"name": "Ресурс відсутній",
@@ -6767,7 +6163,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -6782,7 +6179,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 												},
 												{
 													"name": "Помилка на боці серверу",
@@ -6826,7 +6223,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -6841,7 +6239,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 												}
 											]
 										},
@@ -7306,7 +6704,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -7359,7 +6757,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -7733,7 +7131,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -7748,7 +7147,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 												},
 												{
 													"name": "Помилка на боці серверу",
@@ -7792,7 +7191,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -7807,7 +7207,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 												}
 											]
 										},
@@ -7961,7 +7361,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -7976,7 +7377,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 												}
 											]
 										}
@@ -8308,7 +7709,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -8361,7 +7762,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -8722,7 +8123,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -8737,7 +8139,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 												},
 												{
 													"name": "Помилка на боці серверу",
@@ -8781,7 +8183,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -8796,7 +8199,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 												}
 											]
 										},
@@ -8948,7 +8351,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -8963,7 +8367,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 												}
 											]
 										}
@@ -9295,7 +8699,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -9348,7 +8752,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -10242,7 +9646,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								},
@@ -10488,7 +9892,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								},
@@ -10734,7 +10138,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								},
@@ -10980,7 +10384,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								},
@@ -11226,7 +10630,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -11556,7 +10960,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -11609,7 +11013,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -11939,7 +11343,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -11992,7 +11396,7 @@
 												}
 											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								}
@@ -12360,7 +11764,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -12375,7 +11780,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 												},
 												{
 													"name": "Помилка на боці серверу",
@@ -12419,7 +11824,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -12434,7 +11840,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 												}
 											]
 										},
@@ -12586,7 +11992,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -12601,7 +12008,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 												}
 											]
 										}
