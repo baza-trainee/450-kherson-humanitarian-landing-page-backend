@@ -22,7 +22,8 @@ function isValidHistory(req, res, next) {
     const isPucture = isImageValid(
       picture,
       componentConfig.history.picture.maxSizeKb,
-      appConfig.publicResources.pictures.directory
+      appConfig.publicResources.pictures.directory,
+      appConfig.publicResources.pictures.route
     );
     // check title
     const isTitle = isTextValid(
