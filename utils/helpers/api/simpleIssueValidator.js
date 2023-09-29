@@ -223,6 +223,10 @@ function isPicturesArray(arrPictures, maxSizekB, realPathToImage) {
   return false;
 }
 
+function isGeolocationEncodeDecodeComparable(geolocation) {
+  return atob(btoa(geolocation)) === geolocation;
+}
+
 module.exports = {
   isIntegerValid,
   isImageValid,
@@ -240,4 +244,5 @@ module.exports = {
   isCurrencyValid,
   isIBANValid,
   isIPNValid,
+  isGeolocationEncodeDecodeComparable,
 };

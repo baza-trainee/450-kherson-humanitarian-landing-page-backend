@@ -15,7 +15,7 @@ const getAchievements = async (req, res, next) => {
     };
 
     const { _id, __v, ...clearResult } = query._doc;
-    res.status(501).json(clearResult);
+    res.status(200).json(clearResult);
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
