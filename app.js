@@ -37,13 +37,14 @@ const config = require("./config/app");
 var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 var api1Router = require("./routes/api1");
+const appConfig = require("./config/app");
 
 const helmet = require("helmet");
 
 require("dotenv").config();
 
 var app = express();
-
+app.use(express.json({ limit: appConfig.JSONRequestSizeLimit }));
 app.use(helmet());
 app.disable("x-powered-by");
 
@@ -59,8 +60,16 @@ app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 //app.use("/resources", express.static(path.join(__dirname, "public")));
 app.use(
-    "/resources/documents/company",
-    express.static(path.join(__dirname, "public/documents/company"))
+  appConfig.publicResources.documents.route,
+  express.static(
+    path.join(__dirname, appConfig.publicResources.documents.directory)
+  )
+);
+app.use(
+  appConfig.publicResources.pictures.route,
+  express.static(
+    path.join(__dirname, appConfig.publicResources.pictures.directory)
+  )
 );
 // TODO: remove after production release
 app.use(cors(corsOption));
@@ -71,48 +80,48 @@ app.use("/api/v1", api1Router);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    next(createError(404));
+  next(createError(404));
 });
 
 app.use((err, req, res, next) => {
-    const { status = 500, message = "Server error" } = err;
+  const { status = 500, message = "Server error" } = err;
 
-    res.status(status).json({ message: message });
+  res.status(status).json({ message: message });
 });
 
 const startExpress = async () => {
-    app.use(function (err, req, res, next) {
-        // set locals, only providing error in development
-        res.locals.message = err.message;
-        res.locals.error = req.app.get("env") === "development" ? err : {};
+  app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get("env") === "development" ? err : {};
 
-        // render the error page
-        res.status(err.status || 500);
-        res.render("error");
-    });
+    // render the error page
+    res.status(err.status || 500);
+    res.render("error");
+  });
 };
 
 const startMongoDB = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URI, {
-            serverSelectionTimeoutMS: config.servers.MongoDB.selectionTimeout,
-        });
-        console.log("MongoDB сервер запущений");
-    } catch (err) {
-        console.log("Помилка при запуску MongoDB серверу");
-        setTimeout(() => {
-            startMongoDB();
-        }, config.servers.MongoDB.restartSec);
-    }
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: config.servers.MongoDB.selectionTimeout,
+    });
+    console.log("MongoDB сервер запущений");
+  } catch (err) {
+    console.log("Помилка при запуску MongoDB серверу");
+    setTimeout(() => {
+      startMongoDB();
+    }, config.servers.MongoDB.restartSec);
+  }
 };
 const startServer = async () => {
-    try {
-        await startMongoDB();
-        startExpress();
-        console.log("API Server чекає на отримання запитів...");
-    } catch (err) {
-        console.log("Помилка при запуску сервера");
-    }
+  try {
+    await startMongoDB();
+    startExpress();
+    console.log("API Server чекає на отримання запитів...");
+  } catch (err) {
+    console.log("Помилка при запуску сервера");
+  }
 };
 
 startServer();

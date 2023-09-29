@@ -1,6 +1,16 @@
-const getTime = (time) => { 
-  return time.days * 24 * 60 * 60 * 1000 + time.hours * 60 * 60 * 1000 + time.minutes * 60 * 1000 + time.seconds*1000;
-}
+/*
+ * Copyright (c) 2023 Volodymyr Nerovnia
+ * SPDX-License-Identifier: MIT
+ */
+
+const getTime = (time) => {
+  return (
+    time.days * 24 * 60 * 60 * 1000 +
+    time.hours * 60 * 60 * 1000 +
+    time.minutes * 60 * 1000 +
+    time.seconds * 1000
+  );
+};
 
 module.exports = {
   token: {
@@ -9,7 +19,7 @@ module.exports = {
       hours: 0,
       minutes: 15,
       seconds: 0,
-    })
+    }),
   },
   link: {
     expiresTime: getTime({
@@ -17,14 +27,14 @@ module.exports = {
       hours: 1,
       minutes: 0,
       seconds: 0,
-    })
+    }),
   },
   username: {
     minChars: 5,
-    maxChars: 15
+    maxChars: 15,
   },
   password: {
     minChars: 8,
-    maxChars: 20
-  }
-} 
+    maxChars: 20,
+  },
+};

@@ -6,7 +6,7 @@
 var express = require("express");
 var router = express.Router();
 const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("../swagger.json");
+const swaggerDocument = require("../documentation/api/1/swagger.json");
 
 const controllerHero = require("../controllers/api/1/hero");
 const controllerFund = require("../controllers/api/1/fund");
@@ -62,7 +62,7 @@ router.get("/docs", swaggerUi.setup(swaggerDocument));
 // Hero routes
 router.post("/hero", hasValidTocken, isValidHero, controllerHero.createHero);
 router.get("/hero/:id", isValidHero, controllerHero.getHeroById);
-router.put("/hero/:id", hasValidTocken, isValidHero, controllerHero.updateHero);
+router.put("/hero", hasValidTocken, isValidHero, controllerHero.updateHero);
 router.delete(
     "/hero/:id",
     hasValidTocken,
@@ -199,7 +199,7 @@ router.put(
     controllerActivities.updateActivity
 );
 router.delete(
-    "/activity",
+    "/activity/:id",
     hasValidTocken,
     isValidActivity,
     controllerActivities.deleteActivity

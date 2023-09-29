@@ -9,6 +9,7 @@ const {
   isColorValid,
   isTextValid,
 } = require("../../../utils/helpers/api/simpleIssueValidator");
+const appConfig = require("../../../config/app");
 const componentConfig = require("../../../config/api/v1/components");
 
 /**
@@ -16,7 +17,6 @@ const componentConfig = require("../../../config/api/v1/components");
  */
 
 function isValidHero(req, res, next) {
-  //console.log(req.method);
   try {
     const { View, Title, Subtitle } = req.body;
 
@@ -27,9 +27,13 @@ function isValidHero(req, res, next) {
     // check View
     const isView =
       View &&
-      isImageValid(View.picture, componentConfig.hero.View.picture.maxSizeKb) &&
-      isColorValid(View.bgColorStart) &&
-      isColorValid(View.bgColorEnd);
+      isImageValid(
+        View.picture,
+        componentConfig.hero.View.picture.maxSizeKb,
+        appConfig.publicResources.pictures.directory,
+        appConfig.publicResources.pictures.route
+      ) &&
+      isColorValid(View.color);
 
     // check Title
     const isTitle =
@@ -39,9 +43,7 @@ function isValidHero(req, res, next) {
         componentConfig.hero.title.text.minLength,
         componentConfig.hero.title.text.maxLength
       ) &&
-      isColorValid(Title.colorStart) &&
-      isColorValid(Title.colorMiddle) &&
-      isColorValid(Title.colorEnd);
+      isColorValid(Title.color);
 
     // check Subtitle
     const isSubtitle =
@@ -51,9 +53,7 @@ function isValidHero(req, res, next) {
         componentConfig.hero.subtitle.text.minLength,
         componentConfig.hero.subtitle.text.maxLength
       ) &&
-      isColorValid(Subtitle.colorStart) &&
-      isColorValid(Subtitle.colorMiddle) &&
-      isColorValid(Subtitle.colorEnd);
+      isColorValid(Subtitle.color);
 
     if (req.method === "DELETE" || req.method === "GET") {
       if (!isId) {
@@ -72,7 +72,7 @@ function isValidHero(req, res, next) {
     }
     next();
   } catch (err) {
-    return res.status(406).json({ message: "Помилка валідації даних" });
+    return res.status(500).json({ message: "Помилка на боці серверу" });
   }
 }
 

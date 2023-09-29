@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023 Volodymyr Nerovnia
+ * SPDX-License-Identifier: MIT
+ */
+
 const User = require("../models/auth/User");
 const bcrypt = require("bcryptjs");
 const { validationResult } = require("express-validator");
@@ -28,18 +33,18 @@ const login = async (req, res, next) => {
     await createAdminInDB();
     const user = await User.findOne({ username });
     if (!user) {
-      return res.status(400).json({ message: "Помилка авторизації" });
+      return res.status(403).json({ message: "Помилка авторизації" });
     }
 
     const validPassword = bcrypt.compareSync(password, user.password);
     if (!validPassword) {
-      return res.status(400).json({ message: "Помилка авторизації" });
+      return res.status(403).json({ message: "Помилка авторизації" });
     }
     responseResult.token = generateAccessToken(user._id);
     return res.status(200).json(responseResult);
   } catch (err) {
     //console.log(err);
-    res.status(400).json({ message: "Помилка авторизації" });
+    res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
 
@@ -70,7 +75,7 @@ const renewPassword = async (req, res, next) => {
       .json({ message: "Посилання для відновлення паролю відправлено" });
   } catch (err) {
     //console.log(err);
-    res.status(400).json({ message: "Помилка авторизації" });
+    res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
 
@@ -94,7 +99,7 @@ const renewPasswordLink = async (req, res, next) => {
     responseResult.token = generateAccessToken(user._id);
     return res.status(200).json(responseResult);
   } catch (err) {
-    res.status(400).json({ message: "Помилка авторизації" });
+    res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
 
@@ -115,7 +120,7 @@ const changePassword = async (req, res, next) => {
     await user.save();
     return res.status(200).json({ message: "Пароль користувача змінено" });
   } catch (err) {
-    res.status(400).json({ message: "Помилка авторизації" });
+    res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
 

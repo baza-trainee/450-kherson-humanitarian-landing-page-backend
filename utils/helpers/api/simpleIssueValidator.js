@@ -2,6 +2,9 @@
  * Copyright (c) 2023 Volodymyr Nerovnia
  * SPDX-License-Identifier: MIT
  */
+
+const path = require("path");
+const { existsSync } = require("node:fs");
 const { ObjectId } = require("mongodb");
 const mimeImageTypes = require("../../../dictionaries/mime/pictures");
 const mimeDocumentTypes = require("../../../dictionaries/mime/documents");
@@ -11,6 +14,14 @@ const getBinarySize = (data) => Buffer.from(data, "base64").length;
 
 function isValidPictureMimeType(type) {
   return isValidMimeType(mimeImageTypes, type);
+}
+
+function isExistMimeForPicture(ext) {
+  return isExistMimeForFileExt(mimeImageTypes, ext);
+}
+
+function isExistMimeForFileExt(arrMimes, ext) {
+  return arrMimes.find((mime) => mime.extension === ext);
 }
 
 function isValidMimeType(arrMimes, type) {
@@ -23,15 +34,44 @@ function isValidMimeType(arrMimes, type) {
   return false;
 }
 
-function isImageValid(picObject, maxSizekB) {
-  const base64Pattern =
-    /^data:image\/(png|jpeg|jpg|gif);base64,([A-Za-z0-9+/]+={0,2})$/;
+function isValidFilename(filename) {
+  const pattern = /^[a-zA-Z0-9._-]+$/;
+  return pattern.test(filename);
+}
+
+function isImagePathValid(picObject, realPathToImage, routeToImage) {
+  const fileName = picObject.image.replace(`${routeToImage}/`, "");
+  if (!isValidFilename(fileName)) {
+    return false;
+  }
+  if (!isExistMimeForPicture(path.extname(fileName))) {
+    return false;
+  }
+  if (!isFileExists(`${realPathToImage}${fileName}`)) {
+    return false;
+  }
+  return true;
+}
+
+function isImageContentValid(picObject, maxSizekB) {
   if (
-    picObject?.image_data === "base64_encoded_image_data_here" &&
     isValidPictureMimeType(picObject?.mime_type) &&
-    getBinarySize(picObject?.image) <= maxSizekB * 1024 &&
-    base64Pattern.test(picObject?.image)
+    getBinarySize(picObject?.image) <= maxSizekB * 1024
   ) {
+    return true;
+  }
+  return false;
+}
+
+function isImageValid(picObject, maxSizekB, realPathToImage, routeToImage) {
+  if (picObject?.mime_type === "text/plain") {
+    return isImagePathValid(picObject, realPathToImage, routeToImage);
+  }
+  return isImageContentValid(picObject, maxSizekB);
+}
+
+function isFileExists(path) {
+  if (existsSync(path)) {
     return true;
   }
   return false;
@@ -174,9 +214,11 @@ function isIntegerValid(number, minNumber, maxNumber) {
   return false;
 }
 
-function isPicturesArray(arrPictures, maxSizekB) {
+function isPicturesArray(arrPictures, maxSizekB, realPathToImage) {
   if (Array.isArray(arrPictures)) {
-    return arrPictures.every((picture) => isImageValid(picture, maxSizekB));
+    return arrPictures.every((picture) =>
+      isImageValid(picture, maxSizekB, realPathToImage)
+    );
   }
   return false;
 }
@@ -184,6 +226,7 @@ function isPicturesArray(arrPictures, maxSizekB) {
 module.exports = {
   isIntegerValid,
   isImageValid,
+  isImageContentValid,
   isColorValid,
   isTextValid,
   isDateValid,

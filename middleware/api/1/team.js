@@ -7,6 +7,7 @@ const {
   isImageValid,
   isTextValid,
 } = require("../../../utils/helpers/api/simpleIssueValidator");
+const appConfig = require("../../../config/app");
 const componentConfig = require("../../../config/api/v1/components");
 
 /**
@@ -18,10 +19,13 @@ function isValidTeam(req, res, next) {
     const { picture, title, text } = req.body;
 
     // check picture
-    const isPucture = isImageValid(
+    const isPicture = isImageValid(
       picture,
-      componentConfig.team.picture.maxSizeKb
+      componentConfig.team.picture.maxSizeKb,
+      appConfig.publicResources.pictures.directory,
+      appConfig.publicResources.pictures.route
     );
+
     // check title
     const isTitle = isTextValid(
       title,
@@ -36,7 +40,7 @@ function isValidTeam(req, res, next) {
     );
 
     if (req.method === "PUT") {
-      if (!(isPucture && isTitle && isText)) {
+      if (!(isPicture && isTitle && isText)) {
         return res.status(406).json({ message: "Помилка валідації даних" });
       }
     }

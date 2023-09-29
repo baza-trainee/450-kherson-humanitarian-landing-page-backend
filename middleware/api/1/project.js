@@ -10,6 +10,7 @@ const {
   isBooleanValid,
   isPicturesArray,
 } = require("../../../utils/helpers/api/simpleIssueValidator");
+const appConfig = require("../../../config/app");
 const componentConfig = require("../../../config/api/v1/components");
 
 /**
@@ -37,7 +38,8 @@ function isValidProject(req, res, next) {
     // check main picture
     const isMainPicture = isImageValid(
       mainPicture,
-      componentConfig.projects.pictures.maxSizeKb
+      componentConfig.projects.pictures.maxSizeKb,
+      appConfig.publicResources.pictures.directory
     );
     const isTitle = isTextValid(
       title,
@@ -49,7 +51,8 @@ function isValidProject(req, res, next) {
     const isCompleted = isBooleanValid(completed);
     const isPictures = isPicturesArray(
       pictures,
-      componentConfig.projects.pictures.maxSizeKb
+      componentConfig.projects.pictures.maxSizeKb,
+      appConfig.publicResources.pictures.directory
     );
     const isSubTitle = isTextValid(
       subTitle,
