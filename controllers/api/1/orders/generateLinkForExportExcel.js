@@ -1,26 +1,25 @@
-const CryptoJS = require("crypto-js");
-const { Order } = require("../../../../models");
+const { v4: uuidv4 } = require("uuid");
+const { Order, Token } = require("../../../../models");
 
-const { SECRET_KEY } = process.env;
 const { urls } = require("../../../../config/app");
-
-const secretKey = SECRET_KEY;
 
 // Generate a secure download URL for an order
 const generateLinkForExportExcel = async (req, res) => {
     try {
-        const { orderId: id } = req.params;
+        const { orderId } = req.params;
 
-        const existingOrder = await Order.findById(id);
+        const existingOrder = await Order.findById(orderId);
         if (!existingOrder) {
             throw HttpError(432, "Список не знайдений");
         }
 
-        const encryptedOrderId = encryptOrderId(id);
+        // Generate a unique token
+        const token = uuidv4();
 
-        const downloadUrl = `${
-            urls.APP_URL
-        }/api/v1/export-order/${encodeURIComponent(encryptedOrderId)}`;
+        // Store the mapping between the token and the order ID in the database
+        await Token.create({ token, orderId });
+
+        const downloadUrl = `${urls.APP_URL}/api/v1/export-order/${token}`;
         console.log(downloadUrl);
 
         res.json({ downloadUrl });
@@ -29,10 +28,5 @@ const generateLinkForExportExcel = async (req, res) => {
         res.status(500).json({ error: "Помилка на боці сервера" });
     }
 };
-
-function encryptOrderId(orderId) {
-    const result = CryptoJS.AES.encrypt(orderId, secretKey).toString();
-    return result;
-}
 
 module.exports = generateLinkForExportExcel;
