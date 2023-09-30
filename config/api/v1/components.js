@@ -92,12 +92,18 @@ module.exports = {
     },
   },
   projects: {
-    pictures: {
-      maxSizeKb: 500,
-    },
     title: {
       minLength: 56,
       maxLength: 73,
+    },
+    stages: new Map([
+      ["funding-await", "очікує на фінансування"],
+      ["in-process", "в процесі"],
+      ["completed", "Завершено"],
+    ]),
+    videoLink: {
+      minLength: 15,
+      maxLength: 170,
     },
     subTitle: {
       minLength: 82,
@@ -118,6 +124,9 @@ module.exports = {
     projectText: {
       minLength: 60,
       maxLength: 248,
+    },
+    pictures: {
+      maxSizeKb: 500,
     },
   },
   logos: {
