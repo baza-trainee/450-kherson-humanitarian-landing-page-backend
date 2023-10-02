@@ -12294,7 +12294,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0Zjg3NmZjY2ExNmJlNDI5Y2U4NmI1OSIsImlhdCI6MTY5NjI1MTkyMiwiZXhwIjoxNzgzNTUxOTIyfQ.g4lzP_j9fgjgWc803zi3jm3WBSDTxb515SW1eZHwgkk",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjJkM2I3OGQ0MjAwMjFkMjMxZDNkZiIsImlhdCI6MTY5NjI1NzIzNSwiZXhwIjoxNzgzNTU3MjM1fQ.V8-deORM3rfgOdl3y4WfGsVHwM5W7Mm4qG-eIMXrU8I",
 				"type": "string"
 			}
 		]
@@ -12322,7 +12322,8 @@
 	"variable": [
 		{
 			"key": "protocol",
-			"value": "https"
+			"value": "https",
+			"disabled": true
 		},
 		{
 			"key": "baseUrl",
@@ -12332,19 +12333,18 @@
 		},
 		{
 			"key": "baseUrl",
-			"value": "{{protocol}}://450kr.com"
+			"value": "{{protocol}}://450kr.com",
+			"disabled": true
 		},
 		{
 			"key": "protocol",
 			"value": "http",
-			"type": "string",
-			"disabled": true
+			"type": "string"
 		},
 		{
 			"key": "baseUrl",
 			"value": "{{protocol}}://127.0.0.1:3001",
-			"type": "string",
-			"disabled": true
+			"type": "string"
 		},
 		{
 			"key": "bearerToken",
