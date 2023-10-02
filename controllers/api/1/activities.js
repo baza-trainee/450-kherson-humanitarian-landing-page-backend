@@ -36,7 +36,6 @@ const createActivity = async (req, res, next) => {
       .status(200)
       .json(activityPrepareToRequest({ ...activityDBRecord._doc }));
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
