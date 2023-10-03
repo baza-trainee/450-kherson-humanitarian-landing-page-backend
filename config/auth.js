@@ -37,4 +37,9 @@ module.exports = {
     minChars: 8,
     maxChars: 20,
   },
+  limitAuthRequests: {
+    // 24 hours
+    timeWindow: 24 * 60 * 60 * 1000,
+    trys: 20,
+  },
 };

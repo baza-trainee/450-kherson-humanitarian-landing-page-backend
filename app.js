@@ -27,6 +27,7 @@ var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
+const { rateLimit } = require("express-rate-limit");
 var logger = require("morgan");
 const mongoose = require("mongoose");
 const config = require("./config/app");
@@ -35,6 +36,7 @@ var indexRouter = require("./routes/index");
 var authRouter = require("./routes/auth");
 var api1Router = require("./routes/api1");
 const appConfig = require("./config/app");
+const authConfig = require("./config/auth");
 
 const helmet = require("helmet");
 
@@ -57,66 +59,77 @@ app.use(cookieParser());
 //app.use(express.static(path.join(__dirname, 'public')));
 //app.use("/resources", express.static(path.join(__dirname, "public")));
 app.use(
-    appConfig.publicResources.documents.route,
-    express.static(
-        path.join(__dirname, appConfig.publicResources.documents.directory)
-    )
+  appConfig.publicResources.documents.route,
+  express.static(
+    path.join(__dirname, appConfig.publicResources.documents.directory)
+  )
 );
 app.use(
-    appConfig.publicResources.pictures.route,
-    express.static(
-        path.join(__dirname, appConfig.publicResources.pictures.directory)
-    )
+  appConfig.publicResources.pictures.route,
+  express.static(
+    path.join(__dirname, appConfig.publicResources.pictures.directory)
+  )
 );
 
 //app.use('/', indexRouter);
 app.use("/auth", authRouter);
 app.use("/api/v1", api1Router);
 
+console.log(authConfig.limitAuthRequests.timeWindow);
+
+const authLimiter = rateLimit({
+  windowMs: authConfig.limitAuthRequests.timeWindow,
+  limit: authConfig.limitAuthRequests.trys,
+  standardHeaders: "draft-7",
+  legacyHeaders: false,
+});
+// Apply the rate limiting middleware to API calls only
+app.use("/auth", authLimiter);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    next(createError(404));
+  next(createError(404));
 });
 
 app.use((err, req, res, next) => {
-    const { status = 500, message = "Server error" } = err;
+  const { status = 500, message = "Server error" } = err;
 
-    res.status(status).json({ message: message });
+  res.status(status).json({ message: message });
 });
 
 const startExpress = async () => {
-    app.use(function (err, req, res, next) {
-        // set locals, only providing error in development
-        res.locals.message = err.message;
-        res.locals.error = req.app.get("env") === "development" ? err : {};
+  app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get("env") === "development" ? err : {};
 
-        // render the error page
-        res.status(err.status || 500);
-        res.render("error");
-    });
+    // render the error page
+    res.status(err.status || 500);
+    res.render("error");
+  });
 };
 
 const startMongoDB = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URI, {
-            serverSelectionTimeoutMS: config.servers.MongoDB.selectionTimeout,
-        });
-        console.log("MongoDB сервер запущений");
-    } catch (err) {
-        console.log("Помилка при запуску MongoDB серверу");
-        setTimeout(() => {
-            startMongoDB();
-        }, config.servers.MongoDB.restartSec);
-    }
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: config.servers.MongoDB.selectionTimeout,
+    });
+    console.log("MongoDB сервер запущений");
+  } catch (err) {
+    console.log("Помилка при запуску MongoDB серверу");
+    setTimeout(() => {
+      startMongoDB();
+    }, config.servers.MongoDB.restartSec);
+  }
 };
 const startServer = async () => {
-    try {
-        await startMongoDB();
-        startExpress();
-        console.log("API Server чекає на отримання запитів...");
-    } catch (err) {
-        console.log("Помилка при запуску сервера");
-    }
+  try {
+    await startMongoDB();
+    startExpress();
+    console.log("API Server чекає на отримання запитів...");
+  } catch (err) {
+    console.log("Помилка при запуску сервера");
+  }
 };
 
 startServer();
