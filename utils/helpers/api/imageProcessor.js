@@ -41,6 +41,7 @@ const deletePicture = async (picture) => {
     });
     return true;
   }
+  return false;
 };
 
 /**
