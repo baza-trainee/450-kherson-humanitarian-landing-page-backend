@@ -56,10 +56,9 @@ const createProjectDocument = async (req, res, next) => {
       projectDuration,
       projectText,
     }).save();
-    return res.status(200).json(convertId(projectDoc));
+    res.status(200).json(convertId(projectDoc));
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: "Помилка на боці серверу" });
+    res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
 
@@ -85,7 +84,7 @@ const getProjectDocumentById = async (req, res, next) => {
       message: "Ресурс не знайдено",
     });
   } catch (err) {
-    return res.status(500).json({ message: "Помилка на боці серверу" });
+    res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
 
@@ -112,11 +111,11 @@ const updateProjectDocument = async (req, res, next) => {
     if (projectDoc) {
       return res.status(200).json(convertId(projectDoc));
     }
-    return res.status(404).json({
+    res.status(404).json({
       message: "Ресурс не знайдено",
     });
   } catch (err) {
-    return res.status(500).json({ message: "Помилка на боці серверу" });
+    res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
 
@@ -139,9 +138,9 @@ const deleteProjectDocument = async (req, res, next) => {
         `${appConfig.publicResources.pictures.directory}${picture.image}`
       );
     });
-    return res.status(200).json(convertId(projectDoc));
+    res.status(200).json(convertId(projectDoc));
   } catch (err) {
-    return res.status(500).json({ message: "Помилка на боці серверу" });
+    res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
 
@@ -174,12 +173,11 @@ const addProjectPicture = async (req, res, next) => {
       const projectDoc = await projectDBDocument.save();
       return res.status(200).json(convertId(projectDoc));
     }
-    return res.status(404).json({
+    res.status(404).json({
       message: "Ресурс не знайдено",
     });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: "Помилка на боці серверу" });
+    res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
 
@@ -189,42 +187,40 @@ const deleteProjectPicture = async (req, res, next) => {
     const image_id = req.params.pic_id;
     const projectDBDocument = await ProjectDBModel.findById(project_id);
     if (projectDBDocument) {
-      //console.log(projectDBDocument.mainPicture._id);
       let isImageDelete = false;
       if (projectDBDocument?.mainPicture?._id.equals(image_id)) {
         isImageDelete = deletePicture(
-          `${appConfig.publicResources.pictures.directory}${projectDBDocument.mainPicture}`
+          `${appConfig.publicResources.pictures.directory}${projectDBDocument.mainPicture.image}`
         );
-        projectDBDocument.mainPicture = null;
-        console.log("++++++++++++");
+        if (isImageDelete) {
+          projectDBDocument.mainPicture = null;
+          const projectDoc = await projectDBDocument.save();
+          return res.status(200).json(convertId(projectDoc));
+        } /*else {
+          return res.status(500).json({ message: "Помилка на боці серверу" });
+        }*/
       } else {
         const pictureForDelete = projectDBDocument.pictures.find((picture) =>
           picture._id.equals(image_id)
         );
         if (pictureForDelete) {
           isImageDelete = deletePicture(
-            `${appConfig.publicResources.pictures.directory}${pictureForDelete}`
+            `${appConfig.publicResources.pictures.directory}${pictureForDelete.image}`
           );
+          if (isImageDelete) {
+            projectDBDocument.pictures = projectDBDocument.pictures.filter(
+              (picture) => !picture._id.equals(image_id)
+            );
+            const projectDoc = await projectDBDocument.save();
+            return res.status(200).json(convertId(projectDoc));
+          }
+        } else {
+          return res.status(404).json({ message: "Ресурс не знайдено" });
         }
       }
-      if (isImageDelete) {
-        projectDBDocument.pictures = projectDBDocument.pictures.filter(
-          (picture) => !picture._id.equals(image_id)
-        );
-        const projectDoc = await projectDBDocument.save();
-        //console.log(projectDoc);
-        //return res.status(200).json({});
-        return res.status(200).json(convertId(projectDoc));
-      } else {
-        return res.status(404).json({ message: "Ресурс не знайдено" });
-      }
-      console.log("--------------");
-    } else {
-      return res.status(404).json({ message: "Ресурс не знайдено" });
     }
-    return res.status(500).json({ message: "Помилка на боці серверу" });
+    return res.status(404).json({ message: "Ресурс не знайдено" });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
