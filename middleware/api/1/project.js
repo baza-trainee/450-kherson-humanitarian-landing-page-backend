@@ -5,10 +5,11 @@
 
 const {
   isIdValid,
-  isImageValid,
+  //isImageValid,
+  isImageContentValid,
   isTextValid,
   isBooleanValid,
-  isPicturesArray,
+  //isPicturesArray,
 } = require("../../../utils/helpers/api/simpleIssueValidator");
 const appConfig = require("../../../config/app");
 const componentConfig = require("../../../config/api/v1/components");
@@ -17,15 +18,12 @@ const componentConfig = require("../../../config/api/v1/components");
  * Check if Project object is valid .
  */
 
-function isValidProject(req, res, next) {
+function isValidProjectDocument(req, res, next) {
   try {
     const {
-      mainPicture,
       title,
-      awaitingFunding,
-      inProcess,
-      completed,
-      pictures,
+      stage,
+      videoLink,
       subTitle,
       text,
       areaCompletedWorks,
@@ -36,24 +34,20 @@ function isValidProject(req, res, next) {
     // check id
     const isId = isIdValid(id);
     // check main picture
-    const isMainPicture = isImageValid(
-      mainPicture,
-      componentConfig.projects.pictures.maxSizeKb,
-      appConfig.publicResources.pictures.directory
-    );
     const isTitle = isTextValid(
       title,
       componentConfig.projects.title.minLength,
       componentConfig.projects.title.maxLength
     );
-    const isAwaitingFunding = isBooleanValid(awaitingFunding);
-    const isInProcess = isBooleanValid(inProcess);
-    const isCompleted = isBooleanValid(completed);
-    const isPictures = isPicturesArray(
-      pictures,
-      componentConfig.projects.pictures.maxSizeKb,
-      appConfig.publicResources.pictures.directory
+
+    const isStage = componentConfig.projects.stages.has(stage);
+
+    const isVideoLink = isTextValid(
+      videoLink,
+      componentConfig.projects.videoLink.minLength,
+      componentConfig.projects.videoLink.maxLength
     );
+
     const isSubTitle = isTextValid(
       subTitle,
       componentConfig.projects.subTitle.minLength,
@@ -89,12 +83,9 @@ function isValidProject(req, res, next) {
     if (req.method === "POST") {
       if (
         !(
-          isMainPicture &&
           isTitle &&
-          isAwaitingFunding &&
-          isInProcess &&
-          isCompleted &&
-          isPictures &&
+          isStage &&
+          isVideoLink &&
           isSubTitle &&
           isItText &&
           isAreaCompletedWorks &&
@@ -105,16 +96,13 @@ function isValidProject(req, res, next) {
         return res.status(406).json({ message: "Помилка валідації даних" });
       }
     }
-    if (req.method === "PUT") {
+    if (req.method === "PATCH") {
       if (
         !(
           isId &&
-          isMainPicture &&
           isTitle &&
-          isAwaitingFunding &&
-          isInProcess &&
-          isCompleted &&
-          isPictures &&
+          isStage &&
+          isVideoLink &&
           isSubTitle &&
           isItText &&
           isAreaCompletedWorks &&
@@ -128,10 +116,43 @@ function isValidProject(req, res, next) {
     next();
   } catch (err) {
     console.log(err);
-    return res.status(406).json({ message: "-Помилка валідації даних" });
+    return res.status(500).json({ message: "Помилка на боці серверу" });
+  }
+}
+
+function isValidProjectPicture(req, res, next) {
+  try {
+    const { picture, isMain } = req.body;
+
+    const pr_id = req.params.pr_id;
+    const pic_id = req.params.pic_id;
+
+    const isId = isIdValid(pr_id) && isIdValid(pic_id);
+
+    const isPicture = isImageContentValid(
+      picture,
+      componentConfig.projects.pictures.maxSizeKb
+    );
+    const isMainPicture = isBooleanValid(isMain);
+
+    if (req.method === "POST") {
+      if (!(isPicture && isMainPicture)) {
+        return res.status(406).json({ message: "Помилка валідації даних" });
+      }
+    }
+    if (req.method === "DELETE") {
+      if (!isId) {
+        return res.status(406).json({ message: "Помилка валідації даних" });
+      }
+    }
+    next();
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Помилка на боці серверу" });
   }
 }
 
 module.exports = {
-  isValidProject,
+  isValidProjectDocument,
+  isValidProjectPicture,
 };
