@@ -75,16 +75,16 @@ app.use(
 app.use("/auth", authRouter);
 app.use("/api/v1", api1Router);
 
-console.log(authConfig.limitAuthRequests.timeWindow);
-
+//console.log(authConfig.limitAuthRequests.timeWindow);
+/*
 const authLimiter = rateLimit({
   windowMs: authConfig.limitAuthRequests.timeWindow,
   limit: authConfig.limitAuthRequests.trys,
   standardHeaders: "draft-7",
   legacyHeaders: false,
-});
+});*/
 // Apply the rate limiting middleware to API calls only
-app.use("/auth", authLimiter);
+//app.use("/auth", authLimiter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
