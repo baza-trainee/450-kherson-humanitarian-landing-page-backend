@@ -214,6 +214,7 @@ router.delete(
 router.get("/projects", controllerProjects.getProjects);
 router.post(
   "/projects",
+  hasValidTocken,
   isValidProjectDocument,
   controllerProjects.createProjectDocument
 );
