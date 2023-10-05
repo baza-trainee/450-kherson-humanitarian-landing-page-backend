@@ -257,7 +257,12 @@ router.get("/logos", controllerLogos.getLogos);
 router.post("/logos", hasValidTocken, isValidLogo, controllerLogos.createLogo);
 router.get("/logo/:id", isValidLogo, controllerLogos.getLogoById);
 router.put("/logo", hasValidTocken, isValidLogo, controllerLogos.updateLogo);
-router.delete("/logo", hasValidTocken, isValidLogo, controllerLogos.deleteLogo);
+router.delete(
+  "/logo/:id",
+  hasValidTocken,
+  isValidLogo,
+  controllerLogos.deleteLogo
+);
 
 // Contacts routes
 router.get("/contacts", controllerContacts.getContacts);

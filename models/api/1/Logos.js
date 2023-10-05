@@ -1,7 +1,8 @@
-const { Schema, model} = require('mongoose');
+const { Schema, model } = require("mongoose");
+const Picture = require("./Common/Picture");
 
 const Logos = new Schema({
-  pictures: { type: Picture}
+  picture: { type: Picture },
 });
 
-module.exports = model('Logos', Logos);
+module.exports = model("Logos", Logos);

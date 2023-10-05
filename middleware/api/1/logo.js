@@ -16,7 +16,7 @@ const componentConfig = require("../../../config/api/v1/components");
 
 function isValidLogo(req, res, next) {
   try {
-    const picture = req.body;
+    const picture = req.body.picture;
 
     const id = req.body.id ? req.body.id : req.params.id;
     // check id
@@ -24,8 +24,7 @@ function isValidLogo(req, res, next) {
     // check picture
     const isPicture = isImageValid(
       picture,
-      componentConfig.logos.pictures.maxSizeKb,
-      appConfig.publicResources.pictures.directory
+      componentConfig.logos.pictures.maxSizeKb
     );
 
     if (req.method === "DELETE" || req.method === "GET") {
