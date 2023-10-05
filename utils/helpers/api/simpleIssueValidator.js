@@ -63,7 +63,12 @@ function isImageContentValid(picObject, maxSizekB) {
   return false;
 }
 
-function isImageValid(picObject, maxSizekB, realPathToImage, routeToImage) {
+function isImageValid(
+  picObject,
+  maxSizekB,
+  realPathToImage = "",
+  routeToImage = ""
+) {
   if (picObject?.mime_type === "text/plain") {
     return isImagePathValid(picObject, realPathToImage, routeToImage);
   }

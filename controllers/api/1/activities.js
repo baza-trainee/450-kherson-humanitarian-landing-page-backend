@@ -67,7 +67,6 @@ const getActivityById = async (req, res, next) => {
       message: "Ресурс не знайдено",
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
