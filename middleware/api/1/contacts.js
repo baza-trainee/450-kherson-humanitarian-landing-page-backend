@@ -33,11 +33,13 @@ function isValidContact(req, res, next) {
     );
 
     // check phone number
-    const isPhone = isPhoneNumberValid(
-      phone,
-      componentConfig.contacts.phone.minLength,
-      componentConfig.contacts.phone.maxLength
-    );
+    const isPhone =
+      phone === "" ||
+      isPhoneNumberValid(
+        phone,
+        componentConfig.contacts.phone.minLength,
+        componentConfig.contacts.phone.maxLength
+      );
 
     if (req.method === "PUT") {
       if (!(isEmail && isAddress && isPhone)) {
