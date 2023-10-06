@@ -7762,40 +7762,6 @@
 											"body": "[\n  {\n    \"id\": \"<uuid>\",\n    \"path\": \"<string>\",\n    \"image_data\": -53579356,\n    \"mime_type\": \"dolor deserunt\"\n  },\n  {\n    \"id\": \"<uuid>\",\n    \"path\": \"<string>\",\n    \"image_data\": \"sunt\",\n    \"mime_type\": -4694305.7539669275\n  }\n]"
 										},
 										{
-											"name": "Невірний запит",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Accept",
-														"value": "application/json"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/logos",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"logos"
-													]
-												}
-											},
-											"status": "Bad Request",
-											"code": 400,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
-										},
-										{
 											"name": "Ресурс відсутній",
 											"originalRequest": {
 												"method": "GET",
@@ -7827,7 +7793,41 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
+											"body": "{\n    \"message\": \"Ресурс не знайдено\"\n}"
+										},
+										{
+											"name": "Помилка на боці серверу",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/logos",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"logos"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								},
@@ -8547,7 +8547,7 @@
 													"body": "{\n    \"picture\": {\n        \"mime_type\": \"text/plain\",\n        \"image\": \"/resources/pictures1696490294354-443b6eaf.jpg\",\n        \"_id\": \"651e6336d971d5b3de0a194a\"\n    },\n    \"id\": \"651e5d2222d3d273841d5954\"\n}"
 												},
 												{
-													"name": "Ресурс не знайдено",
+													"name": "Ресурс відсутній",
 													"originalRequest": {
 														"method": "DELETE",
 														"header": [
@@ -8591,6 +8591,52 @@
 													],
 													"cookie": [],
 													"body": "{\n    \"message\": \"Ресурс не знайдено\"\n}"
+												},
+												{
+													"name": "Помилка валідації даних",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															},
+															{
+																"description": "Added as a part of security scheme: bearer",
+																"key": "Authorization",
+																"value": "Bearer <token>"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/logo/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"logo",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id",
+																	"value": ""
+																}
+															]
+														}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n    \"message\": \"Помилка валідації даних\"\n}"
 												},
 												{
 													"name": "Помилка на боці серверу",
@@ -8702,10 +8748,10 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"email\": \"<string>\",\n  \"address\": \"<string>\",\n  \"phone\": \"<string>\"\n}"
+											"body": "{\n    \"email\": \"\",\n    \"address\": \"\",\n    \"phone\": \"\"\n}"
 										},
 										{
-											"name": "Невірний запит",
+											"name": "Помилка на боці серверу",
 											"originalRequest": {
 												"method": "GET",
 												"header": [
@@ -8726,8 +8772,8 @@
 													]
 												}
 											},
-											"status": "Bad Request",
-											"code": 400,
+											"status": "Internal Server Error",
+											"code": 500,
 											"_postman_previewlanguage": "json",
 											"header": [
 												{
@@ -8736,41 +8782,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
-										},
-										{
-											"name": "Ресурс відсутній",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Accept",
-														"value": "application/json"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/contacts",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"contacts"
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
+											"body": "{\n  \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								},
@@ -8790,7 +8802,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n  \"email\": \"go450.kryvyi.rih@gmail.com\",\n  \"address\": \"50014 Україна Дніпропетровська область Кривий Ріг, вул. Ракітіна, буд. 9\",\n  \"phone\": \"+380111111111\"\n}",
+											"raw": "{\n  \"email\": \"go450.kryvyi.rih@gmail.com\",\n  \"address\": \"50014 Україна Дніпропетровська область Кривий Ріг, вул. Ракітіна, буд. 9\",\n  \"phone\": \"\"\n}",
 											"options": {
 												"raw": {
 													"headerFamily": "json",
@@ -8862,60 +8874,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"email\": \"<string>\",\n  \"address\": \"<string>\",\n  \"phone\": \"<string>\"\n}"
-										},
-										{
-											"name": "Ресурс не знайдено",
-											"originalRequest": {
-												"method": "PUT",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"description": "Added as a part of security scheme: bearer",
-														"key": "Authorization",
-														"value": "Bearer <token>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"email\": \"<string>\",\n  \"address\": \"<string>\",\n  \"phone\": \"<string>\"\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/contacts",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"contacts"
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": ""
+											"body": "{\n    \"email\": \"go450.kryvyi.rih@gmail.com\",\n    \"address\": \"50014 Україна Дніпропетровська область Кривий Ріг, вул. Ракітіна, буд. 9\",\n    \"phone\": \"\"\n}"
 										},
 										{
 											"name": "Помилка валідації даних",
@@ -11346,41 +11305,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "[\n  {\n    \"id\": \"<uuid>\",\n    \"currency\": \"<string>\",\n    \"recipient\": \"<string>\",\n    \"IBAN\": \"<string>\",\n    \"IPN\": \"<string>\",\n    \"paymentPurpose\": \"<string>\"\n  },\n  {\n    \"id\": \"<uuid>\",\n    \"currency\": \"<string>\",\n    \"recipient\": \"<string>\",\n    \"IBAN\": \"<string>\",\n    \"IPN\": \"<string>\",\n    \"paymentPurpose\": \"<string>\"\n  }\n]"
-										},
-										{
-											"name": "Невірний запит",
-											"originalRequest": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Accept",
-														"value": "application/json"
-													}
-												],
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/donats",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"donats"
-													]
-												}
-											},
-											"status": "Bad Request",
-											"code": 400,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
+											"body": "[\n    {\n        \"currency\": \"USD\",\n        \"recipient\": \"Громадська організація 4.5.0. Кривий Ріг\",\n        \"IBAN\": \"UA693052990000026002020407112\",\n        \"IPN\": \"44867603\",\n        \"paymentPurpose\": \"Благодійний внесок\",\n        \"id\": \"651eb00f8a362a5e026a8535\"\n    },\n    {\n        \"currency\": \"EUR\",\n        \"recipient\": \"Громадська організація 4.5.0. Кривий Ріг\",\n        \"IBAN\": \"UA693052990000026002020407112\",\n        \"IPN\": \"44867603\",\n        \"paymentPurpose\": \"Благодійний внесок\",\n        \"id\": \"651ebe4867e89d195f4c52b1\"\n    }\n]"
 										},
 										{
 											"name": "Ресурс відсутній",
@@ -11414,7 +11339,41 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
+											"body": "{\n    \"message\": \"Ресурс не знайдено\"\n}"
+										},
+										{
+											"name": "Помилка на боці серверу",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/donats",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"donats"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								},
@@ -11506,60 +11465,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"id\": \"<uuid>\",\n  \"currency\": \"<string>\",\n  \"recipient\": \"<string>\",\n  \"IBAN\": \"<string>\",\n  \"IPN\": \"<string>\",\n  \"paymentPurpose\": \"<string>\"\n}"
-										},
-										{
-											"name": "Ресурс відсутній",
-											"originalRequest": {
-												"method": "POST",
-												"header": [
-													{
-														"key": "Content-Type",
-														"value": "application/json"
-													},
-													{
-														"key": "Accept",
-														"value": "application/json"
-													},
-													{
-														"description": "Added as a part of security scheme: bearer",
-														"key": "Authorization",
-														"value": "Bearer <token>"
-													}
-												],
-												"body": {
-													"mode": "raw",
-													"raw": "{\n  \"id\": \"<uuid>\",\n  \"currency\": \"<string>\",\n  \"recipient\": \"<string>\",\n  \"IBAN\": \"<string>\",\n  \"IPN\": \"<string>\",\n  \"paymentPurpose\": \"<string>\"\n}",
-													"options": {
-														"raw": {
-															"headerFamily": "json",
-															"language": "json"
-														}
-													}
-												},
-												"url": {
-													"raw": "{{baseUrl}}/api/v1/donats",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"v1",
-														"donats"
-													]
-												}
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
+											"body": "{\n    \"currency\": \"USD\",\n    \"recipient\": \"Громадська організація 4.5.0. Кривий Ріг\",\n    \"IBAN\": \"UA693052990000026002020407112\",\n    \"IPN\": \"44867603\",\n    \"paymentPurpose\": \"Благодійний внесок\",\n    \"id\": \"651ec289468bf4788a59d326\"\n}"
 										},
 										{
 											"name": "Помилка валідації даних",
@@ -11730,7 +11636,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -11745,47 +11652,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"id\": \"<uuid>\",\n  \"currency\": \"<string>\",\n  \"recipient\": \"<string>\",\n  \"IBAN\": \"<string>\",\n  \"IPN\": \"<string>\",\n  \"paymentPurpose\": \"<string>\"\n}"
-												},
-												{
-													"name": "Невірний запит",
-													"originalRequest": {
-														"method": "GET",
-														"header": [
-															{
-																"key": "Accept",
-																"value": "application/json"
-															}
-														],
-														"url": {
-															"raw": "{{baseUrl}}/api/v1/donat/:id",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"api",
-																"v1",
-																"donat",
-																":id"
-															],
-															"variable": [
-																{
-																	"key": "id"
-																}
-															]
-														}
-													},
-													"status": "Bad Request",
-													"code": 400,
-													"_postman_previewlanguage": "json",
-													"header": [
-														{
-															"key": "Content-Type",
-															"value": "application/json"
-														}
-													],
-													"cookie": [],
-													"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
+													"body": "{\n    \"currency\": \"USD\",\n    \"recipient\": \"Громадська організація 4.5.0. Кривий Ріг\",\n    \"IBAN\": \"UA693052990000026002020407112\",\n    \"IPN\": \"44867603\",\n    \"paymentPurpose\": \"Благодійний внесок\",\n    \"id\": \"651ebf514f3538170f317429\"\n}"
 												},
 												{
 													"name": "Ресурс відсутній",
@@ -11810,7 +11677,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": ""
 																}
 															]
 														}
@@ -11825,7 +11693,48 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"code\": \"<string>\",\n  \"message\": \"<string>\"\n}"
+													"body": "{\n    \"message\": \"Ресурс не знайдено\"\n}"
+												},
+												{
+													"name": "Помилка на боці серверу",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/v1/donat/:id",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"v1",
+																"donat",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id",
+																	"value": ""
+																}
+															]
+														}
+													},
+													"status": "Internal Server Error",
+													"code": 500,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 												}
 											]
 										},
@@ -11845,7 +11754,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"id\": \"648791efc39697e8cde40114\",\n  \"currency\": \"USD\",\n  \"recipient\": \"Громадська організація 4.5.0. Кривий Ріг\",\n  \"IBAN\": \"UA693052990000026002020407112\",\n  \"IPN\": \"44867603\",\n  \"paymentPurpose\": \"Благодійний внесок\"\n}",
+													"raw": "{\n  \"id\": \"651ebf514f3538170f317429\",\n  \"currency\": \"USD\",\n  \"recipient\": \"Громадська організація 4.5.0. Кривий Ріг\",\n  \"IBAN\": \"UA693052990000026002020407112\",\n  \"IPN\": \"44867603\",\n  \"paymentPurpose\": \"Благодійний внесок\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -11854,21 +11763,14 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/api/v1/donat/:id",
+													"raw": "{{baseUrl}}/api/v1/donat",
 													"host": [
 														"{{baseUrl}}"
 													],
 													"path": [
 														"api",
 														"v1",
-														"donat",
-														":id"
-													],
-													"variable": [
-														{
-															"key": "id",
-															"value": "<uuid>"
-														}
+														"donat"
 													]
 												}
 											},
@@ -11962,20 +11864,14 @@
 															}
 														},
 														"url": {
-															"raw": "{{baseUrl}}/api/v1/donat/:id",
+															"raw": "{{baseUrl}}/api/v1/donat",
 															"host": [
 																"{{baseUrl}}"
 															],
 															"path": [
 																"api",
 																"v1",
-																"donat",
-																":id"
-															],
-															"variable": [
-																{
-																	"key": "id"
-																}
+																"donat"
 															]
 														}
 													},
@@ -11989,7 +11885,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"message\": \"Ресурс не знайдено\"\n}"
 												},
 												{
 													"name": "Помилка валідації даних",
@@ -12021,21 +11917,14 @@
 															}
 														},
 														"url": {
-															"raw": "{{baseUrl}}/api/v1/donat/:id",
+															"raw": "{{baseUrl}}/api/v1/donat",
 															"host": [
 																"{{baseUrl}}"
 															],
 															"path": [
 																"api",
 																"v1",
-																"donat",
-																":id"
-															],
-															"variable": [
-																{
-																	"key": "id",
-																	"value": ""
-																}
+																"donat"
 															]
 														}
 													},
@@ -12081,21 +11970,14 @@
 															}
 														},
 														"url": {
-															"raw": "{{baseUrl}}/api/v1/donat/:id",
+															"raw": "{{baseUrl}}/api/v1/donat",
 															"host": [
 																"{{baseUrl}}"
 															],
 															"path": [
 																"api",
 																"v1",
-																"donat",
-																":id"
-															],
-															"variable": [
-																{
-																	"key": "id",
-																	"value": ""
-																}
+																"donat"
 															]
 														}
 													},
