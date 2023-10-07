@@ -20,7 +20,6 @@ const controllerProjects = require("../controllers/api/1/project");
 const controllerLogos = require("../controllers/api/1/logo");
 const controllerContacts = require("../controllers/api/1/contacts");
 const controllerDocuments = require("../controllers/api/1/documents");
-const controllerConfirmRegistration = require("../controllers/api/1/confirmRegistration");
 const controllerDonats = require("../controllers/api/1/donats");
 const { hasValidTocken } = require("../middleware/auth");
 const { ctrlWrapper, updateStatusForPastDate } = require("../middleware");
@@ -53,9 +52,6 @@ const { isValidDocumentRules } = require("../middleware/api/1/documents/rules");
 const {
   isValidDocumentStatut,
 } = require("../middleware/api/1/documents/statut");
-const {
-  isValidConfirmRegistration,
-} = require("../middleware/api/1/confirmRegistration");
 
 const { isValidDonat } = require("../middleware/api/1/donat");
 
@@ -306,18 +302,6 @@ router.post(
   controllerDocuments.uploadReporting
 );
 
-// Congrats routes
-router.get(
-  "/confirm-registration",
-  controllerConfirmRegistration.getConfirmRegistration
-);
-router.put(
-  "/confirm-registration",
-  hasValidTocken,
-  isValidConfirmRegistration,
-  controllerConfirmRegistration.updateConfirmRegistration
-);
-
 // Donats routes
 router.get("/donats", controllerDonats.getDonats);
 router.post(
@@ -328,7 +312,7 @@ router.post(
 );
 router.get("/donat/:id", isValidDonat, controllerDonats.getDonatById);
 router.put(
-  "/donat/:id",
+  "/donat",
   hasValidTocken,
   isValidDonat,
   controllerDonats.updateDonat
