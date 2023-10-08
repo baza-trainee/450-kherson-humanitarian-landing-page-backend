@@ -8,9 +8,9 @@ const Title = require("./Hero/Title");
 const View = require("./Hero/View");
 
 const Hero = new Schema({
-  View,
-  Title,
-  Subtitle: Title,
+  view: View,
+  title: Title,
+  subtitle: Title,
 });
 
 module.exports = model("Hero", Hero);

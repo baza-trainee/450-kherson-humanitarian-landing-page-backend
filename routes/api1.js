@@ -39,19 +39,7 @@ const {
 } = require("../middleware/api/1/project");
 const { isValidLogo } = require("../middleware/api/1/logo");
 const { isValidContact } = require("../middleware/api/1/contacts");
-const {
-  isValidDocumentPrivacy,
-} = require("../middleware/api/1/documents/privacy");
-const {
-  isValidDocumentPublicContract,
-} = require("../middleware/api/1/documents/publicContract");
-const {
-  isValidDocumentReporting,
-} = require("../middleware/api/1/documents/reporting");
-const { isValidDocumentRules } = require("../middleware/api/1/documents/rules");
-const {
-  isValidDocumentStatut,
-} = require("../middleware/api/1/documents/statut");
+const { isValidFileDocument } = require("../middleware/api/1/document");
 
 const { isValidDonat } = require("../middleware/api/1/donat");
 
@@ -69,6 +57,7 @@ router.delete(
   controllerHero.deleteHero
 );
 router.get("/heroes", controllerHero.getHeroes);
+router.get("/heroes/ids", controllerHero.getHeroesOnlyIds);
 
 // Fund routes
 router.get("/fund", controllerFund.getFund);
@@ -180,6 +169,7 @@ router.get(
 
 // Activities routes
 router.get("/activities", controllerActivities.getActivities);
+//router.get("/activities/ids", controllerActivities.getActivities);
 router.post(
   "/activities",
   hasValidTocken,
@@ -208,6 +198,7 @@ router.delete(
 
 // -- Projects documents
 router.get("/projects", controllerProjects.getProjects);
+//router.get("/projects/ids", controllerProjects.getProjects);
 router.post(
   "/projects",
   hasValidTocken,
@@ -250,6 +241,7 @@ router.delete(
 
 // Logos routes
 router.get("/logos", controllerLogos.getLogos);
+//router.get("/logos/ids", controllerLogos.getLogos);
 router.post("/logos", hasValidTocken, isValidLogo, controllerLogos.createLogo);
 router.get("/logo/:id", isValidLogo, controllerLogos.getLogoById);
 router.put("/logo", hasValidTocken, isValidLogo, controllerLogos.updateLogo);
@@ -271,6 +263,16 @@ router.put(
 
 // Documents routes
 router.get("/documents", controllerDocuments.getDocuments);
+router.put(
+  "/document",
+  hasValidTocken,
+  isValidFileDocument,
+  controllerDocuments.getDocuments
+);
+
+/*
+
+
 router.post(
   "/documents/rules",
   hasValidTocken,
@@ -301,9 +303,10 @@ router.post(
   isValidDocumentReporting,
   controllerDocuments.uploadReporting
 );
-
+*/
 // Donats routes
 router.get("/donats", controllerDonats.getDonats);
+router.get("/donats/ids", controllerDonats.getDonats);
 router.post(
   "/donats",
   hasValidTocken,

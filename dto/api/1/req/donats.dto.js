@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023 Volodymyr Nerovnia
+ * SPDX-License-Identifier: MIT
+ */
+
 class DonatsDTO {
   constructor(id, currency, recipient, IBAN, IPN, paymentPurpose) {
     this.currency = currency;

@@ -4,7 +4,7 @@
  */
 
 const DonatsDBModel = require("../../../models/api/1/Donats");
-const DonatsDTO = require("../../../dto/api/1/donats.dto");
+const DonatsDTO = require("../../../dto/api/1/req/donats.dto");
 const appConfig = require("../../../config/app");
 
 const createDonat = async (req, res, next) => {

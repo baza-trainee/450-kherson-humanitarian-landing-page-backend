@@ -63,7 +63,11 @@ function isImageContentValid(picObject, maxSizekB) {
   return false;
 }
 
-function isImageValid(
+function isImageValid(picObject, maxSizekB) {
+  return isImageContentValid(picObject, maxSizekB);
+}
+
+function isImageValidI(
   picObject,
   maxSizekB,
   realPathToImage = "",

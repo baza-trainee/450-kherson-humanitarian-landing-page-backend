@@ -148,23 +148,43 @@ module.exports = {
       maxLength: 13,
     },
   },
-  documents: {
-    rules: {
-      maxSizeMb: getFileBase64SizeMb(50),
-    },
-    publicOfferContract: {
-      maxSizeMb: getFileBase64SizeMb(50),
-    },
-    privacy: {
-      maxSizeMb: getFileBase64SizeMb(50),
-    },
-    statut: {
-      maxSizeMb: getFileBase64SizeMb(50),
-    },
-    reporting: {
-      maxSizeMb: getFileBase64SizeMb(50),
-    },
-  },
+  documents: new Map([
+    [
+      "rules",
+      {
+        name: "Terms_of_use",
+        maxSizeMb: getFileBase64SizeMb(50),
+      },
+    ],
+    [
+      "publicOfferContract",
+      {
+        name: "Public_Offer",
+        maxSizeMb: getFileBase64SizeMb(50),
+      },
+    ],
+    [
+      "privacy",
+      {
+        name: "Privacy_Policy",
+        maxSizeMb: getFileBase64SizeMb(50),
+      },
+    ],
+    [
+      "statut",
+      {
+        name: "Constitution",
+        maxSizeMb: getFileBase64SizeMb(50),
+      },
+    ],
+    [
+      "reporting",
+      {
+        name: "report",
+        maxSizeMb: getFileBase64SizeMb(50),
+      },
+    ],
+  ]),
   congrats: {
     confirmRegistration: {
       chapterText: {

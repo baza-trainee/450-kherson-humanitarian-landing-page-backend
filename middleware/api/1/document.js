@@ -5,21 +5,21 @@
 
 const {
   isDocumentValid,
-} = require("../../../../utils/helpers/api/simpleIssueValidator");
-const componentConfig = require("../../../../config/api/v1/components");
+} = require("../../../utils/helpers/api/simpleIssueValidator");
+const componentConfig = require("../../../config/api/v1/components");
 
 /**
- * Check if Contact object is valid .
+ * Check if Statut object is valid .
  */
 
-function isValidDocumentPrivacy(req, res, next) {
+function isValidFileDocument(req, res, next) {
   try {
-    const { file } = req.body;
+    const { file, doc_option } = req.body;
 
     // check picture
     const isDocument = isDocumentValid(
       file,
-      componentConfig.documents.privacy.maxSizeMb
+      componentConfig.documents.statut.maxSizeMb
     );
 
     if (req.method === "POST") {
@@ -35,5 +35,5 @@ function isValidDocumentPrivacy(req, res, next) {
 }
 
 module.exports = {
-  isValidDocumentPrivacy,
+  isValidFileDocument,
 };

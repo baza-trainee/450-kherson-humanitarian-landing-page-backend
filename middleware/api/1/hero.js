@@ -18,7 +18,7 @@ const componentConfig = require("../../../config/api/v1/components");
 
 function isValidHero(req, res, next) {
   try {
-    const { View, Title, Subtitle } = req.body;
+    const { view, title, subtitle } = req.body;
 
     const id = req.body.id ? req.body.id : req.params.id;
 
@@ -26,34 +26,35 @@ function isValidHero(req, res, next) {
     const isId = isIdValid(id);
     // check View
     const isView =
-      View &&
-      isImageValid(
-        View.picture,
-        componentConfig.hero.View.picture.maxSizeKb,
-        appConfig.publicResources.pictures.directory,
-        appConfig.publicResources.pictures.route
-      ) &&
-      isColorValid(View.color);
+      view &&
+      (!view.picture ||
+        isImageValid(
+          view.picture,
+          componentConfig.hero.View.picture.maxSizeKb,
+          appConfig.publicResources.pictures.directory,
+          appConfig.publicResources.pictures.route
+        )) &&
+      isColorValid(view.color);
 
     // check Title
     const isTitle =
-      Title &&
+      title &&
       isTextValid(
-        Title.text,
+        title.text,
         componentConfig.hero.title.text.minLength,
         componentConfig.hero.title.text.maxLength
       ) &&
-      isColorValid(Title.color);
+      isColorValid(title.color);
 
     // check Subtitle
     const isSubtitle =
-      Subtitle &&
+      subtitle &&
       isTextValid(
-        Subtitle.text,
+        subtitle.text,
         componentConfig.hero.subtitle.text.minLength,
         componentConfig.hero.subtitle.text.maxLength
       ) &&
-      isColorValid(Subtitle.color);
+      isColorValid(subtitle.color);
 
     if (req.method === "DELETE" || req.method === "GET") {
       if (!isId) {
@@ -72,6 +73,7 @@ function isValidHero(req, res, next) {
     }
     next();
   } catch (err) {
+    console.log(err);
     return res.status(500).json({ message: "Помилка на боці серверу" });
   }
 }
