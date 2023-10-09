@@ -4,6 +4,8 @@
  */
 
 const FundDBModel = require("../../../models/api/1/Fund");
+const FundDTOReq = require("../../../dto/api/1/req/fund.dto");
+const FundDTODB = require("../../../dto/api/1/db/fund.dto");
 const {
   savePicture,
   deletePicture,
@@ -20,10 +22,7 @@ const getFund = async (req, res, next) => {
         },
       },
     };
-    const { _id, __v, ...result } = query._doc;
-    if (result.picture.image !== "") {
-      result.picture.image = `${appConfig.publicResources.pictures.route}${result.picture.image}`;
-    }
+    const result = new FundDTOReq(query._doc);
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
@@ -32,7 +31,7 @@ const getFund = async (req, res, next) => {
 
 const updateFund = async (req, res, next) => {
   try {
-    const fund = req.body;
+    const { picture } = req.body;
     const fundToSave = {
       picture: {
         mime_type: "text/plain",
@@ -40,11 +39,11 @@ const updateFund = async (req, res, next) => {
       },
     };
 
-    let currentFund = await FundDBModel.findOne({}).exec();
+    const currentFund = await FundDBModel.findOne({}).exec();
 
     fundToSave.picture.image = await savePicture(
-      fund.picture.image,
-      fund.picture.mime_type
+      picture.image,
+      picture.mime_type
     );
 
     // Delete picture on disk
@@ -53,10 +52,8 @@ const updateFund = async (req, res, next) => {
         `${appConfig.publicResources.pictures.directory}${currentFund.picture.image}`
       );
     } else {
-      currentFund = await new FundDBModel(fundToSave).save();
-      const { _id, __v, ...clearResult } = currentFund._doc;
-      clearResult.picture.image = `${appConfig.publicResources.pictures.route}${clearResult.picture.image}`;
-      return res.status(200).json(clearResult);
+      const result = await new FundDBModel(fundToSave).save();
+      res.status(200).json(new FundDTOReq(result));
     }
 
     const result = await FundDBModel.findByIdAndUpdate(
@@ -67,9 +64,7 @@ const updateFund = async (req, res, next) => {
       }
     );
 
-    const { _id, __v, ...clearResult } = result._doc;
-    clearResult.picture.image = `${appConfig.publicResources.pictures.route}${clearResult.picture.image}`;
-    res.status(200).json(clearResult);
+    res.status(200).json(new FundDTOReq(result));
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
