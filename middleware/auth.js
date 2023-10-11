@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const authConf = require('../config/auth');
+const jwt = require("jsonwebtoken");
+const authConf = require("../config/auth");
 
 /**
  * Check if token is valid .
@@ -10,15 +10,15 @@ function hasValidTocken(req, res, next) {
     next();
   }
   try {
-    const token = req.headers.authorization.split(' ')[1];
-    if(!token) {
-      return res.status(403).json({message: "Користувач не авторизований"})
+    const token = req.headers.authorization.split(" ")[1];
+    if (!token) {
+      return res.status(403).json({ message: "Користувач не авторизований" });
     }
     const decodedData = jwt.verify(token, process.env.SECRET_KEY);
     req.user = decodedData;
     next();
-  }catch (err) {
-    return res.status(403).json({message: "Користувач не авторизований"})
+  } catch (err) {
+    return res.status(403).json({ message: "Користувач не авторизований" });
   }
 }
 
@@ -27,13 +27,15 @@ function hasValidTocken(req, res, next) {
  */
 
 function isLoginCorrespondsConditions(req, res, next) {
-  const username = req.body.username; 
+  const username = req.body.username;
   const pattern = `[a-zA-Z]{${authConf.username.minChars},${authConf.username.maxChars}}`;
   const usernamePattern = new RegExp(pattern);
   if (!usernamePattern.test(username)) {
-    return res.status(400).json({ message: "Ім'я користувача не відповідає вимогам" });
+    return res
+      .status(406)
+      .json({ message: "Ім'я користувача не відповідає вимогам" });
   }
-  next(); 
+  next();
 }
 
 /**
@@ -41,7 +43,7 @@ function isLoginCorrespondsConditions(req, res, next) {
  */
 
 function isPasswordCorrespondsConditions(req, res, next) {
-  const password = req.body.password; 
+  const password = req.body.password;
   // Define regular expressions for validation
   const hasUpperCase = /[A-Z]/.test(password);
   const hasLowerCase = /[a-z]/.test(password);
@@ -50,11 +52,18 @@ function isPasswordCorrespondsConditions(req, res, next) {
 
   // Check if all conditions are met
   //if (((password.length >= authConf.password.minChars) && (password.length <= authConf.password.maxChars)) && hasUpperCase && hasLowerCase && hasSymbols && hasNumbers) {
-  if (((password.length >= authConf.password.minChars) && (password.length <= authConf.password.maxChars)) && hasUpperCase && hasLowerCase) {
-      next(); 
+  if (
+    password.length >= authConf.password.minChars &&
+    password.length <= authConf.password.maxChars &&
+    hasUpperCase &&
+    hasLowerCase
+  ) {
+    next();
   } else {
-    return res.status(403).json({message: "Пароль не відповідає встановленим критеріям безпеки"})
-  }  
+    return res
+      .status(406)
+      .json({ message: "Пароль не відповідає встановленим критеріям безпеки" });
+  }
 }
 
 module.exports = {
