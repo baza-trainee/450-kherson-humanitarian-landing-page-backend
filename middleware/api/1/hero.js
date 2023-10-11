@@ -25,7 +25,17 @@ function isValidHero(req, res, next) {
     // check id
     const isId = isIdValid(id);
     // check View
-    const isView =
+    const isViewWithPicture =
+      view &&
+      isImageValid(
+        view.picture,
+        componentConfig.hero.View.picture.maxSizeKb,
+        appConfig.publicResources.pictures.directory,
+        appConfig.publicResources.pictures.route
+      ) &&
+      isColorValid(view.color);
+
+    const isViewCanBeWithoutPicture =
       view &&
       (!view.picture ||
         isImageValid(
@@ -62,12 +72,12 @@ function isValidHero(req, res, next) {
       }
     }
     if (req.method === "POST") {
-      if (!(isView && isTitle && isSubtitle)) {
+      if (!(isViewWithPicture && isTitle && isSubtitle)) {
         return res.status(406).json({ message: "Помилка валідації даних" });
       }
     }
     if (req.method === "PUT") {
-      if (!(isId && isView && isTitle && isSubtitle)) {
+      if (!(isId && isViewCanBeWithoutPicture && isTitle && isSubtitle)) {
         return res.status(406).json({ message: "Помилка валідації даних" });
       }
     }
