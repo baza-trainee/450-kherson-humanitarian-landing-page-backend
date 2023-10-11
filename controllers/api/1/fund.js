@@ -53,7 +53,7 @@ const updateFund = async (req, res, next) => {
       );
     } else {
       const result = await new FundDBModel(fundToSave).save();
-      res.status(200).json(new FundDTOReq(result));
+      return res.status(200).json(new FundDTOReq(result));
     }
 
     const result = await FundDBModel.findByIdAndUpdate(
@@ -66,6 +66,7 @@ const updateFund = async (req, res, next) => {
 
     res.status(200).json(new FundDTOReq(result));
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
