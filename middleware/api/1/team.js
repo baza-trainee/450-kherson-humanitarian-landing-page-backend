@@ -19,12 +19,14 @@ function isValidTeam(req, res, next) {
     const { picture, title, text } = req.body;
 
     // check picture
-    const isPicture = isImageValid(
-      picture,
-      componentConfig.team.picture.maxSizeKb,
-      appConfig.publicResources.pictures.directory,
-      appConfig.publicResources.pictures.route
-    );
+    const isPicture =
+      !picture ||
+      isImageValid(
+        picture,
+        componentConfig.team.picture.maxSizeKb,
+        appConfig.publicResources.pictures.directory,
+        appConfig.publicResources.pictures.route
+      );
 
     // check title
     const isTitle = isTextValid(
