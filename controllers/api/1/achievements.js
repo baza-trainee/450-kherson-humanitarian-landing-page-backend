@@ -3,19 +3,36 @@
  * SPDX-License-Identifier: MIT
  */
 
+const HeroesDTOReq = require("../../../dto/api/1/req/achievements.dto");
 const AchievementDBModel = require("../../../models/api/1/Achievements");
 
 const getAchievements = async (req, res, next) => {
   try {
     const query = (await AchievementDBModel.findOne({}).exec()) ?? {
-      issuedHumanitarianKits: 0,
-      receivedHumanitarianAid: 0,
-      sumDonats: 0,
-      infoAtDate: "",
+      _doc: {
+        issuedHumanitarianKits: 0,
+        receivedHumanitarianAid: 0,
+        sumDonats: 0,
+        infoAtDate: "",
+      },
     };
 
-    const { _id, __v, ...clearResult } = query._doc;
-    res.status(200).json(clearResult);
+    const {
+      issuedHumanitarianKits,
+      receivedHumanitarianAid,
+      sumDonats,
+      infoAtDate,
+    } = query._doc;
+    res
+      .status(200)
+      .json(
+        new HeroesDTOReq(
+          issuedHumanitarianKits,
+          receivedHumanitarianAid,
+          sumDonats,
+          infoAtDate
+        )
+      );
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
@@ -34,23 +51,49 @@ const updateAchievements = async (req, res, next) => {
     let currentAchievement = await AchievementDBModel.findOne({}).exec();
 
     if (!currentAchievement) {
-      currentAchievement = await new AchievementDBModel(
-        achievementToSave
-      ).save();
-      const { _id, __v, ...clearResult } = currentAchievement._doc;
-      return res.status(200).json(clearResult);
+      const {
+        issuedHumanitarianKits,
+        receivedHumanitarianAid,
+        sumDonats,
+        infoAtDate,
+      } = (await new AchievementDBModel(achievementToSave).save())._doc;
+      return res
+        .status(200)
+        .json(
+          new HeroesDTOReq(
+            issuedHumanitarianKits,
+            receivedHumanitarianAid,
+            sumDonats,
+            infoAtDate
+          )
+        );
     }
 
-    const result = await AchievementDBModel.findByIdAndUpdate(
-      currentAchievement._id,
-      achievementToSave,
-      {
-        returnDocument: "after",
-      }
-    );
+    const {
+      issuedHumanitarianKits,
+      receivedHumanitarianAid,
+      sumDonats,
+      infoAtDate,
+    } = (
+      await AchievementDBModel.findByIdAndUpdate(
+        currentAchievement._id,
+        achievementToSave,
+        {
+          returnDocument: "after",
+        }
+      )
+    )._doc;
 
-    const { _id, __v, ...clearResult } = result._doc;
-    res.status(200).json(clearResult);
+    res
+      .status(200)
+      .json(
+        new HeroesDTOReq(
+          issuedHumanitarianKits,
+          receivedHumanitarianAid,
+          sumDonats,
+          infoAtDate
+        )
+      );
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
