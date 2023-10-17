@@ -79,7 +79,6 @@ const getActivityById = async (req, res, next) => {
 
 const updateActivity = async (req, res, next) => {
   try {
-    //const activity = req.body;
     const reqObj = () => ({ id, picture } = req.body);
     const activityToSave = {
       picture: {
@@ -124,7 +123,6 @@ const updateActivity = async (req, res, next) => {
 
     return res.status(200).json(result());
   } catch (err) {
-    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
