@@ -1,5 +1,9 @@
 /*
- * Copyright (c) 2023 Volodymyr Nerovnia
+ * Copyright (c) 2023 Baza Trainee Ukraine
+  Developers:
+    - Volodymyr Nerovnia 
+    - Oleksandr Pavlishchev
+    
  * SPDX-License-Identifier: MIT
  */
 
@@ -169,7 +173,7 @@ router.get(
 
 // Activities routes
 router.get("/activities", controllerActivities.getActivities);
-//router.get("/activities/ids", controllerActivities.getActivities);
+router.get("/activities/ids", controllerActivities.getActivitiesOnlyIds);
 router.post(
   "/activities",
   hasValidTocken,
@@ -198,7 +202,7 @@ router.delete(
 
 // -- Projects documents
 router.get("/projects", controllerProjects.getProjects);
-//router.get("/projects/ids", controllerProjects.getProjects);
+//router.get("/projects/ids", controllerProjects.getProjectsOnlyIds);
 router.post(
   "/projects",
   hasValidTocken,
@@ -241,7 +245,7 @@ router.delete(
 
 // Logos routes
 router.get("/logos", controllerLogos.getLogos);
-//router.get("/logos/ids", controllerLogos.getLogos);
+//router.get("/logos/ids", controllerLogos.getLogosOnlyIds);
 router.post("/logos", hasValidTocken, isValidLogo, controllerLogos.createLogo);
 router.get("/logo/:id", isValidLogo, controllerLogos.getLogoById);
 router.put("/logo", hasValidTocken, isValidLogo, controllerLogos.updateLogo);
@@ -306,7 +310,7 @@ router.post(
 */
 // Donats routes
 router.get("/donats", controllerDonats.getDonats);
-router.get("/donats/ids", controllerDonats.getDonats);
+//router.get("/donats/ids", controllerDonats.getDonatsOnlyIds);
 router.post(
   "/donats",
   hasValidTocken,

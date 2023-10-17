@@ -1,9 +1,14 @@
 /*
- * Copyright (c) 2023 Volodymyr Nerovnia
+ * Copyright (c) 2023 Baza Trainee Ukraine
+ * Developers:
+ *   - Volodymyr Nerovnia
+ *   - Oleksandr Pavlishchev
+ *
  * SPDX-License-Identifier: MIT
  */
 
 const ActivitiesDBModel = require("../../../models/api/1/Activities");
+const ActivitiesDTO = require("../../../dto/api/1/req/activity.dto");
 const {
   savePicture,
   deletePicture,
@@ -13,28 +18,37 @@ const appConfig = require("../../../config/app");
 const activityPrepareToRequest = (_activity) => {
   const { _id, __v, ...activity } = _activity;
   activity.id = _id;
-  activity.picture.image = `${appConfig.publicResources.pictures.route}${activity.picture.image}`;
+  activity.picture.image = `${appConfig.publicResources.pictures.route}/${activity.picture.image}`;
   return activity;
 };
 
 const createActivity = async (req, res, next) => {
   try {
-    const activity = req.body;
-    const picture = await savePicture(
-      activity.picture.image,
-      activity.picture.mime_type
-    );
+    const { picture } = req.body;
+    const pictureFileName = await savePicture(picture.image, picture.mime_type);
 
     const activityDBRecord = await new ActivitiesDBModel({
       picture: {
         mime_type: "text/plain",
-        image: picture,
+        image: pictureFileName,
       },
     }).save();
 
-    res
-      .status(200)
-      .json(activityPrepareToRequest({ ...activityDBRecord._doc }));
+    const result = ({ _id, pictureFileNameDB } = activityDBRecord._doc);
+
+    res.status(200).json(new ActivitiesDTO(result._id, result.picture));
+  } catch (err) {
+    res.status(500).json({ message: "Помилка на боці серверу" });
+  }
+};
+
+const getActivitiesOnlyIds = async (req, res, next) => {
+  try {
+    const query = ActivitiesDBModel.where({});
+    const result = (await query.find().select("_id")).map(
+      (activity) => activity._id
+    );
+    res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
@@ -43,10 +57,11 @@ const createActivity = async (req, res, next) => {
 const getActivities = async (req, res, next) => {
   try {
     const query = ActivitiesDBModel.where({});
-    const activitys = await query.find();
-    const result = activitys.map((activity) =>
-      activityPrepareToRequest({ ...activity._doc })
-    );
+    const activities = await query.find();
+    const result = activities.map((activity) => {
+      const { _id, picture } = activity._doc;
+      return new ActivitiesDTO(_id, picture);
+    });
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
@@ -58,10 +73,8 @@ const getActivityById = async (req, res, next) => {
     const query = ActivitiesDBModel.where({ _id: req.params.id });
     const activity = await query.findOne();
     if (activity) {
-      const result = activityPrepareToRequest({
-        ...activity._doc,
-      });
-      return res.status(200).json(result);
+      const { _id, picture } = activity._doc;
+      return res.status(200).json(new ActivitiesDTO(_id, picture));
     }
     return res.status(404).json({
       message: "Ресурс не знайдено",
@@ -73,18 +86,19 @@ const getActivityById = async (req, res, next) => {
 
 const updateActivity = async (req, res, next) => {
   try {
-    const activity = req.body;
+    //const activity = req.body;
+    const reqObj = () => ({ id, picture } = req.body);
     const activityToSave = {
       picture: {
         mime_type: "text/plain",
       },
     };
     const fileNameExp = /\/([^/]+)$/;
-    if (req.body.picture.mime_type === "text/plain") {
+    if (reqObj().picture.mime_type === "text/plain") {
       activityToSave.picture.image =
-        req.body.picture.image.match(fileNameExp)[1];
+        reqObj().picture.image.match(fileNameExp)[1];
     } else {
-      const query = ActivitiesDBModel.where({ _id: req.body.id });
+      const query = ActivitiesDBModel.where({ _id: reqObj().id });
       const currentActivity = await query.findOne();
       // Delete picture on disk
       if (currentActivity) {
@@ -98,19 +112,26 @@ const updateActivity = async (req, res, next) => {
       }
 
       activityToSave.picture.image = await savePicture(
-        activity.picture.image,
-        activity.picture.mime_type
+        reqObj().picture.image,
+        reqObj().picture.mime_type
       );
     }
-    const result = await ActivitiesDBModel.findByIdAndUpdate(
-      activity.id,
+    const activity = await ActivitiesDBModel.findByIdAndUpdate(
+      id,
       activityToSave,
       {
         returnDocument: "after",
       }
     );
-    return res.status(200).json(activityPrepareToRequest(result._doc));
+
+    result = () => {
+      const { _id, picture } = activity._doc;
+      return new ActivitiesDTO(_id, picture);
+    };
+
+    return res.status(200).json(result());
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
@@ -130,7 +151,12 @@ const deleteActivity = async (req, res, next) => {
     deletePicture(
       `${appConfig.publicResources.pictures.directory}${activity.picture.image}`
     );
-    res.status(200).json(activityPrepareToRequest(activity._doc));
+
+    result = () => {
+      const { _id, picture } = activity._doc;
+      return new ActivitiesDTO(_id, picture);
+    };
+    res.status(200).json(result());
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
@@ -139,6 +165,7 @@ const deleteActivity = async (req, res, next) => {
 module.exports = {
   createActivity,
   getActivityById,
+  getActivitiesOnlyIds,
   updateActivity,
   deleteActivity,
   getActivities,

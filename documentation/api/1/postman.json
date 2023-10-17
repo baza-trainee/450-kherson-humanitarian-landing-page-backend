@@ -19,10 +19,17 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"var jsonData = JSON.parse(responseBody);",
+											"/*var jsonData = JSON.parse(responseBody);",
 											"//postman.setEnvironmentVariable(\"token\", jsonData.token);",
-											"pm.collectionVariables.token = jsonData.token;",
-											"pm.environment.set(\"Bearer Token\", jsonData.token);"
+											"//pm.collectionVariables.token = jsonData.token;",
+											"//pm.environment.set(\"Bearer Token\", jsonData.token);",
+											"console.log(jsonData.token);",
+											"console.log(pm.environment.get(\"JWT\"));",
+											"//pm.collectionVariables.get(\"variable_key\");",
+											"pm.environment.set(\"variable_key\", \"variable_value\");",
+											"pm.globals.get(\"variable_key\");",
+											"pm.environment.get(\"variable_key\");df -h",
+											"*/"
 										],
 										"type": "text/javascript"
 									}
@@ -2132,14 +2139,15 @@
 													}
 												],
 												"url": {
-													"raw": "{{baseUrl}}/api/v1/heroes",
+													"raw": "{{baseUrl}}/api/v1/heroes/ids",
 													"host": [
 														"{{baseUrl}}"
 													],
 													"path": [
 														"api",
 														"v1",
-														"heroes"
+														"heroes",
+														"ids"
 													]
 												}
 											},
@@ -2166,14 +2174,15 @@
 													}
 												],
 												"url": {
-													"raw": "{{baseUrl}}/api/v1/heroes",
+													"raw": "{{baseUrl}}/api/v1/heroes/ids",
 													"host": [
 														"{{baseUrl}}"
 													],
 													"path": [
 														"api",
 														"v1",
-														"heroes"
+														"heroes",
+														"ids"
 													]
 												}
 											},
@@ -3597,7 +3606,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"issuedHumanitarianKits\": \"<integer>\",\n  \"receivedHumanitarianAid\": \"<integer>\",\n  \"sumDonats\": \"<integer>\",\n  \"infoAtDate\": \"<string>\"\n}",
+													"raw": "{\n    \"issuedHumanitarianKits\": 267,\n    \"receivedHumanitarianAid\": 260,\n    \"sumDonats\": 104228,\n    \"infoAtDate\": \"2023-08-17T22:58:38.831Z\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -3650,7 +3659,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"issuedHumanitarianKits\": \"<integer>\",\n  \"receivedHumanitarianAid\": \"<integer>\",\n  \"sumDonats\": \"<integer>\",\n  \"infoAtDate\": \"<string>\"\n}",
+													"raw": "{\n    \"issuedHumanitarianKits\": 267,\n    \"receivedHumanitarianAid\": \"d260\",\n    \"sumDonats\": 104228,\n    \"infoAtDate\": \"2023-08-17T22:58:38.831Z\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -3703,7 +3712,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n  \"issuedHumanitarianKits\": \"<integer>\",\n  \"receivedHumanitarianAid\": \"<integer>\",\n  \"sumDonats\": \"<integer>\",\n  \"infoAtDate\": \"<string>\"\n}",
+													"raw": "{\n    \"issuedHumanitarianKits\": 267,\n    \"receivedHumanitarianAid\": 260,\n    \"sumDonats\": 104228,\n    \"infoAtDate\": \"2023-08-17T22:58:38.831Z\"\n}",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -5781,6 +5790,145 @@
 											],
 											"cookie": [],
 											"body": "[\n  {\n    \"id\": \"<uuid>\",\n    \"path\": \"<string>\",\n    \"image_data\": -53579356,\n    \"mime_type\": \"dolor deserunt\"\n  },\n  {\n    \"id\": \"<uuid>\",\n    \"path\": \"<string>\",\n    \"image_data\": \"sunt\",\n    \"mime_type\": -4694305.7539669275\n  }\n]"
+										},
+										{
+											"name": "Помилка на боці серверу",
+											"originalRequest": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
+														"value": "application/json"
+													},
+													{
+														"description": "Added as a part of security scheme: bearer",
+														"key": "Authorization",
+														"value": "Bearer <token>"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/activities",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"activities"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
+										}
+									]
+								},
+								{
+									"name": "Отримати ids",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/v1/activities/ids",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"v1",
+												"activities",
+												"ids"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/activities/ids",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"activities",
+														"ids"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n    \"65202ff0c843e949eeb2cc11\",\n    \"6522b456d956eff9b7f64f50\",\n    \"6522b456d956eff9b7f64f56\",\n    \"6522b467fc29e81835675cf2\",\n    \"6522b467fc29e81835675cf8\",\n    \"6522b477a65cb89e5f1a0879\",\n    \"6522b477a65cb89e5f1a087f\",\n    \"6522b540620d9e76a94518ad\",\n    \"6522b5dc84bad03a2af9b1c4\",\n    \"6522b5ea5e419e443a0d8f4c\",\n    \"6522b644d2968cea8385c4dc\",\n    \"6522b65b0f973a0b84fb0893\",\n    \"6522b789c5a2beac2fe4fa3e\",\n    \"6522b7ec1aa01edcc9160f94\",\n    \"6522b864d81321218b6f23cb\",\n    \"6522c080bd8366d3a22bacab\",\n    \"6522c0af2639168d89adcf7d\",\n    \"6522c0c7f4f4a56717d15850\"\n]"
+										},
+										{
+											"name": "Помилка на боці серверу",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/v1/activities/ids",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"v1",
+														"activities",
+														"ids"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n    \"message\": \"Помилка на боці серверу\"\n}"
 										}
 									]
 								},
@@ -12858,7 +13006,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjJkM2I3OGQ0MjAwMjFkMjMxZDNkZiIsImlhdCI6MTY5Njc3MzE4MiwiZXhwIjoxNzg0MDczMTgyfQ.xilYEWjxe26aKxftstX-CT7diLZkWRXH3wFDbeXM63k",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZjJkM2I3OGQ0MjAwMjFkMjMxZDNkZiIsImlhdCI6MTY5NzUzNzE1MSwiZXhwIjoxNzg0ODM3MTUxfQ.hNlWiYfj7rt4Vdhnjpg7UXTr_oA_5LGeVbXWRPgk-2I",
 				"type": "string"
 			}
 		]
