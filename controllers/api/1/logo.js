@@ -1,50 +1,58 @@
 /*
- * Copyright (c) 2023 Volodymyr Nerovnia
+ * Copyright (c) 2023 Baza Trainee Ukraine
+ * Developers:
+ *   - Volodymyr Nerovnia
+ *   - Oleksandr Pavlishchev
+ *
  * SPDX-License-Identifier: MIT
  */
 
-const LogoDBModel = require("../../../models/api/1/Logos");
+const LogosDBModel = require("../../../models/api/1/Logos");
+const LogoDTO = require("../../../dto/api/1/req/logo.dto");
 const {
   savePicture,
   deletePicture,
 } = require("../../../utils/helpers/api/imageProcessor");
 const appConfig = require("../../../config/app");
 
-const logoPrepareToRequest = (_logo) => {
-  const { _id, __v, ...logo } = _logo;
-  logo.id = _id;
-  logo.picture.image = `${appConfig.publicResources.pictures.route}${logo.picture.image}`;
-  return logo;
-};
-
 const createLogo = async (req, res, next) => {
   try {
-    const logo = req.body;
+    const { picture } = req.body;
+    const pictureFileName = await savePicture(picture.image, picture.mime_type);
 
-    const picture = await savePicture(
-      logo.picture.image,
-      logo.picture.mime_type
-    );
-
-    const logoDBRecord = await new LogoDBModel({
+    const logoDBRecord = await new LogosDBModel({
       picture: {
         mime_type: "text/plain",
-        image: picture,
+        image: pictureFileName,
       },
     }).save();
-    res.status(200).json(logoPrepareToRequest({ ...logoDBRecord._doc }));
-  } catch (err) {
-    console.log(err);
 
+    const result = ({ _id, pictureFileNameDB } = logoDBRecord._doc);
+
+    res.status(200).json(new LogoDTO(result._id, result.picture));
+  } catch (err) {
+    res.status(500).json({ message: "Помилка на боці серверу" });
+  }
+};
+
+const getLogosOnlyIds = async (req, res, next) => {
+  try {
+    const query = LogosDBModel.where({});
+    const result = (await query.find().select("_id")).map((logo) => logo._id);
+    res.status(200).json(result);
+  } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
 
 const getLogos = async (req, res, next) => {
   try {
-    const query = LogoDBModel.where({});
+    const query = LogosDBModel.where({});
     const logos = await query.find();
-    const result = logos.map((logo) => logoPrepareToRequest({ ...logo._doc }));
+    const result = logos.map((logo) => {
+      const { _id, picture } = logo._doc;
+      return new LogoDTO(_id, picture);
+    });
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
@@ -53,13 +61,11 @@ const getLogos = async (req, res, next) => {
 
 const getLogoById = async (req, res, next) => {
   try {
-    const query = LogoDBModel.where({ _id: req.params.id });
+    const query = LogosDBModel.where({ _id: req.params.id });
     const logo = await query.findOne();
     if (logo) {
-      const result = logoPrepareToRequest({
-        ...logo._doc,
-      });
-      return res.status(200).json(result);
+      const { _id, picture } = logo._doc;
+      return res.status(200).json(new LogoDTO(_id, picture));
     }
     return res.status(404).json({
       message: "Ресурс не знайдено",
@@ -71,17 +77,17 @@ const getLogoById = async (req, res, next) => {
 
 const updateLogo = async (req, res, next) => {
   try {
-    const logo = req.body;
+    const reqObj = () => ({ id, picture } = req.body);
     const logoToSave = {
       picture: {
         mime_type: "text/plain",
       },
     };
     const fileNameExp = /\/([^/]+)$/;
-    if (req.body.picture.mime_type === "text/plain") {
-      logoToSave.picture.image = req.body.picture.image.match(fileNameExp)[1];
+    if (reqObj().picture.mime_type === "text/plain") {
+      logoToSave.picture.image = reqObj().picture.image.match(fileNameExp)[1];
     } else {
-      const query = LogoDBModel.where({ _id: req.body.id });
+      const query = LogosDBModel.where({ _id: reqObj().id });
       const currentLogo = await query.findOne();
       // Delete picture on disk
       if (currentLogo) {
@@ -95,23 +101,29 @@ const updateLogo = async (req, res, next) => {
       }
 
       logoToSave.picture.image = await savePicture(
-        logo.picture.image,
-        logo.picture.mime_type
+        reqObj().picture.image,
+        reqObj().picture.mime_type
       );
     }
-    const result = await LogoDBModel.findByIdAndUpdate(logo.id, logoToSave, {
+    const logo = await LogosDBModel.findByIdAndUpdate(id, logoToSave, {
       returnDocument: "after",
     });
-    return res.status(200).json(logoPrepareToRequest(result._doc));
+
+    result = () => {
+      const { _id, picture } = logo._doc;
+      return new LogoDTO(_id, picture);
+    };
+
+    return res.status(200).json(result());
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
 
 const deleteLogo = async (req, res, next) => {
   try {
-    console.log(req.params);
-    const logo = await LogoDBModel.findOneAndRemove({
+    const logo = await LogosDBModel.findOneAndRemove({
       _id: req.params.id,
     });
 
@@ -124,10 +136,22 @@ const deleteLogo = async (req, res, next) => {
     deletePicture(
       `${appConfig.publicResources.pictures.directory}${logo.picture.image}`
     );
-    res.status(200).json(logoPrepareToRequest(logo._doc));
+
+    result = () => {
+      const { _id, picture } = logo._doc;
+      return new LogoDTO(_id, picture);
+    };
+    res.status(200).json(result());
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
 
-module.exports = { createLogo, getLogoById, updateLogo, deleteLogo, getLogos };
+module.exports = {
+  getLogos,
+  getLogosOnlyIds,
+  createLogo,
+  getLogoById,
+  updateLogo,
+  deleteLogo,
+};

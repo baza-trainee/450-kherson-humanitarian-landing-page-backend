@@ -245,7 +245,7 @@ router.delete(
 
 // Logos routes
 router.get("/logos", controllerLogos.getLogos);
-//router.get("/logos/ids", controllerLogos.getLogosOnlyIds);
+router.get("/logos/ids", controllerLogos.getLogosOnlyIds);
 router.post("/logos", hasValidTocken, isValidLogo, controllerLogos.createLogo);
 router.get("/logo/:id", isValidLogo, controllerLogos.getLogoById);
 router.put("/logo", hasValidTocken, isValidLogo, controllerLogos.updateLogo);
