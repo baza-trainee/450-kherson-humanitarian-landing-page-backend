@@ -992,7 +992,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1696774244514-aa32fbce.jpg\"\n        },\n        \"color\": \"#ff0000\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"color\": \"#ff0000\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"color\": \"#ff0000\"\n    },\n    \"id\": \"6522b864d81321218b6f23cb\"\n}"
+													"body": "{\n    \"view\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures/1697566728069-f9e00217.jpg\"\n        },\n        \"color\": \"#ff0000\"\n    },\n    \"title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"color\": \"#ff0000\"\n    },\n    \"subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"color\": \"#ff0000\"\n    },\n    \"id\": \"652ed008e3133333a2591b89\"\n}"
 												},
 												{
 													"name": "Ресурс відсутній",
@@ -1452,7 +1452,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n    \"View\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures1696783076435-6673974b.jpg\"\n        },\n        \"color\": \"#ff0000\"\n    },\n    \"Title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"color\": \"#ff0000\"\n    },\n    \"Subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"color\": \"#ff0000\"\n    },\n    \"id\": \"6522b864d81321218b6f23cb\"\n}"
+													"body": "{\n    \"view\": {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures/1697566728069-f9e00217.jpg\"\n        },\n        \"color\": \"#ff0000\"\n    },\n    \"title\": {\n        \"text\": \"Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)\",\n        \"color\": \"#ff0000\"\n    },\n    \"subtitle\": {\n        \"text\": \"м. Кривий Ріг\",\n        \"color\": \"#ff0000\"\n    },\n    \"id\": \"652ed008e3133333a2591b89\"\n}"
 												},
 												{
 													"name": "Ресурс не знайдено",
