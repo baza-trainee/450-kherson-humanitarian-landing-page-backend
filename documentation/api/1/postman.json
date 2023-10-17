@@ -5789,7 +5789,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "[\n  {\n    \"id\": \"<uuid>\",\n    \"path\": \"<string>\",\n    \"image_data\": -53579356,\n    \"mime_type\": \"dolor deserunt\"\n  },\n  {\n    \"id\": \"<uuid>\",\n    \"path\": \"<string>\",\n    \"image_data\": \"sunt\",\n    \"mime_type\": -4694305.7539669275\n  }\n]"
+											"body": "[\n    {\n        \"picture\": {\n            \"mime_type\": \"text/plain\",\n            \"image\": \"/resources/pictures/1697543397274-6d7e23cd.jpg\"\n        },\n        \"id\": \"652e74e5b3b67cf7733f8b02\"\n    }\n]"
 										},
 										{
 											"name": "Помилка на боці серверу",
@@ -6020,7 +6020,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n    \"picture\": {\n        \"mime_type\": \"text/plain\",\n        \"image\": \"/resources/pictures1696250555225-cc0b5ca3.jpg\",\n        \"_id\": \"651ababbe096fe06a5e4b8e2\"\n    },\n    \"id\": \"651ababbe096fe06a5e4b8e1\"\n}"
+											"body": "{\n    \"picture\": {\n        \"mime_type\": \"text/plain\",\n        \"image\": \"/resources/pictures/1697543397274-6d7e23cd.jpg\"\n    },\n    \"id\": \"652e74e5b3b67cf7733f8b02\"\n}"
 										},
 										{
 											"name": "Помилка валідації даних",
@@ -6207,7 +6207,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n    \"picture\": {\n        \"mime_type\": \"text/plain\",\n        \"image\": \"/resources/pictures1696250555225-cc0b5ca3.jpg\",\n        \"_id\": \"651ababbe096fe06a5e4b8e2\"\n    },\n    \"id\": \"651ababbe096fe06a5e4b8e1\"\n}"
+													"body": "{\n    \"picture\": {\n        \"mime_type\": \"text/plain\",\n        \"image\": \"/resources/pictures/1697543397274-6d7e23cd.jpg\"\n    },\n    \"id\": \"652e74e5b3b67cf7733f8b02\"\n}"
 												},
 												{
 													"name": "Ресурс відсутній",
@@ -6389,7 +6389,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n    \"picture\": {\n        \"mime_type\": \"text/plain\",\n        \"image\": \"/resources/pictures1696251107937-1fa07a95.jpg\",\n        \"_id\": \"651abce3e096fe06a5e4b8e9\"\n    },\n    \"id\": \"651ababbe096fe06a5e4b8e1\"\n}"
+													"body": "{\n    \"picture\": {\n        \"mime_type\": \"text/plain\",\n        \"image\": \"/resources/pictures/1697543562215-44c4ad8a.jpg\"\n    },\n    \"id\": \"652e74e5b3b67cf7733f8b02\"\n}"
 												},
 												{
 													"name": "Ресурс не знайдено",
@@ -6631,7 +6631,8 @@
 															],
 															"variable": [
 																{
-																	"key": "id"
+																	"key": "id",
+																	"value": "652e74e5b3b67cf7733f8b02"
 																}
 															]
 														}
@@ -6646,7 +6647,7 @@
 														}
 													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n    \"picture\": {\n        \"mime_type\": \"text/plain\",\n        \"image\": \"/resources/pictures/1697543562215-44c4ad8a.jpg\"\n    },\n    \"id\": \"652e74e5b3b67cf7733f8b02\"\n}"
 												},
 												{
 													"name": "Ресурс не знайдено",
@@ -6677,7 +6678,7 @@
 															"variable": [
 																{
 																	"key": "id",
-																	"value": ""
+																	"value": "652e74e5b3b67cf7733f8b02"
 																}
 															]
 														}
@@ -6723,7 +6724,7 @@
 															"variable": [
 																{
 																	"key": "id",
-																	"value": ""
+																	"value": "652e74e5b3b67cf7733f8b02"
 																}
 															]
 														}
