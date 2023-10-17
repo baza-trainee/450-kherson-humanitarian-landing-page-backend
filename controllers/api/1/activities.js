@@ -15,13 +15,6 @@ const {
 } = require("../../../utils/helpers/api/imageProcessor");
 const appConfig = require("../../../config/app");
 
-const activityPrepareToRequest = (_activity) => {
-  const { _id, __v, ...activity } = _activity;
-  activity.id = _id;
-  activity.picture.image = `${appConfig.publicResources.pictures.route}/${activity.picture.image}`;
-  return activity;
-};
-
 const createActivity = async (req, res, next) => {
   try {
     const { picture } = req.body;
