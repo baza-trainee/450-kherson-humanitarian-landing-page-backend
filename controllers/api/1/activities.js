@@ -1,9 +1,9 @@
 /*
  * Copyright (c) 2023 Baza Trainee Ukraine
- * Developers:
- *   - Volodymyr Nerovnia
- *   - Oleksandr Pavlishchev
- *
+  Developers:
+    - Volodymyr Nerovnia 
+    - Oleksandr Pavlishchev
+    
  * SPDX-License-Identifier: MIT
  */
 

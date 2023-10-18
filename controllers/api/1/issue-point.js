@@ -1,7 +1,12 @@
 /*
- * Copyright (c) 2023 Volodymyr Nerovnia
+ * Copyright (c) 2023 Baza Trainee Ukraine
+  Developers:
+    - Volodymyr Nerovnia 
+    - Oleksandr Pavlishchev
+    
  * SPDX-License-Identifier: MIT
  */
+
 const IssuePointDBModel = require("../../../models/api/1/IssuePoint");
 
 const getIssuePoint = async (req, res, next) => {

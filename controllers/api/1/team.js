@@ -1,7 +1,12 @@
 /*
- * Copyright (c) 2023 Volodymyr Nerovnia
+ * Copyright (c) 2023 Baza Trainee Ukraine
+  Developers:
+    - Volodymyr Nerovnia 
+    - Oleksandr Pavlishchev
+    
  * SPDX-License-Identifier: MIT
  */
+
 const TeamDBModel = require("../../../models/api/1/Team");
 const TeamDTO = require("../../../dto/api/1/req/team.dto");
 

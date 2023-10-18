@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2023 Baza Trainee Ukraine
+ * Developers:
+ *   - Volodymyr Nerovnia
+ *   - Oleksandr Pavlishchev
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
 var express = require("express");
 var router = express.Router();
 const controller = require("../controllers/auth");
