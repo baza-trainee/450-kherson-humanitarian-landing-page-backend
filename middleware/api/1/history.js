@@ -19,12 +19,14 @@ function isValidHistory(req, res, next) {
     const { picture, title, text } = req.body;
 
     // check picture
-    const isPucture = isImageValid(
-      picture,
-      componentConfig.history.picture.maxSizeKb,
-      appConfig.publicResources.pictures.directory,
-      appConfig.publicResources.pictures.route
-    );
+    const isPicture =
+      !picture ||
+      isImageValid(
+        picture,
+        componentConfig.history.picture.maxSizeKb,
+        appConfig.publicResources.pictures.directory,
+        appConfig.publicResources.pictures.route
+      );
     // check title
     const isTitle = isTextValid(
       title,
@@ -39,7 +41,7 @@ function isValidHistory(req, res, next) {
     );
 
     if (req.method === "PUT") {
-      if (!(isPucture && isTitle && isText)) {
+      if (!(isPicture && isTitle && isText)) {
         return res.status(406).json({ message: "Помилка валідації даних" });
       }
     }

@@ -7,10 +7,11 @@ const appConfig = require("../../../../../config/app");
 
 class PictureDTO {
   constructor(mime_type, image) {
-    this.mime_type = mime_type;
-    if (image !== "") {
+    if (image && image !== "") {
+      this.mime_type = mime_type;
       this.image = `${appConfig.publicResources.pictures.route}/${image}`;
     } else {
+      this.mime_type = "";
       this.image = "";
     }
   }
