@@ -20,7 +20,7 @@ const componentConfig = require("../../../config/api/v1/components");
 
 function isValidContact(req, res, next) {
   try {
-    const { email, address, phone } = req.body;
+    const { email, address } = req.body;
 
     // check picture
     const isEmail = isEmailValid(
@@ -36,17 +36,8 @@ function isValidContact(req, res, next) {
       componentConfig.contacts.address.maxLength
     );
 
-    // check phone number
-    const isPhone =
-      phone === "" ||
-      isPhoneNumberValid(
-        phone,
-        componentConfig.contacts.phone.minLength,
-        componentConfig.contacts.phone.maxLength
-      );
-
     if (req.method === "PUT") {
-      if (!(isEmail && isAddress && isPhone)) {
+      if (!(isEmail && isAddress)) {
         return res.status(406).json({ message: "Помилка валідації даних" });
       }
     }
