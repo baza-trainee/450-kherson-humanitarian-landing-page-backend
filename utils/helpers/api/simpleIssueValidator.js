@@ -13,6 +13,7 @@ const { ObjectId } = require("mongodb");
 const mimeImageTypes = require("../../../dictionaries/mime/pictures");
 const mimeDocumentTypes = require("../../../dictionaries/mime/documents");
 const mimeReportTypes = require("../../../dictionaries/mime/reports");
+const arrColorsForFront = require("../../../dictionaries/front-team/colors");
 
 const getBinarySize = (data) => Buffer.from(data, "base64").length;
 
@@ -131,6 +132,13 @@ function isColorValid(color) {
   return colorPattern.test(color);
 }
 
+function isFrontColorValid(color) {
+  if (arrColorsForFront.find((elcolor) => elcolor === color)) {
+    return true;
+  }
+  return false;
+}
+
 function isTextValid(text, minLength, maxLength) {
   // Define a regular expression pattern to match various text exclude injection code
   //const injectionPattern = /(\$|\{|\}|\[|\]|\\|\/|\(|\)|\+|\*|\?|\^|\|)/;
@@ -245,6 +253,7 @@ module.exports = {
   isImageValid,
   isImageContentValid,
   isColorValid,
+  isFrontColorValid,
   isTextValid,
   isDateValid,
   isIdValid,

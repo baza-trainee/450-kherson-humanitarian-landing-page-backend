@@ -10,7 +10,7 @@
 const {
   isIdValid,
   isImageValid,
-  isColorValid,
+  isFrontColorValid,
   isTextValid,
 } = require("../../../utils/helpers/api/simpleIssueValidator");
 const appConfig = require("../../../config/app");
@@ -37,7 +37,7 @@ function isValidHero(req, res, next) {
         appConfig.publicResources.pictures.directory,
         appConfig.publicResources.pictures.route
       ) &&
-      isColorValid(view.color);
+      isFrontColorValid(view.color);
 
     const isViewCanBeWithoutPicture =
       view &&
@@ -48,7 +48,7 @@ function isValidHero(req, res, next) {
           appConfig.publicResources.pictures.directory,
           appConfig.publicResources.pictures.route
         )) &&
-      isColorValid(view.color);
+      isFrontColorValid(view.color);
 
     // check Title
     const isTitle =
@@ -58,7 +58,7 @@ function isValidHero(req, res, next) {
         componentConfig.hero.title.text.minLength,
         componentConfig.hero.title.text.maxLength
       ) &&
-      isColorValid(title.color);
+      isFrontColorValid(title.color);
 
     // check Subtitle
     const isSubtitle =
@@ -68,7 +68,7 @@ function isValidHero(req, res, next) {
         componentConfig.hero.subtitle.text.minLength,
         componentConfig.hero.subtitle.text.maxLength
       ) &&
-      isColorValid(subtitle.color);
+      isFrontColorValid(subtitle.color);
 
     if (req.method === "DELETE" || req.method === "GET") {
       if (!isId) {
