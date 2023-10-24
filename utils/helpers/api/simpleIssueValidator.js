@@ -142,6 +142,8 @@ function isFrontColorValid(color) {
 function isTextValid(text, minLength, maxLength) {
   // Define a regular expression pattern to match various text exclude injection code
   //const injectionPattern = /(\$|\{|\}|\[|\]|\\|\/|\(|\)|\+|\*|\?|\^|\|)/;
+  const injectionPattern = /^[A-Za-z0-9\u0400-\u04FFіїєґІЇЄҐ\/,.():!-' ]*$/;
+
   if (text === null || typeof value === "object") {
     return false;
   }
@@ -151,9 +153,11 @@ function isTextValid(text, minLength, maxLength) {
   }
 
   // Check if the text include injection code
-  //if (injectionPattern.test(text)) {
-  //return false;
-  //}
+  if (!injectionPattern.test(text)) {
+    console.log(text);
+    console.log(false);
+    return false;
+  }
 
   return true;
 }
