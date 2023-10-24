@@ -20,13 +20,13 @@ module.exports = {
     },
     title: {
       text: {
-        minLength: 66,
+        minLength: 1,
         maxLength: 90,
       },
     },
     subtitle: {
       text: {
-        minLength: 13,
+        minLength: 1,
         maxLength: 40,
       },
     },
@@ -41,11 +41,11 @@ module.exports = {
       maxSizeKb: 500,
     },
     title: {
-      minLength: 12,
+      minLength: 1,
       maxLength: 45,
     },
     text: {
-      minLength: 243,
+      minLength: 1,
       maxLength: 900,
     },
   },
@@ -54,11 +54,11 @@ module.exports = {
       maxSizeKb: 500,
     },
     title: {
-      minLength: 12,
+      minLength: 1,
       maxLength: 45,
     },
     text: {
-      minLength: 595,
+      minLength: 1,
       maxLength: 963,
     },
   },
@@ -72,7 +72,7 @@ module.exports = {
       max: 9999999999,
     },
     sumDonats: {
-      min: 100000,
+      min: 1,
       max: 999999999999,
     },
     infoAtDate: {
@@ -82,11 +82,11 @@ module.exports = {
   },
   issuepoint: {
     locationDeliveryPoint: {
-      minLength: 35,
+      minLength: 1,
       maxLength: 78,
     },
     geolocation: {
-      minLength: 400,
+      minLength: 1,
       maxLength: 630,
     },
   },
@@ -97,7 +97,7 @@ module.exports = {
   },
   projects: {
     title: {
-      minLength: 56,
+      minLength: 1,
       maxLength: 73,
     },
     stages: new Map([
@@ -106,27 +106,27 @@ module.exports = {
       ["completed", "Завершено"],
     ]),
     videoLink: {
-      minLength: 15,
+      minLength: 1,
       maxLength: 170,
     },
     subTitle: {
-      minLength: 82,
+      minLength: 1,
       maxLength: 125,
     },
     text: {
-      minLength: 236,
+      minLength: 1,
       maxLength: 503,
     },
     areaCompletedWorks: {
-      minLength: 3,
+      minLength: 1,
       maxLength: 100,
     },
     projectDuration: {
-      minLength: 20,
+      minLength: 1,
       maxLength: 29,
     },
     projectText: {
-      minLength: 60,
+      minLength: 1,
       maxLength: 248,
     },
     pictures: {
@@ -140,15 +140,15 @@ module.exports = {
   },
   contacts: {
     email: {
-      minLength: 8,
+      minLength: 1,
       maxLength: 33,
     },
     address: {
-      minLength: 71,
+      minLength: 1,
       maxLength: 108,
     },
     phone: {
-      minLength: 9,
+      minLength: 1,
       maxLength: 13,
     },
   },
@@ -199,11 +199,11 @@ module.exports = {
   },
   donats: {
     recipient: {
-      minLength: 40,
+      minLength: 1,
       maxLength: 98,
     },
     paymentPurpose: {
-      minLength: 18,
+      minLength: 1,
       maxLength: 40,
     },
   },
