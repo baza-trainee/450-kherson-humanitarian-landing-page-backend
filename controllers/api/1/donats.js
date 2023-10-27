@@ -15,20 +15,22 @@ const createDonat = async (req, res, next) => {
   try {
     const { id, currency, recipient, IBAN, IPN, paymentPurpose } = req.body;
 
-    const donat = await new DonatsDBModel({
-      currency,
-      recipient,
-      IBAN,
-      IPN,
-      paymentPurpose,
-    }).save();
+    const donat = (
+      await new DonatsDBModel({
+        currency,
+        recipient,
+        IBAN,
+        IPN,
+        paymentPurpose,
+      }).save()
+    )._doc;
     const donatsDTOs = new DonatsDTO(
-      donat._doc._id,
-      donat._doc.currency,
-      donat._doc.recipient,
-      donat._doc.IBAN,
-      donat._doc.IPN,
-      donat._doc.paymentPurpose
+      donat._id,
+      donat.currency,
+      donat.recipient,
+      donat.IBAN,
+      donat.IPN,
+      donat.paymentPurpose
     );
     res.status(200).json(donatsDTOs);
   } catch (err) {
@@ -52,6 +54,16 @@ const getDonats = async (req, res, next) => {
           project._doc.paymentPurpose
         )
     );
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ message: "Помилка на боці серверу" });
+  }
+};
+
+const getDonatsOnlyIds = async (req, res, next) => {
+  try {
+    const query = DonatsDBModel.where({});
+    const result = (await query.find().select("_id")).map((donat) => donat._id);
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
@@ -158,5 +170,6 @@ module.exports = {
   getDonatById,
   updateDonat,
   deleteDonat,
+  getDonatsOnlyIds,
   getDonats,
 };
