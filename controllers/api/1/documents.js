@@ -7,49 +7,87 @@
  * SPDX-License-Identifier: MIT
  */
 
+const {
+  readDirectory,
+  saveDocument,
+  deleteDocument,
+} = require("../../../utils/helpers/api/documentProcessor");
+const cfgApp = require("../../../config/app");
+const DocumentsDTO = require("../../../dto/api/1/req/documents.dto");
+const DocumentDTO = require("../../../dto/api/1/req/document.dto");
+const {
+  mapDocumentFileNameToObjectProperty,
+  mapObjectPropertyToDocumentFileName,
+} = require("../../../dictionaries/documents");
+const dictDocumentTypes = require("../../../dictionaries/mime/documents");
+
+function getFileName(file) {
+  return file.slice(0, file.lastIndexOf("."));
+}
+
 const getDocuments = async (req, res, next) => {
   try {
-    res.status(501).json({ message: "Очікує на реалізацію" });
+    const presentDocuments = {
+      rules: "",
+      contract: "",
+      privacy: "",
+      statut: "",
+      reporting: "",
+    };
+    const result = await readDirectory(
+      cfgApp.publicResources.documents.directory
+    );
+    for (const file of result) {
+      const fileName = getFileName(file);
+      if (
+        presentDocuments.hasOwnProperty(
+          mapDocumentFileNameToObjectProperty().get(fileName)
+        )
+      )
+        presentDocuments[
+          mapDocumentFileNameToObjectProperty().get(fileName)
+        ] = `${cfgApp.publicResources.documents.route}/${file}`;
+    }
+
+    res
+      .status(200)
+      .json(
+        new DocumentsDTO(
+          presentDocuments.rules,
+          presentDocuments.contract,
+          presentDocuments.privacy,
+          presentDocuments.statut,
+          presentDocuments.reporting
+        )
+      );
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
 };
 
-const uploadRules = async (req, res, next) => {
+const putDocument = async (req, res, next) => {
   try {
-    res.status(501).json({ message: "Очікує на реалізацію" });
-  } catch (err) {
-    res.status(500).json({ message: "Помилка на боці серверу" });
-  }
-};
+    const listFiles = await readDirectory(
+      cfgApp.publicResources.documents.directory
+    );
 
-const uploadPublicOfferContract = async (req, res, next) => {
-  try {
-    res.status(501).json({ message: "Очікує на реалізацію" });
-  } catch (err) {
-    res.status(500).json({ message: "Помилка на боці серверу" });
-  }
-};
-
-const uploadPrivacy = async (req, res, next) => {
-  try {
-    res.status(501).json({ message: "Очікує на реалізацію" });
-  } catch (err) {
-    res.status(500).json({ message: "Помилка на боці серверу" });
-  }
-};
-
-const uploadStatut = async (req, res, next) => {
-  try {
-    res.status(501).json({ message: "Очікує на реалізацію" });
-  } catch (err) {
-    res.status(500).json({ message: "Помилка на боці серверу" });
-  }
-};
-
-const uploadReporting = async (req, res, next) => {
-  try {
-    res.status(501).json({ message: "Очікує на реалізацію" });
+    for (const file of listFiles) {
+      if (
+        mapDocumentFileNameToObjectProperty().get(getFileName(file)) ===
+        req.body.type
+      ) {
+        const pathToFile = `${cfgApp.publicResources.documents.directory}/${file}`;
+        deleteDocument(pathToFile);
+        break;
+      }
+    }
+    const fileName = mapObjectPropertyToDocumentFileName().get(req.body.type);
+    const result = await saveDocument(
+      fileName,
+      req.body.file.data,
+      req.body.file.mime
+    );
+    res.status(200).json(new DocumentDTO(result));
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
   }
@@ -57,9 +95,5 @@ const uploadReporting = async (req, res, next) => {
 
 module.exports = {
   getDocuments,
-  uploadRules,
-  uploadPublicOfferContract,
-  uploadPrivacy,
-  uploadStatut,
-  uploadReporting,
+  putDocument,
 };

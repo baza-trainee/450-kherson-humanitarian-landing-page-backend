@@ -12,8 +12,9 @@ const { existsSync } = require("node:fs");
 const { ObjectId } = require("mongodb");
 const mimeImageTypes = require("../../../dictionaries/mime/pictures");
 const mimeDocumentTypes = require("../../../dictionaries/mime/documents");
-const mimeReportTypes = require("../../../dictionaries/mime/reports");
 const arrColorsForFront = require("../../../dictionaries/front-team/colors");
+
+const componentConfig = require("../../../config/api/v1/components");
 
 const getBinarySize = (data) => Buffer.from(data, "base64").length;
 
@@ -105,12 +106,14 @@ function isCurrencyValid(currency) {
   return /^[A-Z]{3}?$/.test(currency);
 }
 
-function isDocumentValid(docObject, maxSize) {
-  return isFileValid(docObject, maxSize, mimeDocumentTypes);
-}
+const getFileBase64SizeMb = (size) => {
+  return size * 1024 * 1024 + (size * 1024 * 1024 * 33) / 100;
+};
 
-function isReportValid(reportObject, maxSize) {
-  return isFileValid(reportObject, maxSize, mimeReportTypes);
+function isDocumentValid(docObject, type) {
+  const mapCfgDocuments = new Map(componentConfig.documents);
+  const maxSize = getFileBase64SizeMb(mapCfgDocuments.get(type).maxSizeMb);
+  return isFileValid(docObject, maxSize, mimeDocumentTypes);
 }
 
 function isFileValid(fileObject, maxSize, arrMimes) {
@@ -154,8 +157,6 @@ function isTextValid(text, minLength, maxLength) {
 
   // Check if the text include injection code
   if (!injectionPattern.test(text)) {
-    console.log(text);
-    console.log(false);
     return false;
   }
 
@@ -266,7 +267,6 @@ module.exports = {
   isEmailValid,
   isPhoneNumberValid,
   isDocumentValid,
-  isReportValid,
   isCurrencyValid,
   isIBANValid,
   isIPNValid,

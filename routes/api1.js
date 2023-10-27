@@ -202,7 +202,7 @@ router.delete(
 
 // -- Projects documents
 router.get("/projects", controllerProjects.getProjects);
-//router.get("/projects/ids", controllerProjects.getProjectsOnlyIds);
+router.get("/projects/ids", controllerProjects.getProjectsOnlyIds);
 router.post(
   "/projects",
   hasValidTocken,
@@ -271,46 +271,12 @@ router.put(
   "/document",
   hasValidTocken,
   isValidFileDocument,
-  controllerDocuments.getDocuments
+  controllerDocuments.putDocument
 );
 
-/*
-
-
-router.post(
-  "/documents/rules",
-  hasValidTocken,
-  isValidDocumentRules,
-  controllerDocuments.uploadRules
-);
-router.post(
-  "/documents/publicOfferContract",
-  hasValidTocken,
-  isValidDocumentPublicContract,
-  controllerDocuments.uploadPublicOfferContract
-);
-router.post(
-  "/documents/privacy",
-  hasValidTocken,
-  isValidDocumentPrivacy,
-  controllerDocuments.uploadPrivacy
-);
-router.post(
-  "/documents/statut",
-  hasValidTocken,
-  isValidDocumentStatut,
-  controllerDocuments.uploadStatut
-);
-router.post(
-  "/documents/reporting",
-  hasValidTocken,
-  isValidDocumentReporting,
-  controllerDocuments.uploadReporting
-);
-*/
 // Donats routes
 router.get("/donats", controllerDonats.getDonats);
-//router.get("/donats/ids", controllerDonats.getDonatsOnlyIds);
+router.get("/donats/ids", controllerDonats.getDonatsOnlyIds);
 router.post(
   "/donats",
   hasValidTocken,
@@ -330,8 +296,5 @@ router.delete(
   isValidDonat,
   controllerDonats.deleteDonat
 );
-
-// Export routes
-//router.post('/export/order/:id', hasValidTocken, controllerExport.);
 
 module.exports = router;

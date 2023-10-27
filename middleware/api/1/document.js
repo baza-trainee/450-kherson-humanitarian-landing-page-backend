@@ -18,23 +18,19 @@ const componentConfig = require("../../../config/api/v1/components");
 
 function isValidFileDocument(req, res, next) {
   try {
-    const { file, doc_option } = req.body;
+    let isDocument = false;
+    if (req.body.file && req.body.type && req.body.type !== "") {
+      isDocument = isDocumentValid(req.body.file, req.body.type);
+    }
 
-    // check picture
-    const isDocument = isDocumentValid(
-      file,
-      componentConfig.documents.statut.maxSizeMb
-    );
-
-    if (req.method === "POST") {
+    if (req.method === "PUT") {
       if (!isDocument) {
         return res.status(406).json({ message: "Помилка валідації даних" });
       }
     }
     next();
   } catch (err) {
-    console.log(err);
-    return res.status(406).json({ message: "-Помилка валідації даних" });
+    return res.status(406).json({ message: "Помилка валідації даних" });
   }
 }
 
