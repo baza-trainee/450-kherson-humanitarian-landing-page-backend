@@ -77,6 +77,18 @@ const getProjects = async (req, res, next) => {
   }
 };
 
+const getProjectsOnlyIds = async (req, res, next) => {
+  try {
+    const query = ProjectDBModel.where({});
+    const result = (await query.find().select("_id")).map(
+      (project) => project._id
+    );
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ message: "Помилка на боці серверу" });
+  }
+};
+
 const getProjectDocumentById = async (req, res, next) => {
   try {
     const query = ProjectDBModel.where({ _id: req.params.id });
@@ -232,6 +244,7 @@ const deleteProjectPicture = async (req, res, next) => {
 module.exports = {
   createProjectDocument,
   getProjects,
+  getProjectsOnlyIds,
   getProjectDocumentById,
   updateProjectDocument,
   deleteProjectDocument,
