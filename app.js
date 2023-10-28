@@ -47,17 +47,12 @@ app.use(express.json({ limit: appConfig.JSONRequestSizeLimit }));
 app.use(helmet());
 app.disable("x-powered-by");
 
-// view engine setup
-//app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'jade');
-
 app.use(logger("dev"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-//app.use(express.static(path.join(__dirname, 'public')));
-//app.use("/resources", express.static(path.join(__dirname, "public")));
+
 app.use(
   appConfig.publicResources.documents.route,
   express.static(
@@ -71,8 +66,7 @@ app.use(
   )
 );
 
-//app.use('/', indexRouter);
-app.use("/auth", authRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/v1", api1Router);
 
 const authLimiter = rateLimit({
@@ -81,8 +75,9 @@ const authLimiter = rateLimit({
   standardHeaders: "draft-7",
   legacyHeaders: false,
 });
+
 // Apply the rate limiting middleware to API calls only
-app.use("/auth", authLimiter);
+app.use("/api/auth", authLimiter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
