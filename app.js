@@ -72,7 +72,7 @@ app.use(
 );
 
 //app.use('/', indexRouter);
-app.use("/auth", authRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/v1", api1Router);
 
 const authLimiter = rateLimit({
@@ -82,7 +82,7 @@ const authLimiter = rateLimit({
   legacyHeaders: false,
 });
 // Apply the rate limiting middleware to API calls only
-app.use("/auth", authLimiter);
+app.use("/api/auth", authLimiter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
