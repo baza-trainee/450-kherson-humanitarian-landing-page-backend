@@ -7,6 +7,7 @@
  * SPDX-License-Identifier: MIT
  */
 
+const User = require("../models/auth/User");
 const jwt = require("jsonwebtoken");
 const authConf = require("../config/auth");
 
@@ -14,13 +15,23 @@ const authConf = require("../config/auth");
  * Check if token is valid .
  */
 
-function hasValidTocken(req, res, next) {
+async function hasValidTocken(req, res, next) {
   if (req.method === "OPTIONS") {
     next();
   }
   try {
+    const user = await User.findOne({});
+    if (!user) {
+      return res.status(403).json({ message: "Користувач не авторизований" });
+    }
+
     const token = req.headers.authorization.split(" ")[1];
-    if (!token) {
+    if (
+      !token ||
+      user.lastToken !== token ||
+      user.userData.ip !== req.headers.host ||
+      user.userData.browser !== req.headers["user-agent"]
+    ) {
       return res.status(403).json({ message: "Користувач не авторизований" });
     }
     const decodedData = jwt.verify(token, process.env.SECRET_KEY);
