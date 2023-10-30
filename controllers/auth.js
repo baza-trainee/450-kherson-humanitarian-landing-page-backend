@@ -45,6 +45,10 @@ const login = async (req, res, next) => {
       return res.status(403).json({ message: "Помилка авторизації" });
     }
     responseResult.token = generateAccessToken(user._id);
+    user.userData.ip = req.headers.host;
+    user.userData.browser = req.headers["user-agent"];
+    user.lastToken = responseResult.token;
+    await user.save();
     return res.status(200).json(responseResult);
   } catch (err) {
     //console.log(err);
@@ -101,6 +105,10 @@ const renewPasswordLink = async (req, res, next) => {
       return res.status(400).json({ message: "Посилання не дійсне" });
     }
     responseResult.token = generateAccessToken(user._id);
+    user.userData.ip = req.headers.host;
+    user.userData.browser = req.headers["user-agent"];
+    user.lastToken = responseResult.token;
+    await user.save();
     return res.status(200).json(responseResult);
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
