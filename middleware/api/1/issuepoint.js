@@ -32,7 +32,8 @@ function isValidIssuepoint(req, res, next) {
       isTextValid(
         geolocation,
         componentConfig.issuepoint.geolocation.minLength,
-        componentConfig.issuepoint.geolocation.maxLength
+        componentConfig.issuepoint.geolocation.maxLength,
+        false
       ) && isGeolocationEncodeDecodeComparable(geolocation);
 
     if (req.method === "PUT") {

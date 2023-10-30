@@ -49,7 +49,8 @@ function isValidProjectDocument(req, res, next) {
     const isVideoLink = isTextValid(
       videoLink,
       componentConfig.projects.videoLink.minLength,
-      componentConfig.projects.videoLink.maxLength
+      componentConfig.projects.videoLink.maxLength,
+      false
     );
 
     const isSubTitle = isTextValid(

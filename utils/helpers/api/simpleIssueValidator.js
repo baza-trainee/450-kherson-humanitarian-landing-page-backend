@@ -142,10 +142,11 @@ function isFrontColorValid(color) {
   return false;
 }
 
-function isTextValid(text, minLength, maxLength) {
+function isTextValid(text, minLength, maxLength, checkInjection = true) {
   // Define a regular expression pattern to match various text exclude injection code
   //const injectionPattern = /(\$|\{|\}|\[|\]|\\|\/|\(|\)|\+|\*|\?|\^|\|)/;
-  const injectionPattern = /^[A-Za-z0-9\u0400-\u04FFіїєґІЇЄҐ\/,.():!-' ]*$/;
+  const injectionPattern =
+    /^[A-Za-z0-9\u0400-\u04FFіїєґІЇЄҐ\/,.():!--–«»’' ]*$/;
 
   if (text === null || typeof value === "object") {
     return false;
@@ -156,7 +157,7 @@ function isTextValid(text, minLength, maxLength) {
   }
 
   // Check if the text include injection code
-  if (!injectionPattern.test(text)) {
+  if (checkInjection && !injectionPattern.test(text)) {
     return false;
   }
 
