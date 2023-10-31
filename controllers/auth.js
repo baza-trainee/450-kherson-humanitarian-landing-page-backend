@@ -76,7 +76,7 @@ const renewPassword = async (req, res, next) => {
     user.save();
     await mailService.sendActivationMail(
       process.env.ADMIN_EMAIL,
-      `${urls.APP_URL}/auth/renew/${activationLink}`
+      `${urls.APP_URL}/api/auth/renew/${activationLink}`
     );
     return res
       .status(200)
@@ -109,6 +109,7 @@ const renewPasswordLink = async (req, res, next) => {
     user.userData.browser = req.headers["user-agent"];
     user.lastToken = responseResult.token;
     await user.save();
+    //return res.redirect(301, "http://example.com");
     return res.status(200).json(responseResult);
   } catch (err) {
     res.status(500).json({ message: "Помилка на боці серверу" });
