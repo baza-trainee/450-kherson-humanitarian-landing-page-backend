@@ -6925,7 +6925,7 @@
 														],
 														"body": {
 															"mode": "raw",
-															"raw": "{\n    \"id\": \"648791efc39697e8cde40114\"\n}",
+															"raw": "",
 															"options": {
 																"raw": {
 																	"language": "json"
@@ -6933,14 +6933,21 @@
 															}
 														},
 														"url": {
-															"raw": "{{baseUrl}}/api/v1/project",
+															"raw": "{{baseUrl}}/api/v1/project/:id",
 															"host": [
 																"{{baseUrl}}"
 															],
 															"path": [
 																"api",
 																"v1",
-																"project"
+																"project",
+																":id"
+															],
+															"variable": [
+																{
+																	"key": "id",
+																	"value": "653fe446880d0edb8e803d77"
+																}
 															]
 														}
 													},
@@ -11607,7 +11614,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"token\": \"<string>\"\n}"
+													"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1M2ZmMjVjZTEwYWZjN2FiOWM1NDU0MyIsImlhdCI6MTY5ODc3MTUzMiwiZXhwIjoxNzg2MDcxNTMyfQ.0tOk14F7gbnwAAGGjN4DcTR9VSQ46gVQyTjg5_drYFE\"\n}"
 												},
 												{
 													"name": "Посилання не дійсне",
@@ -12434,7 +12441,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1M2ZmMjVjZTEwYWZjN2FiOWM1NDU0MyIsImlhdCI6MTY5ODY5MTQyNCwiZXhwIjoxNzg1OTkxNDI0fQ.38n93s5VfiqA_MBFAvtmhtTMwYPTT_Gf7BpTtD-ziqI",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1MzJhOTAwYzhkZDlkOGNlMTk2OWU4MSIsImlhdCI6MTY5ODg2MTkxMCwiZXhwIjoxNzg2MTYxOTEwfQ.VkoninUbWJMfGYsFgx0ntlyerkuy81U8LKB5he7P1Go",
 				"type": "string"
 			}
 		]
@@ -12462,23 +12469,23 @@
 	"variable": [
 		{
 			"key": "protocol",
-			"value": "https",
-			"disabled": true
+			"value": "https"
 		},
 		{
 			"key": "baseUrl",
-			"value": "{{protocol}}://450kr.com",
-			"disabled": true
+			"value": "{{protocol}}://450kr.com"
 		},
 		{
 			"key": "protocol",
 			"value": "http",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
 			"key": "baseUrl",
 			"value": "{{protocol}}://127.0.0.1:3001",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
 			"key": "bearerToken",
