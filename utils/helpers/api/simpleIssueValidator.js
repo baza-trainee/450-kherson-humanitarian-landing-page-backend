@@ -205,7 +205,14 @@ function isDateValid(inputDate, pminDate, pmaxDate) {
   }
 
   // Parse the input date into a JavaScript Date object
-  const parsedDate = new Date(inputDate);
+  const parsedDate =
+    inputDate.length === 10
+      ? new Date(
+          `${inputDate.slice(3, 5)}.${inputDate.slice(0, 2)}.${inputDate.slice(
+            -4
+          )}`
+        )
+      : new Date(inputDate);
 
   // Check if the parsed date is a valid date
   if (isNaN(parsedDate.getTime())) {
