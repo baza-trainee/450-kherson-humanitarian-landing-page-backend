@@ -43,6 +43,7 @@ const helmet = require("helmet");
 require("dotenv").config();
 
 var app = express();
+app.set("mongoose", mongoose);
 app.use(express.json({ limit: appConfig.JSONRequestSizeLimit }));
 app.use(helmet());
 app.disable("x-powered-by");
@@ -112,14 +113,15 @@ const startMongoDB = async () => {
     await mongoose.connect(process.env.MONGO_URI, {
       serverSelectionTimeoutMS: config.servers.MongoDB.selectionTimeout,
     });
-    console.log("MongoDB сервер запущений");
+    console.log("З'єднання з MongoDB сервером встановлено");
   } catch (err) {
-    console.log("Помилка при запуску MongoDB серверу");
+    console.log("Помилка з'єднання з MongoDB сервером");
     setTimeout(() => {
       startMongoDB();
     }, config.servers.MongoDB.restartSec);
   }
 };
+
 const startServer = async () => {
   try {
     await startMongoDB();
