@@ -13,7 +13,6 @@ function mapDocumentFileNameToObjectProperty() {
   map.set("Public_Offer", "contract");
   map.set("Privacy_Policy", "privacy");
   map.set("Constitution", "statut");
-  map.set("Report", "reporting");
   return map;
 }
 

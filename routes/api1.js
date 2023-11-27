@@ -273,6 +273,11 @@ router.put(
   isValidFileDocument,
   controllerDocuments.putDocument
 );
+router.delete(
+  "/document/:name",
+  hasValidTocken,
+  controllerDocuments.removeDocument
+);
 
 // Donats routes
 router.get("/donats", controllerDonats.getDonats);

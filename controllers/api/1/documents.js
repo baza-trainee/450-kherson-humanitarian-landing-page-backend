@@ -93,7 +93,34 @@ const putDocument = async (req, res, next) => {
   }
 };
 
+const removeDocument = async (req, res, next) => {
+  try {
+    if (!mapObjectPropertyToDocumentFileName().has(req.params.name)) {
+      next();
+    }
+    const listFiles = await readDirectory(
+      cfgApp.publicResources.documents.directory
+    );
+    const rmFile = listFiles.find(
+      (file) =>
+        mapDocumentFileNameToObjectProperty().get(getFileName(file)) ===
+        req.params.name
+    );
+    if (rmFile) {
+      const pathToFile = `${cfgApp.publicResources.documents.directory}/${rmFile}`;
+      deleteDocument(pathToFile);
+      res.status(200).json(new DocumentDTO(rmFile));
+    } else {
+      next();
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Помилка на боці серверу" });
+  }
+};
+
 module.exports = {
   getDocuments,
   putDocument,
+  removeDocument,
 };
