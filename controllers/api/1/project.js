@@ -25,11 +25,12 @@ const convertId = (projectDocument) => {
     const { _id, ...mainPictureClone } = projectDocument?.mainPicture._doc;
     mainPictureClone.id = _id;
     result.mainPicture = mainPictureClone;
+    result.mainPicture.image = `${appConfig.publicResources.pictures.route}/${mainPictureClone.image}`;
   }
   result.pictures = result.pictures.map((picture) => {
     return {
       mime_type: picture.mime_type,
-      image: picture.image,
+      image: `${appConfig.publicResources.pictures.route}/${picture.image}`,
       id: picture._id,
     };
   });
