@@ -40,7 +40,6 @@ const convertId = (projectDocument) => {
 const createProjectDocument = async (req, res, next) => {
   try {
     const {
-      title,
       stage,
       videoLink,
       subTitle,
@@ -52,7 +51,6 @@ const createProjectDocument = async (req, res, next) => {
     } = req.body;
 
     const projectDoc = await new ProjectDBModel({
-      title,
       stage,
       videoLink,
       subTitle,
@@ -108,7 +106,6 @@ const getProjectDocumentById = async (req, res, next) => {
 const updateProjectDocument = async (req, res, next) => {
   try {
     const projectDocToUpdate = {
-      title: req.body.title,
       stage: req.body.stage,
       videoLink: req.body.videoLink,
       subTitle: req.body.subTitle,
@@ -213,9 +210,7 @@ const deleteProjectPicture = async (req, res, next) => {
           projectDBDocument.mainPicture = null;
           const projectDoc = await projectDBDocument.save();
           return res.status(200).json(convertId(projectDoc));
-        } /*else {
-          return res.status(500).json({ message: "Помилка на боці серверу" });
-        }*/
+        }
       } else {
         const pictureForDelete = projectDBDocument.pictures.find((picture) =>
           picture._id.equals(image_id)

@@ -11,7 +11,6 @@ const { Schema, model } = require("mongoose");
 const Picture = require("./Common/Picture");
 
 const Projects = new Schema({
-  title: { type: String, required: true },
   // funding-await, in-process, completed
   stage: { type: String, required: true },
   videoLink: { type: String, required: true },

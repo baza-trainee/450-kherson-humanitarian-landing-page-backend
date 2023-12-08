@@ -9,11 +9,9 @@
 
 const {
   isIdValid,
-  //isImageValid,
   isImageContentValid,
   isTextValid,
   isBooleanValid,
-  //isPicturesArray,
 } = require("../../../utils/helpers/api/simpleIssueValidator");
 const appConfig = require("../../../config/app");
 const componentConfig = require("../../../config/api/v1/components");
@@ -25,7 +23,6 @@ const componentConfig = require("../../../config/api/v1/components");
 function isValidProjectDocument(req, res, next) {
   try {
     const {
-      title,
       stage,
       videoLink,
       subTitle,
@@ -38,12 +35,6 @@ function isValidProjectDocument(req, res, next) {
     // check id
     const isId = isIdValid(id);
     // check main picture
-    const isTitle = isTextValid(
-      title,
-      componentConfig.projects.title.minLength,
-      componentConfig.projects.title.maxLength
-    );
-
     const isStage = componentConfig.projects.stages.has(stage);
 
     const isVideoLink = isTextValid(
@@ -88,7 +79,6 @@ function isValidProjectDocument(req, res, next) {
     if (req.method === "POST") {
       if (
         !(
-          isTitle &&
           isStage &&
           isVideoLink &&
           isSubTitle &&
@@ -105,7 +95,6 @@ function isValidProjectDocument(req, res, next) {
       if (
         !(
           isId &&
-          isTitle &&
           isStage &&
           isVideoLink &&
           isSubTitle &&
