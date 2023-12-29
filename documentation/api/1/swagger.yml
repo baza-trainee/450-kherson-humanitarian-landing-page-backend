@@ -1,0 +1,2640 @@
+openapi: "3.0.2"
+info:
+    title: Сайт громадської організації «4.5.0. Кривий Ріг»  - OpenAPI 3.1
+    version: "1.0"
+servers:
+    - url: "{protocol}://450kr.com"
+      description: Production server
+      variables:
+          protocol:
+              enum:
+                  - http
+                  - https
+              default: https
+    - url: http://localhost:{port}/api/v1/
+      description: Development server
+      variables:
+          port:
+              enum:
+                  - "3000"
+              default: "3000"
+paths:
+    /auth/login:
+        post:
+            tags:
+                - Авторизація
+            summary: Авторизуватися
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Login"
+            responses:
+                "200":
+                    description: Користувача авторизовано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Token"
+                "403":
+                    description: Користувач не авторизований
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /auth/renew:
+        post:
+            tags:
+                - Авторизація
+            summary: Отримати посилання для відновлення паролю
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/RenewGetLink"
+            responses:
+                "200":
+                    description: Посилання для відновлення паролю відправлено
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /auth/renew/{link}:
+        get:
+            tags:
+                - Авторизація
+            parameters:
+                - in: path
+                  name: link
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            summary: Відновити пароль
+            responses:
+                "200":
+                    description: Токен авторизації отримано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Token"
+                "400":
+                    description: Посилання не дійсне
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /auth/change:
+        post:
+            security:
+                - bearerAuth: []
+            tags:
+                - Авторизація
+            summary: Змінити пароль
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Password"
+            responses:
+                "200":
+                    description: Посилання для відновлення паролю відправлено
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Token"
+                "400":
+                    description: Помилка авторизації
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/hero:
+        post:
+            security:
+                - bearerAuth: []
+            tags:
+                - Hero
+            summary: Додати новий ресурс
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/HeroIn"
+            responses:
+                "200":
+                    description: Ресурс створено
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/HeroOut"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/hero/{id}:
+        get:
+            summary: Отримати ресурс
+            tags:
+                - Hero
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/HeroOut"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            security:
+                - bearerAuth: []
+            summary: Редагувати ресурс
+            tags:
+                - Hero
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/HeroIn"
+            responses:
+                "200":
+                    description: Ресурс відредаговано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/HeroOut"
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+        delete:
+            security:
+                - bearerAuth: []
+            summary: Видалити ресурс
+            tags:
+                - Hero
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json: {}
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/heroes:
+        get:
+            summary: Отримати ресурси
+            tags:
+                - Hero
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Heroes"
+                "400":
+                    description: Невірний запит
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+    /api/v1/fund:
+        get:
+            tags:
+                - Громадська організація
+            summary: Отримати ресурс
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/FundOut"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            security:
+                - bearerAuth: []
+            summary: Редагувати ресурс
+            tags:
+                - Громадська організація
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/FundIn"
+            responses:
+                "200":
+                    description: Ресурс відредаговано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/FundOut"
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/team:
+        get:
+            tags:
+                - Наша команда
+            summary: Отримати ресурс
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/TeamOut"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            security:
+                - bearerAuth: []
+            summary: Редагувати ресурс
+            tags:
+                - Наша команда
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/TeamIn"
+            responses:
+                "200":
+                    description: Ресурс відредаговано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/TeamOut"
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/history:
+        get:
+            tags:
+                - Історія заснування
+            summary: Отримати ресурс
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/History"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            security:
+                - bearerAuth: []
+            summary: Редагувати ресурс
+            tags:
+                - Історія заснування
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/History"
+            responses:
+                "200":
+                    description: Ресурс відредаговано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/History"
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/achievements:
+        get:
+            tags:
+                - Наші досягнення
+            summary: Отримати ресурс
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Achievements"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            security:
+                - bearerAuth: []
+            summary: Редагувати ресурс
+            tags:
+                - Наші досягнення
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Achievements"
+            responses:
+                "200":
+                    description: Ресурс відредаговано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Achievements"
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/issue-point:
+        get:
+            tags:
+                - Адреса видачі
+            summary: Отримати ресурс
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DeliveryAddress"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            security:
+                - bearerAuth: []
+            summary: Редагувати ресурс
+            tags:
+                - Адреса видачі
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/DeliveryAddress"
+            responses:
+                "200":
+                    description: Ресурс відредаговано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/DeliveryAddress"
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/order/activate/{orderId}/{link}:
+        get:
+            summary: Активувати людину у списку
+            tags:
+                - Списки на отримання допомоги
+            parameters:
+                - in: path
+                  name: orderId
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                - in: path
+                  name: link
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "302":
+                    description: Found (Redirection)
+                    content:
+                        redirect:
+                            schema:
+                                type: string
+                                example: "https://localhost:3000/notification/success-registration?issueDate={date}&issueTime={time}&name={name}&surname={surname}&patrname={patrname}"
+                "432":
+                    description: Список не знайдено
+                    content:
+                        redirect:
+                            schema:
+                                type: string
+                                example: 'https://localhost:3000/notification/unsuccess-registration?error=432&message="Список%не%знайдено"'
+                "434":
+                    description: Список заповнений чи знаходиться в архіві
+                    content:
+                        redirect:
+                            schema:
+                                type: string
+                                example: 'https://localhost:3000/notification/unsuccess-registration?error=434&message="Список%заповнений%чи%знаходиться%в%архіві"'
+                "437":
+                    description: Людина не знайдена у списку
+                    content:
+                        redirect:
+                            schema:
+                                type: string
+                                example: 'https://localhost:3000/notification/unsuccess-registration?error=437&message="Людина%не%знайдена%у%списку"'
+                "438":
+                    description: Людина вже активована
+                    content:
+                        redirect:
+                            schema:
+                                type: string
+                                example: 'https://localhost:3000/notification/unsuccess-registration?error=438&message="Людина%вже%активована"'
+                "500":
+                    description: помилка на боці сервера
+                    content:
+                        redirect:
+                            schema:
+                                type: string
+                                example: 'https://localhost:3000/notification/unsuccess-registration?error=500&message="помилка%на%боці%сервера"'
+    /api/v1/order/{orderId}/{link}:
+        delete:
+            security:
+                - bearerAuth: []
+            summary: Видалити людину з списку
+            tags:
+                - Списки на отримання допомоги
+            parameters:
+                - in: path
+                  name: orderId
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+                - in: path
+                  name: link
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 200,
+                                        message: "Людина видалена зі списку",
+                                    }
+                "432":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    { code: 432, message: "Список не знайдено" }
+                "437":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 437,
+                                        message: "Людина не знайдена у списку",
+                                    }
+                "440":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 440,
+                                        message: "Людина ще не активована",
+                                    }
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 500,
+                                        message: "помилка на боці сервера",
+                                    }
+    /api/v1/order/{orderId}:
+        get:
+            security:
+                - bearerAuth: []
+            summary: Отримати один список
+            tags:
+                - Списки на отримання допомоги
+            parameters:
+                - in: path
+                  name: orderId
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/OrderWithPersons"
+                "432":
+                    description: Список не знайдено
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    { code: 432, message: "Список не знайдено" }
+        patch:
+            summary: Зареєструвати людину на допомогу
+            tags:
+                - Списки на отримання допомоги
+            parameters:
+                - in: path
+                  name: orderId
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/AddPerson"
+            responses:
+                "201":
+                    description: Людина додана успішно
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/SuccsesfullAddPerson"
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 406,
+                                        message: "\"name\" with value \"FSSD\" fails to match the required pattern: /^[\\sА-Яа-яІіЇїЄєҐґЁё'-]+$/",
+                                        Or message: '"name" is not allowed to be empty',
+                                    }
+
+                "432":
+                    description: Список не знайдено
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    { code: 432, message: "Список не знайдено" }
+                "433":
+                    description: Список не активний
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    { code: 433, message: "Список не активний" }
+                "434":
+                    description: Список заповнений чи знаходиться в архіві
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 434,
+                                        message: "Список заповнений чи знаходиться в архіві",
+                                    }
+                "435":
+                    description: Імейл вже зареєстрований
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 435,
+                                        message: "Імейл вже зареєстрований",
+                                    }
+                "436":
+                    description: Список не оновлено
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 436,
+                                        message: "Список не оновленой",
+                                    }
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 500,
+                                        message: "помилка на боці сервера",
+                                    }
+        delete:
+            security:
+                - bearerAuth: []
+            summary: Видалити ресурс
+            tags:
+                - Списки на отримання допомоги
+            parameters:
+                - in: path
+                  name: orderId
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 200,
+                                        message: "Список успішно видалено",
+                                    }
+                "432":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    { code: 432, message: "Список не знайдено" }
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 500,
+                                        message: "помилка на боці сервера",
+                                    }
+    /api/v1/orders:
+        get:
+            security:
+                - bearerAuth: []
+            summary: Отримати списки допомоги
+            tags:
+                - Списки на отримання допомоги
+            parameters:
+                - in: query
+                  name: type
+                  schema:
+                      type: string
+                      enum: ["temp_moved", "invalid", "child"]
+                      default: "temp_moved"
+                - in: query
+                  name: status
+                  schema:
+                      type: string
+                      enum: ["active", "ready", "archived", "complete"]
+                      default: "active"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Order"
+                "400":
+                    description: Невірний запит
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    { code: 400, message: "Невірний запит" }
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        post:
+            security:
+                - bearerAuth: []
+            tags:
+                - Списки на отримання допомоги
+            summary: Додати новий ресурс
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Order"
+            responses:
+                "201":
+                    description: Ресурс створено
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Order"
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 406,
+                                        message: "Дата не може бути в минулому",
+                                    }
+                "439":
+                    description: Помилка валідації даних
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 439,
+                                        message: "Список з такою датою вже існує",
+                                    }
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    {
+                                        code: 500,
+                                        message: "помилка на боці сервера",
+                                    }
+
+    /api/v1/orders/quantity:
+        get:
+            summary: Отримати ресурси
+            tags:
+                - Списки на отримання допомоги
+            parameters:
+                - in: query
+                  name: type
+                  schema:
+                      type: string
+                      enum: ["temp_moved", "invalid", "child"]
+                      default: "temp_moved"
+                - in: query
+                  name: status
+                  schema:
+                      type: string
+                      enum: ["active", "ready", "archived", "complete"]
+                      default: "active"
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/OrderQuantity"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+    /api/v1/export-order/generate/{orderId}:
+        get:
+            security:
+                - bearerAuth: []
+            summary: Отримати лінк для завантаження файлу
+            tags:
+                - Списки на отримання допомоги
+            parameters:
+                - in: path
+                  name: orderId
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    downloadUrl:
+                                        type: string
+                            examples:
+                                default:
+                                    value:
+                                        downloadUrl: "{BASE_URL}/api/v1/export-order/U2FsdGVkX18ngMRq5T%2FRh4qniDaGVtMjkgdTS5qnON7Np3SJj3L%2FnqR33QMSioFa"
+
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "432":
+                    description: Список не знайдено
+                    content:
+                        application/json:
+                            schema:
+                                type: string
+                                example:
+                                    { code: 432, message: "Список не знайдено" }
+
+    /api/v1/activities:
+        get:
+            summary: Отримати ресурси
+            tags:
+                - Наша діяльність
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/PathToPictureOut"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        post:
+            security:
+                - bearerAuth: []
+            tags:
+                - Наша діяльність
+            summary: Додати новий ресурс
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/PathToPictureIn"
+            responses:
+                "200":
+                    description: Ресурс створено
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PathToPictureOut"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/activity/{id}:
+        get:
+            summary: Отримати ресурс
+            tags:
+                - Наша діяльність
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PathToPictureOut"
+                "400":
+                    description: Невірний запит
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            security:
+                - bearerAuth: []
+            summary: Редагувати ресурс
+            tags:
+                - Наша діяльність
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/PathToPictureIn"
+            responses:
+                "200":
+                    description: Ресурс відредаговано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PathToPictureOut"
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+        delete:
+            security:
+                - bearerAuth: []
+            summary: Видалити ресурс
+            tags:
+                - Наша діяльність
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json: {}
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/projects:
+        get:
+            summary: Отримати ресурси
+            tags:
+                - Проєкти
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/ProjectOut"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        post:
+            security:
+                - bearerAuth: []
+            tags:
+                - Проєкти
+            summary: Додати новий ресурс
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ProjectIn"
+            responses:
+                "200":
+                    description: Ресурс створено
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ProjectOut"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+
+    /api/v1/project/{id}:
+        get:
+            summary: Отримати ресурс
+            tags:
+                - Проєкти
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ProjectOut"
+                "400":
+                    description: Невірний запит
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            security:
+                - bearerAuth: []
+            summary: Редагувати ресурс
+            tags:
+                - Проєкти
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/ProjectIn"
+            responses:
+                "200":
+                    description: Ресурс відредаговано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ProjectOut"
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+        delete:
+            security:
+                - bearerAuth: []
+            summary: Видалити ресурс
+            tags:
+                - Проєкти
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json: {}
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/logos:
+        get:
+            summary: Отримати ресурси
+            tags:
+                - Наші партнери
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/PathToPictureOut"
+                "400":
+                    description: Невірний запит
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        post:
+            security:
+                - bearerAuth: []
+            tags:
+                - Наші партнери
+            summary: Додати новий ресурс
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/PathToPictureIn"
+            responses:
+                "200":
+                    description: Ресурс створено
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PathToPictureOut"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/logo/{id}:
+        get:
+            summary: Отримати ресурс
+            tags:
+                - Наші партнери
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PathToPictureOut"
+                "400":
+                    description: Невірний запит
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            security:
+                - bearerAuth: []
+            summary: Редагувати ресурс
+            tags:
+                - Наші партнери
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/PathToPictureIn"
+            responses:
+                "200":
+                    description: Ресурс відредаговано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/PathToPictureOut"
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+        delete:
+            security:
+                - bearerAuth: []
+            summary: Видалити ресурс
+            tags:
+                - Наші партнери
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json: {}
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/contacts:
+        get:
+            summary: Отримати ресурс
+            tags:
+                - Контакти
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contacts"
+                "400":
+                    description: Невірний запит
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            security:
+                - bearerAuth: []
+            summary: Редагувати ресурс
+            tags:
+                - Контакти
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Contacts"
+            responses:
+                "200":
+                    description: Ресурс відредаговано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contacts"
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/documents:
+        get:
+            summary: Отримати ресурс
+            tags:
+                - Документи
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Documents"
+                "400":
+                    description: Невірний запит
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            security:
+                - bearerAuth: []
+            summary: Редагувати ресурс
+            tags:
+                - Документи
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Documents"
+            responses:
+                "200":
+                    description: Ресурс відредаговано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Documents"
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/congrats:
+        get:
+            summary: Отримати ресурс
+            tags:
+                - Вітаємо
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Congrats"
+                "400":
+                    description: Невірний запит
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            security:
+                - bearerAuth: []
+            summary: Редагувати ресурс
+            tags:
+                - Вітаємо
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Congrats"
+            responses:
+                "200":
+                    description: Ресурс відредаговано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Congrats"
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+
+    /api/v1/donats:
+        get:
+            summary: Отримати ресурси
+            tags:
+                - Донати
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: "#/components/schemas/Donat"
+                "400":
+                    description: Невірний запит
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        post:
+            security:
+                - bearerAuth: []
+            tags:
+                - Донати
+            summary: Додати новий ресурс
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Donat"
+            responses:
+                "200":
+                    description: Ресурс створено
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Donat"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/donat/{id}:
+        get:
+            summary: Отримати ресурс
+            tags:
+                - Донати
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Donat"
+                "400":
+                    description: Невірний запит
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+        put:
+            security:
+                - bearerAuth: []
+            summary: Редагувати ресурс
+            tags:
+                - Донати
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Donat"
+            responses:
+                "200":
+                    description: Ресурс відредаговано
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Donat"
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "406":
+                    description: Помилка валідації даних
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+        delete:
+            security:
+                - bearerAuth: []
+            summary: Видалити ресурс
+            tags:
+                - Донати
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+                      format: uuid
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json: {}
+                "404":
+                    description: Ресурс не знайдено
+                    content:
+                        application/json: {}
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+    /api/v1/export/order/{id}:
+        post:
+            security:
+                - bearerAuth: []
+            summary: Отримати ресурси
+            tags:
+                - Експорт
+            parameters:
+                - in: path
+                  name: id
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/vnd.ms-excel:
+                            schema:
+                                type: string
+                                format: binary
+                        application/octet-stream:
+                            schema:
+                                type: string
+                                format: binary
+                "400":
+                    description: Невірний запит
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "404":
+                    description: Ресурс відсутній
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "500":
+                    description: Помилка на боці серверу
+                    content:
+                        application/json: {}
+components:
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+    requestBodies:
+        AchievementsBody:
+            content:
+                multipart/form-data:
+                    schema:
+                        type: object
+                        properties:
+                            issuedHumanitarianKits:
+                                type: integer
+                            receivedHumanitarianAid:
+                                type: integer
+                            sumDonats:
+                                type: integer
+                            infoAtDate:
+                                type: string
+                                format: date-time
+        ViewBody:
+            content:
+                multipart/form-data:
+                    schema:
+                        type: object
+                        properties:
+                            picture:
+                                type: string
+                                format: binary
+                            bgColorStart:
+                                type: string
+                            bgColorEnd:
+                                type: string
+        TitleBody:
+            content:
+                multipart/form-data:
+                    schema:
+                        type: object
+                        properties:
+                            text:
+                                type: string
+                            colorStart:
+                                type: string
+                            colorMiddle:
+                                type: string
+                            colorEnd:
+                                type: string
+        SubtitleBody:
+            content:
+                multipart/form-data:
+                    schema:
+                        type: object
+                        properties:
+                            text:
+                                type: string
+                            colorStart:
+                                type: string
+                            colorMiddle:
+                                type: string
+                            colorEnd:
+                                type: string
+        HeroBody:
+            required: true
+            content:
+                multipart/form-data:
+                    schema:
+                        type: object
+                        properties:
+                            view:
+                                $ref: "#/components/requestBodies/ViewBody"
+                            title:
+                                $ref: "#/components/requestBodies/TitleBody"
+                            subtitle:
+                                $ref: "#/components/requestBodies/SubtitleBody"
+                        required:
+                            - view
+                            - title
+                            - subtitle
+    schemas:
+        Error:
+            type: object
+            properties:
+                code:
+                    type: string
+                    example: "404"
+                message:
+                    type: string
+                    example: "Ресурс не знайдено"
+            required:
+                - code
+                - message
+        Token:
+            type: object
+            required:
+                - token
+            properties:
+                token:
+                    type: string
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZTYwNGY0ODg0NWU5NmUwMWNiYzkwYyIsImlhdCI6MTY5MzAwMTM5MSwiZXhwIjoxNjkzMDAyMjkxfQ.jZXON8fmQa3adBQZz75bg80NZbYlKCKtZ4326u8ixxI"
+        Login:
+            type: object
+            required:
+                - username
+                - password
+            properties:
+                username:
+                    type: string
+                    example: "administrator"
+                password:
+                    type: string
+                    example: "password"
+        Password:
+            type: object
+            required:
+                - password
+            properties:
+                password:
+                    type: string
+                    example: "password"
+        RenewGetLink:
+            type: object
+            required:
+                - username
+            properties:
+                username:
+                    type: string
+                    example: "administrator"
+        ViewHeroIn:
+            type: object
+            required:
+                - picture
+                - bgColorStart
+                - bgColorEnd
+            properties:
+                picture:
+                    $ref: "#/components/schemas/PathToPictureIn"
+                bgColorStart:
+                    type: string
+                    example: "#ff0000"
+                bgColorEnd:
+                    type: string
+                    example: "#ff0000"
+        ViewHeroOut:
+            type: object
+            required:
+                - picture
+                - bgColorStart
+                - bgColorEnd
+            properties:
+                picture:
+                    $ref: "#/components/schemas/PathToPictureOut"
+                bgColorStart:
+                    type: string
+                    example: "#ff0000"
+                bgColorEnd:
+                    type: string
+                    example: "#ff0000"
+        TitleHero:
+            type: object
+            required:
+                - text
+                - colorStart
+                - colorMiddle
+                - colorEnd
+            properties:
+                text:
+                    type: string
+                    example: "Відбудовуємо зруйновані та пошкоджені об’єкти (Херсонська область)"
+                colorStart:
+                    type: string
+                    example: "#ff0000"
+                colorMiddle:
+                    type: string
+                    example: "#ff0000"
+                colorEnd:
+                    type: string
+                    example: "#ff0000"
+        SubtitleHero:
+            type: object
+            required:
+                - text
+                - colorStart
+                - colorMiddle
+                - colorEnd
+            properties:
+                text:
+                    type: string
+                    example: "м. Кривий Ріг"
+                colorStart:
+                    type: string
+                    example: "#ff0000"
+                colorMiddle:
+                    type: string
+                    example: "#ff0000"
+                colorEnd:
+                    type: string
+                    example: "#ff0000"
+        HeroIn:
+            type: object
+            required:
+                - id
+                - View
+                - Title
+                - Subtitle
+            properties:
+                id:
+                    type: string
+                    format: uuid
+                    example: "12f90a9c-3ece-11ee-be56-0242ac120002"
+                View:
+                    $ref: "#/components/schemas/ViewHeroIn"
+                Title:
+                    $ref: "#/components/schemas/TitleHero"
+                Subtitle:
+                    $ref: "#/components/schemas/SubtitleHero"
+        HeroOut:
+            type: object
+            required:
+                - id
+                - View
+                - Title
+                - Subtitle
+            properties:
+                id:
+                    type: string
+                    format: uuid
+                    example: "12f90a9c-3ece-11ee-be56-0242ac120002"
+                View:
+                    $ref: "#/components/schemas/ViewHeroOut"
+                Title:
+                    $ref: "#/components/schemas/TitleHero"
+                Subtitle:
+                    $ref: "#/components/schemas/SubtitleHero"
+        Heroes:
+            type: array
+            items:
+                $ref: "#/components/schemas/HeroOut"
+        FundIn:
+            type: object
+            required:
+                - picture
+            properties:
+                picture:
+                    $ref: "#/components/schemas/PathToPictureIn"
+        FundOut:
+            type: object
+            required:
+                - picture
+            properties:
+                picture:
+                    $ref: "#/components/schemas/PathToPictureOut"
+        TeamIn:
+            type: object
+            required:
+                - picture
+                - title
+                - text
+            properties:
+                picture:
+                    $ref: "#/components/schemas/PathToPictureIn"
+                title:
+                    type: string
+                    example: "наша команда"
+                text:
+                    type: string
+                    example:
+                        "Голова правління – Польовий Ростислав Олексійович. Співзасновник організації –
+                        Кулакевич Олександр Ігорович. Проект-менеджер (напрямок відбудови) – Хромих Артем
+                        Валерійович. Проект-менеджер (гуманітарний напрямок) – Кулакевич Катерина Сергіївна."
+        TeamOut:
+            type: object
+            required:
+                - picture
+                - title
+                - text
+            properties:
+                picture:
+                    $ref: "#/components/schemas/PathToPictureOut"
+                title:
+                    type: string
+                    example: "наша команда"
+                text:
+                    type: string
+                    example:
+                        "Голова правління – Польовий Ростислав Олексійович. Співзасновник організації –
+                        Кулакевич Олександр Ігорович. Проект-менеджер (напрямок відбудови) – Хромих Артем
+                        Валерійович. Проект-менеджер (гуманітарний напрямок) – Кулакевич Катерина Сергіївна."
+        History:
+            type: object
+            required:
+                - text
+                - colorStart
+                - colorMiddle
+                - colorEnd
+            properties:
+                text:
+                    type: string
+                    example: "м. Кривий Ріг"
+                colorStart:
+                    type: string
+                    example: "#ff0000"
+                colorMiddle:
+                    type: string
+                    example: "#ff0000"
+                colorEnd:
+                    type: string
+                    example: "#ff0000"
+        Achievements:
+            type: object
+            required:
+                - issuedHumanitarianKits
+                - receivedHumanitarianAid
+                - sumDonats
+                - infoAtDate
+            properties:
+                issuedHumanitarianKits:
+                    type: integer
+                    example: 541
+                receivedHumanitarianAid:
+                    type: integer
+                    example: 57895
+                sumDonats:
+                    type: integer
+                    example: 98677
+                infoAtDate:
+                    type: string
+                    example: "2023-08-17T22:58:38.831Z"
+        Person:
+            type: object
+            required:
+                - name
+                - surname
+                - patrname
+                - email
+                - settlementFrom
+                - street
+                - building
+                - apartment
+                - certificateNumber
+                - regionFrom
+                - phone
+                - isActivated
+                - activationLink
+                - approve
+                - dataProcessingAgreement
+            properties:
+                id:
+                    type: string
+                    format: uuid
+                    example: "12f90a9c-3ece-11ee-be56-0242ac120002"
+                name:
+                    type: string
+                    example: "шевченко"
+                surname:
+                    type: string
+                    example: "тарас"
+                patrname:
+                    type: string
+                    example: "григорович"
+                email:
+                    type: string
+                    example: "tarasforever21@gmail.com"
+                street:
+                    type: string
+                    example: "вулиця визволення"
+                building:
+                    type: string
+                    example: "11A"
+                apartment:
+                    type: string
+                    example: "11"
+                certificateNumber:
+                    type: string
+                    example: "1111-1111111111"
+                regionFrom:
+                    type: string
+                    example: "Херсонська область"
+                settlementFrom:
+                    type: string
+                    example: "Високопілля"
+                phone:
+                    type: string
+                    example: "+380972305478"
+                isActivated:
+                    type: boolean
+                    example: false
+                activationLink:
+                    type: string
+                    example: "c74ebe09-86ab-414d-ad11-af93bd0b2b03"
+                approve:
+                    type: boolean
+                    example: true
+                dataProcessingAgreement:
+                    type: boolean
+                    example: true
+        OrderQuantity:
+            type: object
+            required:
+                - _id
+                - maxQuantity
+                - confirmedPersons
+                - type
+            properties:
+                _id:
+                    type: string
+                    example: "64f75381926d49875dde2d2w"
+                maxQuantity:
+                    type: integer
+                    example: 83
+                confirmedPersons:
+                    type: integer
+                    example: 5
+                type:
+                    enum: ["temp_moved", "invalid", "child"]
+                    default: "temp_moved"
+
+        AddPerson:
+            type: object
+            required:
+                - name
+                - surname
+                - patrname
+                - email
+                - settlementFrom
+                - street
+                - building
+                - certificateNumber
+                - regionFrom
+                - phone
+
+            properties:
+                name:
+                    type: string
+                    example: "шевченко"
+                surname:
+                    type: string
+                    example: "тарас"
+                patrname:
+                    type: string
+                    example: "григорович"
+                email:
+                    type: string
+                    example: "tarasforever21@gmail.com"
+                street:
+                    type: string
+                    example: "вулиця визволення"
+                building:
+                    type: string
+                    example: "11A"
+                certificateNumber:
+                    type: string
+                    example: "1111-1111111111"
+                regionFrom:
+                    type: string
+                    example: "Херсонська область"
+                settlementFrom:
+                    type: string
+                    example: "Високопілля"
+                phone:
+                    type: string
+                    example: "+380972305478"
+
+        SuccsesfullAddPerson:
+            type: object
+            required:
+                - user
+                - message
+            properties:
+                user:
+                    type: object
+                    properties:
+                        _id:
+                            type: string
+                            example: "64f766d39752e34093ed46bs"
+                        name:
+                            type: string
+                            example: "Тарас"
+                        surname:
+                            type: string
+                            example: "тарас"
+                        patrname:
+                            type: string
+                            example: "григорович"
+                        email:
+                            type: string
+                            example: "tarasforever21@gmail.com"
+                        street:
+                            type: string
+                            example: "вулиця визволення"
+                        building:
+                            type: string
+                            example: "11A"
+                        certificateNumber:
+                            type: string
+                            example: "1111-1111111111"
+                        regionFrom:
+                            type: string
+                            example: "Херсонська область"
+                        settlementFrom:
+                            type: string
+                            example: "Високопілля"
+                        phone:
+                            type: string
+                            example: "+380972305478"
+                message:
+                    type: string
+                    example: "Людина додана успішно"
+
+        Order:
+            type: object
+            required:
+                - maxQuantity
+                - type
+                - status
+                - issueDate
+                - createDate
+                - changedDate
+                - closeDate
+                - confirmedPersons
+            properties:
+                _id:
+                    type: string
+                    example: "64dc9138e7104c19963fae12"
+                maxQuantity:
+                    type: integer
+                    example: 541
+                type_:
+                    type: string
+                    enum: ["temp_moved", "invalid", "child"]
+                status:
+                    type: string
+                    enum: ["active", "archived", "ready", "complete"]
+                issueDate:
+                    type: string
+                    example: "2023-08-17T22:58:38.831Z"
+                createDate:
+                    type: string
+                    example: "2023-08-17T22:58:38.831Z"
+                changedDate:
+                    type: string
+                    example: "2023-08-17T22:58:38.831Z"
+                closeDate:
+                    type: string
+                    example: "2023-08-17T22:58:38.831Z"
+                confirmedPersons:
+                    type: integer
+                    example: 51
+                # persons:
+                #   type: array
+                #   items:
+                #     $ref: "#/components/schemas/Person"
+
+        OrderWithPersons:
+            type: object
+            required:
+                - maxQuantity
+                - type
+                - status
+                - issueDate
+                - createDate
+                - changedDate
+                - closeDate
+                - confirmedPersons
+            properties:
+                _id:
+                    type: string
+                    example: "64dc9138e7104c19963fae12"
+                maxQuantity:
+                    type: integer
+                    example: 541
+                type_:
+                    type: string
+                    enum: ["temp_moved", "invalid", "child"]
+                status:
+                    type: string
+                    enum: ["active", "archived", "ready", "complete"]
+                issueDate:
+                    type: string
+                    example: "2023-08-17T22:58:38.831Z"
+                createDate:
+                    type: string
+                    example: "2023-08-17T22:58:38.831Z"
+                changedDate:
+                    type: string
+                    example: "2023-08-17T22:58:38.831Z"
+                closeDate:
+                    type: string
+                    example: "2023-08-17T22:58:38.831Z"
+                confirmedPersons:
+                    type: integer
+                    example: 51
+                persons:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/Person"
+
+        DeliveryAddress:
+            type: object
+            required:
+                - locationDeliveryPoint
+                - geolocation
+            properties:
+                locationDeliveryPoint:
+                    type: string
+                    example: "м. Кривий Ріг, вул. Гетьманська 39А"
+                geolocation:
+                    type: string
+                    example: '<iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2674.503561253999!2d33.3750912!3d47.9072932!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40db20a8af29a41f%3A0x38ba7c4ae3e4aaf1!2z0YPQuy4g0JPQtdGC0YzQvNCw0L3RgdC60LDRjywgMznQsCwg0JrRgNC40LLQvtC5INCg0L7Qsywg0JTQvdC10L_RgNC-0L_QtdGC0YDQvtCy0YHQutCw0Y8g0L7QsdC70LDRgdGC0YwsIDUwMDA3!5e0!3m2!1sru!2sua!4v1692384567694!5m2!1sru!2sua"
+                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>'
+        PathToPictureIn:
+            type: object
+            required:
+                - image_data
+                - mime_type
+                - image
+            properties:
+                id:
+                    type: string
+                    format: uuid
+                    example: "12f90a9c-3ece-11ee-be56-0242ac120002"
+                image_data:
+                    type: string
+                    example: "base64_encoded_image_data_here"
+                mime_type:
+                    type: string
+                    example: "image/jpeg"
+                image:
+                    type: string
+                    example: "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888888x0888888888888888888888888888886jx88888888888888888888888888888/5bS88888888888888888888888888888USKW888888888888888888888888888CNNh8888888888888888888888888886jekTxe8888888888888888888888888N9DP2cl088888888888888888888888/UnodnVye88888888888888888888889neaa6Jqrd8888888888888888888886vy1S7Y9oBm88888888888888888884rdh/4UwuJQ592888888888888888849BAZKjHO3NkOTnVV888888888888880sTPhAxfErQqR/HUmZ8888888888880kGXNODu+gDMozqJ7CI68888888884y3bPVdCncnAdtfHHKyf8LFd888888xYAiISZ/rC/GQtUMMOWECuXvOr088887sw0rd8y4vDKPvtisW1zBEv+yrf+8888sbk8PaaPH2SRCDX4se6XfWWCKqD388888sX9DNudSp4XlP5KQJVZBHlaBkLc8888888qjbkR9aGpQzIPmSZybudxvOW8888888888etGYVR+2WcYccAutdi2bd88888888888888888J8cet7mcFCdbdZ388888888888888884nMnfGT4Iypkt4v58888888888888888ssIga9joY/8AkAfp88888888888888886SunLUEkBhifeAqRn88888888888888+pYUb9Qu8Gn0kIQwgu88888888888886gGbpxmjJnx0cscQQkf5388888888888F28THCsklsGVk8gYTzkBgW888888888evfmErdMNrqenvu7jnIU/tn58888888kFzvL50kgsOidJWhMbYr4oO3s+888888+Vdp7a5MCLIQPukwQ/2Cn9cKhw88888uW8+er1TmB/IaPTHzE+SrcdRyr888888+IJXPnxgbZtJTCX/mlnzc888s88888886h3aMn9X0C1gm+kXvZL88888888888888wtKNjHpdieaZ5I83egy8888888888888IICJvkzffqKaftBTBerb88888888888/QJFZt4A84JAIt8C0U2wM70888888888pLLHQCa0tXYVJFRct3YAGeV088888888sizn0a4L+2zqpV0w08L0cjNW88888888ppNwIpedIHE3izZ8qjttsCKa888888888TcKHTq35z9QfuK7Te25Le2l8888888885ghijte8yK19QocmPSVkf7u88888888888Igq5WHXHCRm5JMW3O8csc8888888888888DmpvefCKyxEmf88888888888888888888sOS2r5vM8888888888888/8QAIBEBAQEAAgIDAQEBAAAAAAAAAQARITEQQTBAUSBhcf/aAAgBAwEBPxD6WPf3zIY0/Fw/3uA8FQIez7vXFrZh5hySZ94YbguStg8fc5+Zgn+WSWGLlyGP2hfwu1bHDbZbAbCcbQ37I1llxPFjkWiobv8ALvAn66LCYVmVwWDhPMjztsZacku31lbQbHMbPqNkN9Wv/JZxInqXYD6pcl+ZxdQTG7CwHnfFg/yA4syQg4Frh9ITzdpiHPBgty5Zxtx7t6Rlj4MnLUPiD0usp86dLKegcWjjcgtw3sSsj1Zzmew6Sy76u125gqnUtcknHygvUq2D0LSziX+3L/sF6v1hbwWBsj6nxmxqFU97c8SRRMg6fGJ6vxFgAEHu/IgHV6LvyVjDt4KsgLE2O8Dl7x8DshvZHsXJFvy55gzx/QlhdBKNEmY8Q3lk/ccrb3EXpI6LGGQ11lRwycQd4iOXKmxjYE2FsgXPI9sj5S+7fb+Q27DmycCU6Z6jexZ4Wyci2nizMuWU9TQDp3D+QvSAQbNRV4m9PjATXzZKYhe5vuD+xYzHbH5GHqFE93ueEj31HISMydZLwRwRDiSeZBOAGSvcpwXFk1csstFwSDDuXXf7HIw5g7g+4UhC8HVG8FxbaeFwyz9EnZlZXtLY4gj2kPNl5kEQRf3v4jPUPJ25d273YzCBusr34CuU92x4DIeYuPUq7a3uON+UR1cVu9sc28H+CG3cGWk9Ma9R+rqXGfSP4ITBkOZZbIC0t3iavP0iyyyy6uUYcWLKFq2FiS9S79IK4Woea25YaNtsEpsWvcpl+oxzf9SQwTxiLLj3KBJ9y/VDbbljg8wk4jHdgMnKcMs+B+fLl8Gnq5ubhAby+DZvwQz+wlrBf5ylj8m3Mh3L8luIPSDeZM6hysrDcGkid/1o5b/tf4Q2/KQcB8CMmOEnFnC6NZ9PETRuSzhzxlnjHJljG8hFvRz+/CERYXcYbxCLSQCOTxKXJ5NnswZyXkWHlGwSmSjIj0Zn6/AFdL3Joq4WKTjfDps/iLihwSw1uRzAMtMnjcnd14d5YAItfhjh1I8sC57j8iyMkbX7A68IGubeC4M8O947cLaXODwMI5kA5h4fA1OSHJci8qRNoXm79WRrxPUk7ig2TZOMsyA14ZA6yvXzaAv0hjekNkZP1PIe7Fa2LYEj/kId3FxxJF5kZOYHWebY5850MkBkrpJZnUTfyVN6uHTILZI8XCSzI84mH5fOZG/WcG2CRn1SrrLZB1YsKxBTxZsg5Za3EnyHLcRlwPFxYH5ct0EO0uPcc5fyFyL2IvUfst87vcnx9riJDmzfSCPSHLDlnlix1LR3J+cQTqLNkJmcyOv4Z7n4s42OnECF18Dw7vxtg0vStvpHTL7IR1LHUgznUpDn+A434hx2wY3ccX+JG9QN4nmQ3mNe79WSXOixYv4Wvdrz4nz1z5N4o6217hGMDwbbLMnjq5gj9RwnTKtFjlCceDhnv4hHUQFD/RAbMv8AVxlwzcwfvhlhZ+Mzp8E/CVDhKcSumePmx7CBmsIzlg9WSfng5gtB5u0Ynbdv4lIi1fo9C3obo2B4tEM9QST9zluxnfMG8Ts7WVe/rdMwfGwfc+uS1b/b5//EACARAQEBAAICAwEBAQAAAAAAAAEAESExEEEwQFFhIHH/2gAIAQIBAT8Q+lzZv31diqYC/eBRlfEyG9D914pajMxuSHTfuYhPnbsSXJLj7a5aTLVWw3+zOTJ6h0+1ie6FjThAEhsZ5WGfZHZaJygs4Jdbrk53HX1xOwwQiIC8ouxxHbHkLPT6zmXUuJBHa7hHMA24YeJNtOPqkWJxy3GXutEtSVbc5nRc+Iov01WYtryN5XLhY/Ub2RvuIuBSzLHqT1c9TmvUfr5+5mfxGurzCcxe9We2wOrS56sl/IB1Ak48G8ri/iYk6sPyoO4Ay/sieC/iEvK4HciIM4I44hHd1hE6Wfdi5Zku71Z43iZEfj7BuA7W6pKuK3YwBxBGDmN5jnDH5A7zJ7fHdjITriKF3LA8zUJhEcRtif7E6w+kiYWrwjDV1J9XvwXWA4jxhYHN+3jVxiOuZ6HqyuWOcj7upYuHVyhA425jLp/lYbKc9WeW2Fj2R0ZAWHgLT0Xd+YSDpLsPbJsxjAQZgcoeZwssRrhd9G8yDiepXLr/ALFSVlu9tix0W/VvZpTwTVdkLxKsLPjwHDm1cRzlsD3diQ6suJAwuNu7FcYM/wBupUuePQ8DgRy2DOY5kA5s+S/Wx9Q+7I4nCceJ5nIZC/L3DxcvhTZXgi/mcdW9tdTlleVoaxwyz0n8uXxj3bAi9NtyEXIPjzZ144lqT9tW1jwfDMk1y4Mhh/Yh2TO4dvpd44vfhZdw65f292bwXF2dziCT9uv0ljxM9wVjOPA8Rl9WQZzcybBCOfSAa2XqAcFo87IevH9nmLiXPAmJuP0Vzm4y/wCZDHIwwh/eZ6axm2nXjlLMPImFpx864azvV+0zc846mA23Ep4I/v8ApcXb5lydxvFyxftxOXTwFg8Dm3/TLnIMrkO9xGrfk58Lfq5+4TbT3wHg3DPGK9wDT/OfEvGyMOiWmXEuocHxPkWvcsvQztmHEGwYR43HSYFt1b9w7cpmMdMLPRdm9CLq0jHwAaLVObvVt1H34P5Y2WW/B+2eMacwsiA9yxhpxcLpW1/Jxdm4fg4pwufEvXqBe4MIcwdkDhs224T4GJ5G/t7s1thvc8rciV3ucz/tcJDySTJKweDCX6gvcDtcATzLbPHV78MOJ45g9+oYac+BsrMjNzb/ALGkW8QWy8MAcPXjMITsY9wxwgOZYZV0hB2wTyMOSAc/K9Wb3m4cTTghuWftcuPUHFodxrwNsnWQnMD3BvPUIZCCGfMx06XawAQe5ScQkvduvFo3M/1G+pV7jHUJcxhGHjHfmyuSFfp1bJUHGD3ddW/sJIVj3I9QwwrDer3r2QJ38iw22dk9xOl+GR/Ihq7CNnubL02jO5sLOZHaNdQMVtAsMm3bFtw/GdRPWQMAML+bH3KS4c2DhOLTsjh6T/XZonrOb0ps3ZLyS08Js16Pi2rLmdh1zeydc2BMGdSJ3f0sPDJ7nZyscmOewMyYWw48i3mWm/CNMtDPEdErNnPuOHDZ7XB48Z6J1gvK3DovVatkxbtg8L4meviR0Qd5hhskPCB4Nk6cMy56v4xnCFygM76sepd4JX1C9Rwt02TTmT8QdoGjqdSY436n9WLE0JL/AC5WLAZ4P6WrkkAJckGlOMhEg+TmrTh8dEhfqy31KWELEPpJ4fGj8LpD6TeldkTmwseHPnIfWTeiF7bmCwgzr6ynZPiSwML+Xz//xAArEAEAAgICAgEDAwUBAQEAAAABABEhMUFRYXGBQJGhULHBEDDR4fHwIGD/2gAIAQEAAT8Q/wD0YEFaOxog9SvioN/rbuAqhaFYKV8jS9QvDDjhDLnMt6rMu6qbp/WmVRVq3J1iBskooMjEtC2oMCjIsy3g9e24sSy6v9arprRuvcYz1grgrEtLa5rmAICBeOWLZzs59TPSHJWdfrLKNgoBPMZ8LYuuiPuCpQyRU0WNXxe4RTGtdPUK8DmcisJwq7O/1kEkUvwlkRQW8ZIlTlFdP4QmTUe1HmNdhKTneuobIINHT17jNAKw+mERInD+rrAdDavmEqsVHyVGWQdebLD/AODuIgKt9XbLiCg0mEJsHeIo1BV38H6ugLWjuAKbVX/aAKwVpl/QAgZ3Numwb51GAVhqreYWtTSo81qPaF5HiOJZ6NcfqzqYcqFm3qZNo7ZIKz6lZTHeWz95rPlzI0zLMk9p3KWUrDumZ0XWvNxy1kpvnEBga5XNuf1V1BJoZoUwR5YZOMzEwCC8W+IB2k2bM9zOCi2bLpi5TFVC1vdRlJUC80jUFYUT8RGkLVg9TLQ1rycwh4QUfX6o5WhzLKqd9RiRvp8wGLGO1xgCWYcvFyoSwFDWlxJzaDZUXIFonjCLLkaht5mW1DaekIwD8SMW1YnN6r9TULtog0SgTDfqZVAElzLs2DqGENkowIqYKhRqKDC5NFCn3DRjzaHqCeJAuskRoot94DCbMvDiAS2slOedymsOR8oOGdli3MP1FsNAtDsloJZPBLICtjLxEsWWYeFCkG/ETLIYVQIPvhj90z4SQVU7PhTMQT7b+SWA0S+t1CYQVohhWxHxNngAmqwyk9B936hnFR1AB0CKLlA6iVYq+mLa6oBOsQ23ANVr5iAKayV9pY92I6sQUYKWUxVfvEGBpalvruAEZjWx3X8w1VoBfSQIK6Z2/wDglKXT286m9ZvZ4g2TWh9cS4DBZ9H6fxOEA/LiC5drXUa1hWq3mBAy4XX5gr0j3BLuhaoBUGMWzshW2cxfCQYh7gG9S0aBfMNTsynkXUyY4V395kWRiDIZoqC7irDqU+KsU+D9PUcWFlJCrRkgmelAOLjnDkDm43UVSGYsG3VrY0G1csx6xEfXQAI+ajTeJ+Qw41UUIkZObGqh0VHHGKfzKPXULAHPUK7aCw4W+oiC12lxWow395Uqw6be4W9XdjPh+msG8qr9Qsqg6bChM2cFyoNZVgVKsjRLqLJe6LPiC67spcxbaviBKvOiFdBp6SnXTb1KcJqTxSwTQirrqYvx8jgQbOUHXubwxhnAxDYuy6hCItB7KP0xIcn3hVWx0MwqapcHmOcGBGKXS/8AMHKcBRwURysY0+lLqwHnaAC228IMQqPkuHNEHCUJBMwNuQgZpnhc+5blMVUX5ZjQLA5KmFwyKMsCOJROfXqYthwij0SrjkIZUNQpjPf6RcAtg7YHPCqo3AlQ21cSioNvhBKqtscUWHL2RFAj84EIuasYapa9LuPFleh1LRZ5KdQkz8t68wAntabZWMU6afEMh03ITT5JZCWFrGB3CxrxCgDF0i0CI1yzMf0QsgkucQiGjRrBXLKgYLV7O/0evmw6xG4UqyXQhTesC2qjCAUz7l9ev2jATDhSkFYbzcaEXe5tVTiI6VPfEy5G6tQTqUyKSDEEu937hud6/mhQgLWZXp8QFG7qXYzpgmgF0cZJpafGa+eY4xCsL+Qe4IaD29pQApSUFvBzDXadrWz0y9ARVG6dZlOmijZ6gPlWCtoHf6KxvJDmNsmqbXcJigy85OYRAhzUUrU2G9RFwTUModhRfUEwQOoeTXte+opytV6tET65BWusxc+2FocSg09oKnqPXmHvG1Z9QmByC0+JcB5Y5+Yt6sLWwXHsmkKuC1bqCd7CwcN26gd8bXL7sNiW2DvuMLAuj1BG+w+tQBnhyQEYsq9aIKUVyfoip3x7SqS0vK/j1MwT1LkNWnFEvIh5dx2TNmjeI1ZTK6iGWxq2447TsDQ+GGrTwZFdYlq6TBYOzzFBB6oS/MUKXtefvGZcNPabUINAdswmWFt5l2wSm1eB8QGgZcjh1AEuI1efUbC51XKyi7pzVdwSpFIHj1GjEsBqg7iMsDeDELSZs3gS6ha5qxzBKRmDoRxKn1Dwc8Exbqvt9ty819etE7sdtRKgFrsitSI3WCErag/yjKUJtji1g1dYJbSTVJd9YljjsVJ79ETUYIY7e4ixXQZPnxECCCLCxlFCgqr0eYaDmwckyozeOMEB0sqs7m+I23UuApXia4ik1sKWe1x004dsdyniUry7ZeEtni79QGeE4VIzYTEDUuXMt8fNlKSoPYyRcZGU5nNqPCoptVqMVAAIvIKcP7QRnlj2t843E0dKAHKunLcqEsqgNAEY8qy6+ssOYOcuKsRg1SwqZli2I3UsUvBYCVl9cdpSiqXh/EBNddrpYjwMGG7jENqaNbo7mtibA5l/xAm58fwEqs5wFX5mhHzBpdmIpfMwY2M5iHLl/E7xENKxjtM2s8QIRULNzOL2auHIM4a7OoVhxn4uoETdLOHmAGg8Ew+48HqV6OSI6Vt8fBLAlgOawbfcVFi+nUbEE2B6VhXqVp+ftKkmjBhss4hVNCxA3j1LFdNsK+wjOH2mAs4xBfPJ5hACgwV9Vcrsxq2W2BpSsbjVSOmggRacyaz3DDEehBWXPF1KpbrVYhrZtcOI2kcyZIFxAswkzDVWXb/MRrF7PLuLWNO5mgprcncKAwExY3BG394jgU7AFvk+IX5rYrPuCrjcsrt8SkEOUYBAAsTQcYgcigoF15hx4DN2XHTncqM5BFNyygjyriAtLkMxSoND90Zmw8M08+ojK18LNeuoYmVQchnECQZJGk3sj0ahfUIVpq4VbCAcOI+bOcAOAuEsJ6dIfVDUiJQ6bgIea5amAVOmUxjsB4i9zChx6mYsOhlQa0wM2he+ktJDAOfUBT5HBZdrCx7E7WBC7ROcwxa65PMFTqA43TGwIH1LRwPJHaj3ZpTAYcBBs6fEuEnN5iUMaIXT3GjxSaHfSYHJfIcp1A0p0FHxBnTUMs0EUJQ2loe/cYpgac3/ADAIgDjOJYAWi1dQCh9w+6FraGHKv8TEEBKM2ZyyncqowOazzMLcW4aM7grM0LqiobDNGzNszo1ILTOfqG952y9E3Ba6YEknCKTtbdLmLVCnbLDVPIUGGeXJJqEBiiwWeZcODIL3+8aVs0wTjb14gRFhubi8qSzY8yzGDeMrirIWR8F/xCBadmLg2tbRwshWtc3QfMuJeYXsOoCrbgObiACgnhyMslKy5bflRgyoNFV6T8MSsRQL2QaLikJzVAgHY2eBf3l1lNCZmU135mCR9rESCScdoSjwZc69pQhDRwd28zFtUiqXcpJYt129V1FugvPkdy3QxsIEUCBYuIzmUFdv6a4oJwHctmhSjqOWZWupRjzmVSRDTS6gVem7loNYVyzJTyeSF1htd4gUkfYI3DVMuP5MTrXyEgwjuQtYgSyOcnsQmxageIDtyBsXVx8lbJ+74lfIFM+ERL4WSo+nZycPA8xwGqkzcISyLzUG0q2uUwZTSyXLCmWm7xDMFVmBmEsqQStOfcRs53/TCYVlLv8AaWTwPFGuRhHVKIOH3GO++XJf4S+q6ADBDmaKYljgPONQulgsSPmDbDJWd+ZhyLEqC75hLbApqVp7QenElFmO9TgXW2v3S/oEBa0RM2DoQWG01dTbEpWIOEdlg9JZZERb10lxFyHmI2zaFX+YyPPKlECsCFivf15gV64G2+PcQXf2lqJhrR69x4ZJpbf9INKo4yvqFlMlB4OLh1ZXgPgQMsFAHIPcO9Vq75MJugFw4cJ2QijJoGHuK0sitxCBB0V6jkAGLLSdMptdWKWxmspdHHj0ZVCOLRpTuDjNhkN+JX+81F3eKPmBIEw234lHruqzSxuyh1UPbzOXUUVHS09xhukVLgDl3lg1BXBluJN2GDkzCQUWs2zzM8KNq9d3CQVLsBzKIhlsUxBVF3DiqgrippAqL2aKFLypauU53wXTYl3ErqqwpggdVD7EpWBmi2rl3QpxYi6Q1/dDFS51Mtb+mXn1ckIYGcHiHSYEyNXCkfIBGZqtwSNP4ig9FloplKO3F8ELC4qxu+EdcBTeqfcIIihOWzdIsiDkfd0qZQuLY5f8JTHphp8SkaMAcnLL4UwOqFBWqK0+0QMU1TqIAywpSnLMpjuuRx7jDpb8Fd34myglELAWQoHTq4pRdMDcJHjkX2hIkJt/JELKWnDq6QbEPp5VZLqOPkui2nGoJtbwLUf7UE6G8LcGsNG4zXHuaUw4Hz7gkAybA4igQXaltAKlS6garvJzN1nocUjV/iWsZiKSytjpcVQxl3kssQtWCvows+0AisBmsL2QY5M6biUxbLvZLOZVOsnmAS7nJaeJlQVlYFFvzs/twFoDyxU4m8g9wwkKIofiOqK5ARcaMzLPujo+8vEi8BX7xz5NH8zSUYWRiLo4tjmvD2xOQXSrUOLI4tsqlyNWG/iZYn5R+JgPdml6xDYqpScPVbgFPpTav4lhw1tGOQxuEhaNFuHMlugr7cSumKyn8INpGZVKnmvEQWQ6AL/mJhXqq0vqJV28C2emKhJUur14fMNYp5CFaGVRbfQ8XAVBzbMdEKh0FB599xrApwIxZu5QXR14mQ454QGIupByx5ikXSqPZ1GIlBI5aJSvEPhy1m49QI2FX1E+wxjdDZHNg4AB8IkEnR+asXq/EEE3siA1riFL83n9/UwZYZ8e4IgaGU6hVIphwYnCx04bGCu6ci0uaS25CKzqUsCLaPFrUrNXtNNOzxMkLHI4Oq+8TLKBCqPEP7R0hRunScRlKMuT+IqKlEMc1n3G87gtUj88GFHL3uGVBptw/lEgEXhfTcVAilUH5bggWQhwfeXxcWoP5ljwRXj7xQWgIpzBQyWS6jOGGtoYSvNO4NDw/QjrgOESF0FUBwWV8H57Pc5YjWZWZ2hjjx4EAJ6cbKeYEMUD5REgcKZXiJX1FVXcIEaMLt9QVXlJUo4jqtm6u2dsFyMLLsW+IoDk8quKBDowlBHYMsBbtldYmDBW2lFko3BVL5rZ7l6UJW1DYq9P8CCB02xEU0+4BDh3x4X9oQgo5NYqo2BwdEOfMKqaAMNYjhNGr4lhQXlqXJVpdHcoVDQ7J2bhe8ihQjmtx0ErdQ3kmPm0DCMLPEYDq9vmhr+w6hn0GdaJmXOWjygKKdMCOAYrOG5Zxv7SiSzbgi2xhyBuCRQIzVVBFHisaMqCA0LUAAbsLX7yzQciolhpwsLRMAXgLaYTWLTSphtKMvpPZNsTFgI4gtBC8ae4gKCbbz/iJUUaTIfMI2CUejuvMAEnhu/maSqcB1CWJG14+ItCrhRj/sLuGFz4TE0BwhTiUIJbaHy9SxVezY6epiJycf6SoIKarUSVIMUd9zqClrxb2RAIJa+HEGNGoB9sdkoHLnxLafIae8RiP2BLorxFYhB0Et4o8Q+LBKg86gwt+aEVULo2fuVKOF3Nmj3iYIA3wukgKkzilQ65xBQi4ixuRsxaEbLUacwDRut3U0Hlt2j7jJdy1ZvRY7QAzdjAd/2b0UNVNId6NW6vO4XBc5WEKAHAcSwlYLPMboOUATMFA31KSI6Nal5SfE5WDpvqJ+EaEOkJZBDw4ib1tp/whU1bZNJ/rBW26yZhgBTsDuNetfchL8KIdxFjb5EQZlAyIlSgDNc8sqwU/sR10VvAJcV7EaXuCCV0YQEyhdkIoHE8Eoc9QeIwqpbdPaZlbLHDxEC1Zgvgj3Vk9ygRRoe2IBYXJj/MOAqiLhv3DBYYHL8wJwQhyc8wcZivwpUIDbe5Sac2CN85ciiiGOn9yzcxja3WZiPNw7V8QUGNRfcuqGO4hAspXzDFNdl2lWBa3UFHLxHZbWwFqdnUrcKJBu1xdwJp5WP7ZIQ83MZivg/EZKm21wFn/kIBw1mU1KfiiNBKBdAp8HmIcKjk08ywxDBJKNkOD7QbZUo7PmMr+1sepTguDpPJf8SkIKVeRXkiUTBtsaGKBVOUXfubU1K4OS7jqh7zPZUEpUa6wjzXJ5gBVqopcy20bnbEtjwRt9zAoHBWxGps4MGPFZNWT7S5YfFXUNK2LC4gC5cJTjuV02MtWP4ij4JQ0nvEFVLOL0/aVSPRX+yNIQltA+9S5ySX/A8zhQaNZPcYtENpDPPYfyTUsOQol1AvdL+EMR151e5XotaXG3uJdBtTQ/LuMLE7dnxHpWo8OL+8QFxcMfaHbcVQWA+8EI2KrMe1guegS8UgVoWWDcUu3SINmxjMcoLWQoPmsQacB9BX9w8opqCK0e6qUtbVsAZBTR07hQPF7h5FXYaqI2ybVzEhVtWNkVl9NoNDuZARhoonETu4fv11wJYkgdwG7bKcdxgl9brERzo50/7jW6tB084lhu5+CBbhVglebjs8AbqWtouK8cykVOcw+XmWXcZXK4NBpcWajWZG+quL5UMgr2gNHYZVL5uKpdziZDxuKSmNrj7y4XLivR94LDwSzCKLWj0IZzG8hCAQtr0+EuXob1Nmdk70N+YbeABxQSm87AuumpRHMO3eEqXiGWymKWXXmJm9sE2+uJeGLSGWbqpTB6FaHTUMYu3XnXEVF1LR/hKqCW1h+0qkfUGarzHx3KVOHGnqGgeBCyb5QQgCgx/dAUgnmKg2LDwRgPPFGnMCsVWmo8rnopc3+ABeYTXLGsswchpIIotDWdxBhRsVpfeJWUJ0LMRLlrqqx4SZw2MLWnxExaoF46t6hD5S38o5LNecTeUOBZfxMzWFFPcSLfUcHVl0/wBEuVxXCv5Jmk5pUyZcCcRMCWSRftiCWsRydeRINBlaVf4zEnjyIVf2ha1NPk8xhsV9xQbnh2vz4jgdyr8IUHtpt0PM2Kp3t/hK8Zva7e49W6NIMMt7XHxABTpCZ4yysZgZumKMwgVGgC2m8+pThgFnkP8AEqkocOn2ah3IRomfmpyhpWl/hBgUlhXy1FxxVouHmoCQoyIarrE3/JhTrjEsWRVXUNE5Z0zDSF5V7t7+gqhnhgqVigbMWWh0LNTLDeH4RcZor2gJuCyTiVEw8b1Dm0PDXZM+hfYXEDKHc46hTcq3Vwlxed595lDKg1WkguBYavmOLUDFxYppVkYg1lG1mu7VF7O4ESsDHEsgNrRqERHyynbBEb+WGXibE2wpFmquJR5ZUzXmEw5pSQNYZNeBAtAqe4ohSrfMCicpeHslbUDc4wUSvAlr/wAjg5QBTt2jcI5TExtKiktjUK6TlH+0rEpX/lOA7HDEtOKDXENnAjfuAOxxG+JaAx3A1wLZXo6h9wkUWCDDCAi8vf0WgH2QbgB40Mv4a2Dr8JZU5wutLdQsqsIVYBXkh+y3LL4gCMjd4CNbk3U3Rbw9Q4MzBMHCDXR+IgupleFYSl048wkOohZhYxZIbZggAhZU/tqDWLtJs7qGgcFdIGjArWNQgYlf05tjjHEItRA8VxGYXErWi40qn7EqSmzKf8wC11nFRU1Wmm4pIO5v4msWOnNQ15DYagKIA8MkANSjwiXnLOMXEUGS84YSOBxKwFL0VH62XDbqWAFaBzcPpPmOy623F4l9f7lDoLw/9y4Isg7feXHQXWi/mUrFex/uAhP7zLQUGSueo4rF9O4/IHZ31G0ZK4DMeaHPwhplpeMUQjgA1CGoZ/qz4uPUuBQlqfB3EAVqxYhoetotFzqpuC4AmnMATOTmNlsZd5XDaq/8BDCAcUlAig4gq2sXPrxGyl/LK3QLcS1HaviYKAtiCuNX7XhBbochsU/iVhAsK8/VWIoWaeoDsbWAcXKlR0OSGsRNcl8yngBZe39oldWaA4rvW4oydqVYEC5QTVFX/qV5faZ/oE4r/wCfUWoeU9IBCMu59IthC3QalWFeL5eohKHIGwid+bairSVbljZNFsaDlPMIrat/1C9Art3GlqUtFR1vkbV6uOyTkpTCSzg96meC9hd+yWiMCULC+pys8qzfmEQKLLxiMK007Pv9BqzAUpfuADO5McZ+CFtX/S4Qb1/Stieyd1MGoZoFdDbEvY5EKiS2vcDUgrY4l9Ww4eonEI6XyQy2YBvpjapgfeAQVMLdvMBTKNNM6FJthmS1hj0RXTR1BsRNJy15iBtKx3Q8SgAbVdS4VLt14/Qn2LUsnFdxArNL5xM+1S3niGI/14gTu4OBnGY7xMqaeo62VrTsIeRaVXBEa35NkLSqIzWq79yllKPc/KbsFPSNXwAvEJYlNYlvA4oFljUbfB6luQXkXKasGUXVby43FoPPGNeolkrRUBLVLWhlBlc5vEGzGf0HCobrmoPzLqdfmBDDaiwefX9V4nuIGKy8cExwc2O4MzTFP2TEceXuK2VVxeUUeL5hFUDtiKy1psHuKUF8l7eY7VuhglW0C7CjGeWIisdBz7RKDFbCVuc3aoFLoKOYASg7z+2YiKcDFdS8tnlUNXBzTHECLxfn9BUIA8rDx6jl/mYNDvT1KvAPTLjBdS+5cdRVUtkaauaKrF8mO5ANxz7mgorNGnxFARTrx4ITOkUoaP5mEqkLDkxpxbGNzCcHI5lA0i689wwtDrG42gCDgYjjU6OEVOF2KTZ+dGNxwB3DyxkBD5Tm4LSVLoZff6DvxeNR2kCtx2R6BqmDMP5StP6FM262lW9QMowZc6gqsTsiJRKDcMcL3FDQOokLY7bIBaDBTFjaVAvMBRKbKdRbA9Y/o1B8vRLgYHNbjoBub7g1BV0IqKdruNqQ1lqMWHm1+71EgrwRaCqsIam1rzNBubyypUDFhhB+g0aDnbxEY2q64uZAW21UsWhM9hsgZLg+UHoaNBgjL1FhhoqCByeLiqhVoWiyNxatu4iJYXkZhYeEMueZQ8jNmMxwDW9eougAdhqu4DKnJckMBLe76ZbNSJVogqcdQQzZa5jpOnBzKIqe3HqaIPsZrqA0AcCddSiPmc+JZ9owHB8cTMc2y+v0AEscBe5jK+gzKJEXtvGeILSRouLigt4rmIQ2IGCWRoUW6F5qDVFa73cdRZVmvMUwCBGCEI3bR4gMQRrlLKipY68Q6NFzTvPMuOGKfMG8JXPzKxUHi+ZbURbS9Eh0sXBRlXAxoRuN2MDBQN5s4hm+oDUu67e4oADV/shrtgUAicMTqVPHEGBKdjZDCVogCRB7+vsKYMHg7jNp3zJWDksfmKKE8R2rhaiHDQxbcEQxvKz3HCk040RsXY0OblADCZKgN0s2pmQClGYrY4LEsiwcsr4hQpeeExAhsPEY/Z/hBoNrFMEEqseIllJjzqCQANHUrzEGADlqG9q1jl6hEEAYs/H3MJhAbC8XHJegePmIgZGmVKjdCkGJIgF1befrTbIeWDB4a4SwQTyf6RKoBTWJbQ2C8WxFp+pQXXOahFC44iu1cjNwInmBgfJDFcMnPY8QIq9tGA8xBNTCuZaAbZDZnbEQvfGx7goSrXAyoylZgIC80qalCkxmVNVg2KberhX1fOiVzVyBlPEJgxr5p4YKyjqaVNRvPS5p0S5LMu9dH/EZVR9I/ZKwVQC09SwEYdPf9ExMsLeA2Euyjbg/J+sZEN5OIa8ijmEZKc9e0pvE2UX8RSejZTMUZpu5RCysN1zGozgY4ggQhy9HzMwJsV+0XdWzZh9ky2TV2zLlbyTaeZeUtr7EU4E8nOoXU0RkC2l9ojAI1MgLjnwlDA6cvJlKwrI6BxLdTAa4L9wVRTLtYY9ytQpDeOIUUcYPTqOMkWBwdVEHzn8iKtDty+SbwJK9R2JoulDmMR2dDR3L7itftCWiVRTljvryHbf1aBADuJbgcEEXB3pzEcBB15hnpFsl5h4djNSJyUeIsqyaEZgp42Hj3K1bk0SpfaAwdg7MYEIubdzOQV4YQrvzLkHFE5gkKOJlgl+XCp3GCY0ApxCU8WQK1CzgAtF34Jl70MG/+Yh5KhA2JCXVnDfzBLNwVcokJkGY7RNcnKykNdApO7iiUaw3tACayq5pgLNJtHPuITVjUWmNsEKYXUvZUcr8+oTfayrxuX9VSaAr1d+JQwHIdEb1GVhm31F4YWR3ACPnweoly8oMuXVO/MXGgMLawRS5nF3zNbALN/d6m1jg4lsKAaOv6BdZF6ggRkkG7IUHP2lWsWdyu2ZBMAzfmavKFOUYnxX5vUKIACio98QJc3V+QMNMqWR5/wDi600WtgvDLrVeFrYP5uAskWp9PUzjgpthwwGgA/8AGLUeZhQRp5gRNjVx+m8lhivP8ZdfaB7GPDF7ocsv2g2fTXtng1g9wDTkgLF+fEpBHnr4qZ1wbKtuKH70xWaFsb34j83zHDYLqndzEpQyLMUgNFOH1fcvCht5YRpQe3mKiFpg2O1mCirnteEYosUs8srCiYuQe/MpEvKtu3fiXsKFWGHyJahh6GYwNkUXYf4i5qvkevHmKY55OT3ChbhSnfiUzZdo/u6lZAZ3JXM4h5XL/prNozC3uBpXhbS/9pQgUtvTE20bTI/5jshKYPfjxBmjHKwFEViAqRu8ahMhmttOiXnHAd15lNhcC2ys0tXlBf7wkl0WB37gd+ob+kKaCMFt9I+ShgHccW5gzzM4OhNJdl1G7tgQrvGKtu+4Zg3w3HpFKrLT1N/S7Z9sOt2ycDxFpu7vRHY4X4KdQVrZTOTqUJosRTS4Y9EsVd+6EEq3lPMfTI28O4/HkoefERgsL132j5OZ2i+ZukYPOekUFiD23DWpn1HrZRSOVLWnYd1uAVhNriCILtQZtIHT3TMBmTGvCOIrQ5Y1ECghTXPmICUGxIlS5WAypWDuNkGaq4jXZXwY2gKA6HLL4Z+DFCsrZuGUu2YtcxQVeRwzLoQl2zCwrKqlwL6ht7Hmq+iJWoPI1H7YAM+IxXDyrYhG7BzesQAD0NxggWlJmBAU8lqqJulXlogXCc8E/wAwJvUMW911BA8mnD1ACsrlnZfXMYOoEDaDw+Y/XQK5JiNgw1YwdkL0H1LvLpo5YKCkFU1jETaQprnxG41K+pirGILK92cwUQp6VeaiMIcC41nEqBAdmrjIA5U6mNllGNMTx9ePUtrbW5bF4sLp8xZiI1jAzfqaJcajBy/AvuXGMws/ZhHtDKmKWW6zqAjNRSko5VwtaHz4lIGJeE+GOENsmzzUZjppb9koQF7W0RqgsGVMhnW7tqlhi3cEsK86+gZULf8A4iUTZXNvvBFNN4ZVs/ZlFpbR3MoTLfh5lLC3faAWbGF5qpsUEDlyhOEHTZVeJaL2b8y1eXBBIPJavzhDi0Mdtit3UBsWMa7gsjk66S3cwUady0ORVVqVdW5d5WQWW811KAq12/DzLaPJkOvMKc4s7OWFEFwXPPUI8/B2mEYT8Jf4nMII9pDZK5Yzh+UrGBoHiMSnaqvyQQrd5jhZyRQ+Uu2Wshdr58xGAOb6hQBwceOZTM9MZBqKrALvrxDrQ7J+YfXVxzilCmCt5gAswJ4w+IIlnP8AeuLh7ViXfsWXD0wxFUulHcYdDpheUSs7Uxdrpen1C5ssZyVFQXR84+YrsnHulHXZDWCMWq9kwl3Zxqb0B59PLmVjRYAGfZ8ykreVeQnfMK5PDO4rXLgrKekCrwwiFAWy/cpwO3DRCCW0pP8AMpSUUUVcC87SqlsKFzgFREJk6Y98GhMXAgSyADGIgDm3QOfMEFBz1YRQBCBAmbl7JdhSDJkNmV+pcLRGuT11L0BwWa9QUypeZnVdkLpW7B3UsEtZTn4lYmvnMc6isBpjWy/LFssg2hvjkjLjwh74gucHZ4lFwwUa3LgKva6jEsGAoNjvOYZF0d+K8/3mL1RdQrp0q7hFM4XqWCuLowvQcuanlvCx6goaOo9S1coQGwMI6uFzR7OcRfuoy9Rt5CyLbNeq8BmDcIKJHVaIvTkkqOxvuLWmnLzDCiC/BmO4uOhGubxX3F3wUvWJ3C33I3ZoN1SwsApz5OokFVVs3MgMZs8vUQkztGQqgzx9omAWsn34munf0icQe5IhhV8ncS08mu7lAey1Tgwpd0+G4Ssi6IXEXT1LYBsX4+JQtlR5QgGQLqsxs0q06QPC2duogDIReKmhiUnu/cCUyQMcfMH4ODRHuOWJzWomoUdjq8MHUrEPIv8AvWKjTdVHQhpWkA2UXvG4WJeLwEFJehG/vOrOdOYaLt67+YBSVwztL1TFxPlXmNFWl5OiBwkKkoh4YzaPY5/k8zoGN5qorI7rDuAAGetalaFWKPCeZL5SADW3lAdGBYRJFqo0V5gK4cMVCKCq7DGpSLwjDpqCUAZ1bZL8wyqaHIQDoWyf3lqDRlcFbU7FfeJOw9C2ZtcguHDvMA2ljNa/7KlVivn5mUGibP8A4YUm4+R3IKgAvT7q68ytZHeRx8sZyMFnvxLhAD2jKzleUDvSgfhEB0cqdvEL9rbzx3KAmG1GLgwjYXkxCsoXpzd4qEqwAMFa1KGi76QMxDAYFrqGQpsRDGUVTHNj+8axVvpmKrIviJYDgv8ACMl0RvC7OoMBnYwBBvl8RygbJTBt2auNbYODi/iZGB5gvcz7P2gMpMBnEGsUmr4ip4pk4gAsDhQQiLYrKr8xJnSsQwDBhdM1oAAvMaug1Q33ENrG+qYZiLLT8JQC05qmN4QVtMxMOeQ4l15OzpHDqU7lwRyFAHWWtvdxlBllWp2X4S1qs84xXWXDrmGRbA6gGri58ritKVDxISzFXfzHDYa9xQDAU5hHyC327jqLWR5hXvCC13K/ttQYxxDLB4GWz0vEBBwqLy1EL3KAzsuWPeJTTRG0qIVlVIgpVopvJRCCG7XH9xDuCwaBl2wgBVVYmW5ioHlzr1KSiWtzxEGAguoS0s4iM8HKxwBp2L7CZ3I5Yg2bMK7Ylpclh31Myijm47AfnmKU6huAxolC6dx0TXIo+XEukRyQJ5JzlmQP5hgYGW6o/Ewp1QhBZ3dTYkQBPF4jXu5VvUuqARtV1uWmhVb+JWszw9IDaUc2YPUa4CG1nMZe6HwlAVjBQxVbhqPq0Oz5I2JtM17YaYBto+rhg6TL+YqlChvYQcQWlJVQHawpGMlM078wcpyBkuW6Cci4h1sAbJZj+m1UCh1zLtXfFWl7iZKWUyhCRVolF54uOk9ENh48S1YWnzkIk4PNVWKzqW6I8DEwP5mDj2rX9tmAM20h1Ue0Pi2vEKEEZy/MGqnBSIVA2TnwiioGrICmtc30RI7CBy8wThQbhs1FlRcEIyCgB1F4DhuYbDaOZBlq6lAPC8OcSgHJwI8x4KAMU2RobB08wljeD1L2wpbCLFhi4UCoXXEUF2R1ZaxJklkV7U8wItAyNPiVIY0v7JbDWBc41KEZ7OmVhbUEddQ1G2W6+1wSrhF95YicLZABB9sqi0QuiGa8GIApG4Xy7lSWhjzLYte65IAEwdmdQ/q8CxGs6jcoi2Jr8x6LdAuUOOypYDvmKRZBxBACygd5vQwScJkdo8vZ/dGrq1tNYqKBLWencRhCiql5l9rPDCqYIMGhV1EJqmswcj/2YIDGDg9RkiaGrvMdAHka+ZwGzmaeaZRAc7Jti5tx90IJHT9xHEDC5TcyAhoaZWD23atngiELWgclwZYDFGou01pQsgtlBhMRYFppi7oaIZZSdwvfheogKjteMR3AAXRiZ0C1pgDlSviADhwdp6gWemcZiAWj4NfMsKA+XUINRM8WsblkGC+JaGA1XMZKsvkmIMeoW3Nj5CJcQYohniFoQo/+qgVKnhiV/eM23ecXipdPaydxsDYyWaloEbLbb6lAmCZWL1L2wQbdTPHBn3ALXm/LCoVpAbioSYfxLJmAl7V2LyyphNOKoQyQK6K4IWD0zsDxKg/HFgupGLVzLo06H8YMTHdjzY0WVpV68RbW1AWZlNFo05uIEwNDRqIAuFOYiDWWHeJYGBWFalihN4LzKa7FCKXA5mrWAWIUqsaAI/8AU3hyA6iqgOX31AVQ4O25dispCxJjT3Bao+3cuCLAdSmlvDnUCnQ4+pU0LNUwiStsqcuIomU5Y/SJsfEovnlYYvs8x0pTcm2aqHKOlxqMyFZpb8JY3Fk2p0sukAyAY2K5LGXEBERWA8srmK8AZPETJ32QPURRKKOCIW6/O9OOJeMoCK1KeDADKAU+wNyjaqhMD/EWONXcdRWen+ZXmh2vX3ga7bQvCwC37WLb9pwxWlZHZogrIzLkXv1B3pqHA5oj4dxVLLeQkrBrAoU51uL3o5GPzCoQqblJFufFMJQIj9os1RhfMAImGjsdwsygbJvL9WgFWiMUrLH8TEqb4SgRSwrpiIQQ653NBGY6R4p31we7lgo1dvmHRBSrFeZlEnatIOueYl+KgV5bp/dL1Chsc27uEgYyc7lDQ0wd+bjRggd/hNwDRWiVSweU3GK4Uc7gDm4HiBhUbGphCU+yPegdpBBUBeSoCORpDBcETaGCoMrAtFSolcHN2PCMsz+D4QdRAF9vm4QVIyMSCBSpwRWSpYHIqifKCApFVWKqZ6TwdQAZqPZKgCXD3l9XpAiOXBUqN4iESqC7bnBCbV6OB9ymil3bKx1sTLmAUaO629Q8i6Ap9O4VZFgycuoCaaY5Eb0MG5kXh9xwojk3XqHLgD4IFuBMsy6FdbYImh95xGRNvTMmDqcTDQLLtyQO05FZKDdBrTEomHJLZl6m7DaG4Bl5Kmm1zoloIlXbLAiG0zKdjARkfUHBw5yRHDCw8c6QVAuqMXbMI0Z+RAMAssCnzNtGtdTc611uNThN19WUrBTC8QiG1X/hL+zgF6hthF4WUitspsLmZmKZs3HjvUOTzAqHxUfeBUsVFrqIh0S8KgJR9iOvcagqwXYxdXLNiuY1QBgR4g2yGwdvcrKa5AWx6QObLxzEUEM1M67Et5QxCC1deZTAj9/MSG02u/EHjtZ0eoiL0djyS0lZktHgkRDpyF28MLnGEOYRYr6koCWyh1Lkl4EzD2g0BTL4j1rjqYxbcrccQeplEwvC3BLeHgqtZzie6iDEq97a6Yh9UQcAwVuHCNXj4jscD7ohNuWryeYbPZXbLrBVAuDosO9eondBVPLDGFHlhiMqy1Yp6l/EEC2GqsTZzLTWxi2K7hCpyLkuB7acFsAO9pyXEJoDno9TKChVJuUYDUiqmWBYs8gQjgWg6jNqU0WQLgPOQJYfDCjmKkVJlkzKy4OC7xNtrm1AiFRbLKdRvQfJo9RhpA81GIBLBtNAUW4jnc/rcHilqiNMabIvDXurxBLK4g21UdhIw3+pVwLVsPcxFAC5WqDRQjQRA3ZUHCntxFKFNTE3ZwuBNg8GvMSlUXZ/R8HK9MaRatqNFsy51Gk05VvFzADbgEFSVXItSxL4JbCwzIeCFmaN9B8ypEKvA+0rZ25oqAi6IVlVJVzvEVbAzp/olacBV16ltaV4DAoSeoplYkBZulC+eLVde5iNh0WBE1BZUWSKbVsg0zJTHEAbMq4TxK5tVtl9QRApxUfjm8ZI62HbuH0rEr1hqMbyubqWbMLHeepTXnoFjLxAHLo1Fom2RcsFVLVEREcqOZSBvd+OpqUNWlQRCUXte5eLQXxzCBgK57gqMe8SokGNWBfIlXbmo0CCtIxAo1s0/wBLUcEtqB1htkCzTkjAO+G0QKBbG9OiPARdXEAW3X9BjbcikWzkuItiGQXcPFAvXfEzBnriUTbQPUKIi7YK1gcGa/hFoU6xw+5XFODh5QisHc0Q4qxBSA7vQnLAWclJ7hRJOBv6RmMACla+T4i+33jbHmVtA0pM+/UHGw6qYh10GIkOEiQZDCrxL4FRQ2/KcEaYYgtx5RaEIVT5hNQh1eyVQLF5YJSavu6PQlgA9xCjqHbEmUxT3K2XWjNnZ4hzMHUDaShRKrNA9H1FmAk+4w0BbisRHA7MChPFV1EKVNc+I9CgzljGR6lhKoGFysK1ZYrCoXpk5qLtOl17jiUu7GuI8CU35mIIUR3XcEjgUjBHZIKrKywiGcXSf4iqFMKovzKIVLYscVDGiUFk9xwBW1AFWgo5Zm0rIvmGULF5Z+jZcbBcw3qJLCot5gmk6avUsBqjwdxohjyMuJzNsCoy+yDWPNVmFHq1d78xbc8mFxgZTZwDyxRtRWRcE2rCZv1K9AyzMd1GXA1N+YIkDu5aAQUPHcwOFThzKMoVIIa1FYr90FXacx6LErkeqgBahfKWlNndRoG8ra+IEZ3yvMpknV6JiLhtOjuBYWRjmFXRi7eouzXtvcONrWKcMFQU5Mz1Skk+0pECw7fNCueIiQaWrV3BrrFbN9rmOqyWWvqJaew28MLyuRFmbBW6vzAPqQ3fiV0jaI7x9Gx4NgQY3UDpsh28VL8VgNpdSqenky3DpStSVOc+JqwN1R8IgbaDkiwIqUwrQqJYCZtHypNNH0hHIVdOIlK+EPiVYcDepAaViwa9y6oDSEIZ2AxTxGrO1qNPy6gEKgu7GL4DnUYPPmAAcD00MNKlaQUMGTGFsJwgspjtgVXqNst2faCsOLllUDR1HrXcmCF+LrglzEtXSo4IHlIAN7LzNuQqsuIJbgN0wlyhqnniEgI4OwTWIarCAZBjpxKx4v1EQRMuDx4l6onV3KlFArefUKABV4vMqVmSqeYJdIpuuPoWO6sS82Lkg77VthbRrFKFzeeJk3jU9w3YhY5eSDtWVp/6S20NolUOIhXrMaPmLeg2LzepvItbtzAIl9mSkE8yYVJ21EJPostD/MsrNoFzDCXFTp6goshaZQU13SJ8zQBhA5QbIrnVeJUxT2w0RMdsEYOCZ4rLDfHPiWyGu5R6OPMoppo50dyxNWEbJ2a3uLKFdh/GLA2KV8TKDZqgVB0uq47lgFCuPM5CAulxLmO9CBHAqpicVXU2scpVXAzeANuYFqWGlHqEDOWQ/EKyMjTCQUpXqBUNFgdy2wpk5LcUQId+V+izZlMJwSoCQOB8cy8KXS75XmEfaxKcQErYBZq+agyNHTZ/0gK0C/b1KRDirA9zLFLpnKvPKwi2baZT3EcsvoEUBAqAqnHhCAo0/ZHuKwD0CLeo3OgbCt+BChwSY/iW4xZyql6Adtrj4mlAi48zXSMuR6gIOOc3C0VBZW4VRzX5hjb5L6j9NEARK1aSqCA3CYM81U1Pk4hRsL85gAKGbwxEoHbMhX7XMtqM9wxT62GIIsEw4+SXaxxxCYhyLwg6SKVxBsUgzC3uYX2YsNniUvyZE0y5Q24Tq4PNG3iVAVrfJ8zPXUc8fMNH0NfBmFYalnP4AJnMVVut7RjSm9DiXNtU8ZiqvdNPUBDtQh4Ve4tBVCorssdpi9PmYY0ra4g1EcSH3xxKwAug4gjQm6m3axT1GWWCruqjS3hoenRUN0OKCys7AVdMpLWzkq/EM1Q9dIIhVtb34igmPRF4XnbfiGhvCH7IMGsyL3KLoKD75WQBrXuOqjtmUZp+8dShrN3EqEB65iAWRsqO8Wrj+Ym2seIELBLNTgPyQRQuX02emr9eINmskvPdwHMYmteEqDbDc9mONvFfylgK5E3mDgPZXMya0I4PUMAfQod08ylxWH5IPi0WNWuIoKexhlQaK/MF6AKLti1eFvMGaz0LSYQxou1sc2mzOR4rcIXVgtnlr+YKhoxbfxlqDAiN15IGNzyeB3G5YLZLo6f8SsAHLoPDGAhw7uj35n2AFWMe0sIUUrT29wRHEuHJdw1iKLoMwTg7J9rjib5xuYEI2xFQLXlBGYMnILVXFAqjk5lvc2znFRAElui9zeoK4W1xA3AecQDFZuiEbDDfeIYFeoWk9y+sxgbly7Q4pxqGg9lkUIC9GdREFAaUX8XKV2S5tjlaqUdEFBoMq5Jn96Wx94LCi7K3fnxCAG4pS6rkgCxE7H6LPFDzEaCx0C8x7m4vMs4KRVdsoSB1cLxBugzUu/yXuVxKt7g6ztOAPcXRc3F7OkUqDg4qVNrg0v8A9ZR3gBv3lxqImzEVo20LgzktSzn4ld8fIdQWkWN/FFNsTc3CpmbyPSLplKXm68x6FBy79SquaJ+CCAuAMus7l2FIWiK7SihBmNi6e4KxlDh+EuJyrd9syjDbWxxA43xqhquy6uAnAQwVuCIvG77gVoqZZ1AEty00YCisOGoAARCjPEtXPJLUtNtIoV6jqAVwChe3uEgGWEigaKYfbGcyAHSpd21zpuJtJGWY12Hc0+h0lRklvOYZC6+dFdxwqTDdTnZ4WUgUG9YEW2b5jgoEtZivHmbFRM1h9xkPQ1jqIb3ksC1/MZoEgCYZfKC1C3o5lbAJcyPUH20sz/EomqGj7suthVaHo4gIB7AE89sRVoAHEqhVY6PtElS0GrfwioIcZdq8ekZSygXg+Pc5xnmwPcUuAlYD/rG4wPNhfHcvAMWKI809XTzcugac35h6gix8ELXvXBikBwDWFcEvmyuNPvKwA5WfduCgwNKDf3hg7gySzYL4xHGtz0/vF5ldqc399TGJvZxLGHecs1EQtOzh7s7ihSAWtRV2xypjAhJWKWBX0Lqa7Gg6+8uHiTGKY35lRWaYX2dTfWZ8zEQc1AK0/kR8jWvMWBPfUMKwu3B1CtDkB3FrVLfpDsDIzmICaU8jkhtoM3b5fMoxOqq6+ZSANCpVfEq0ss9+YAbRuriKyM/QQXNJXVy9FV7CKWKsBt/dCDsFla3CyNU9zOfuCx/ZEoiwJjXcTSqmHtzCaukW57wT4uLcMcEt3Lpi4KK87kuqoYdG1HZGgWOmX7yzuOWsOMTEOw0mUBZKGMQRF+MoxPjKVspRnUAIZTxRKFUVo7jCqVzgGanM0QoUp9HS7ovuU1wFOC9niJj5gcqGhaz6jBVUUmfFyzpPxCrUDSIIonFVf4ik0joasjIOe5hQy7NIC2nExVKchTFNRBtkugcym2sNUYZsi+b7S30AvEwt3OCBdpwX/KDSjANhBKDRsTjxGqILpslSIUspq/DLQFmyn5ShqnNe4WZa2crIu0bXOXWbe/c8UVZfcHeUzW8+5jiB3kfzMgJ4/wDMKIuKrp99yhT4ItV23KNeqX+YBwYYIKcvVOklJK9ByveMRCkOLjr1Hy6Gyzb7xKRHLRB74lqTOW2YHEgeRmorsJBEbYUY9fTKOXyypVkAko5aMQESlpRme5e29bg3VlwajMFRa3GWTLolIWIXVQSuG2dReFAoXxBcD4OpSLyz8QucY0OYd8cmoEOzTfRK7YGF4xE3FP0HcCmVQnSOZghZbXmGqNlGXMFgVqjrzHLrbl7Sl6C5vimWhK4GWwoTDdwEXaWVmKApw1XM27k8Qu+g5PV8xBZxVqt+fEoohTMo+8CS+6lf5hlihpVfMbVS7zf9XRsTTCwsrWYG99tLliC5XhFA5G9fTjUCbEgWQiqNigDcQCtoP98SsGUuYDDxLNqIqKtuoKwuvG5cFS3WWKVKjFKocKCyl/iUAVg5gZKPSMPcMVYNZRp3upZKCNQbWHOLjRXAWQKlrVqqWz4mO0uxdhFOxTTt/tKpVuwC442WsmYCuUuzzGzk4tgcKSBcfPgWfxBmio5P7IoUHIJ+IC/kCb5LrXEwC5cHlgef0FgCMJTDd+9nXnxBgopQQZY3xEh9peHrMsh2rXw9QboutTHw1WpSLfWIARYM00y43U7NS2Rp1cwrfcXFVUbW+4gQ04ZstRer18ELae6iGtv4IG6jhUVL1F8RLymAolJaV2BuWVd4KLhh6CvQCbzNRQNHm6YldDVbP8wA1prLAR7AXgRscMJBBMjF56/RbXMFZLhgDWAr8Qs9KtaUvLibkDjE7ICgdr4CME0W2A9FQqA1TQ7gqpXlEsUXVXbk9w4SZ6zKBonDZGKvJ2xjbvPESVxlcM+YkBLBLRfhrJA2rAw9v2lPcd0/6gFsHBLHioSS7Cpj1KjKjOHXiZmF0T7bEtJ9BP2hKbKeFQUB1+lpcbFOoNJMr/YuJZiAOT9tQSBiIBfPOYgrTwW2kzomJ4stnqZinWjaB5xcbEWUvIZg8ESUXz4jVm3KBeLipb4z2LUtipkSz6xFWwkS3jmBCx02cypX6kx+7ysyyC7BFggUyWaiojUtpW2PlApEUxNhKwArwRay8KMsAAAAaD67/9k="
+        PathToPictureOut:
+            type: object
+            required:
+                - id
+                - image_data
+                - mime_type
+                - image
+            properties:
+                id:
+                    type: string
+                    format: uuid
+                    example: "12f90a9c-3ece-11ee-be56-0242ac120002"
+                path:
+                    type: string
+                    example: "/pic/627386712.jpg"
+        ProjectIn:
+            type: object
+            required:
+                - mainPicture
+                - title
+                - awaitingFunding
+                - inProcess
+                - completed
+                - pictures
+                - subTitle
+                - text
+                - areaCompletedWorks
+                - projectDuration
+                - projectText
+            properties:
+                id:
+                    type: string
+                    format: uuid
+                    example: "12f90a9c-3ece-11ee-be56-0242ac120002"
+                mainPicture:
+                    $ref: "#/components/schemas/PathToPictureIn"
+                title:
+                    type: string
+                    example: "Допомога лікарням та центрам первинної медичної допомоги"
+                awaitingFunding:
+                    type: boolean
+                    example: true
+                inProcess:
+                    type: boolean
+                    example: false
+                completed:
+                    type: boolean
+                    example: false
+                pictures:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/PathToPictureIn"
+                subTitle:
+                    type: string
+                    example: "Ремонт кабінету лікаря Високопілльський центр первинної медико-санітарної допомоги"
+                text:
+                    type: string
+                    example:
+                        "Нова будівля Високопільського Центру первинної медицини не була призначена для
+                        лікування пацієнтів. До війни це був дитячий центр. А тому окрім руйнувань даху,
+                        потрібен був ремонт кімнат, облаштування кабінету лікарів та маніпуляційної. "
+                areaCompletedWorks:
+                    type: integer
+                    example: 100
+                projectDuration:
+                    type: string
+                    example: "08.04.2023 - 08.05.2023"
+                projectText:
+                    type: string
+                    example: "Кошти для цього проекту були передані від Української Спілки Нижньої Саксонії"
+        ProjectOut:
+            type: object
+            required:
+                - mainPicture
+                - title
+                - awaitingFunding
+                - inProcess
+                - completed
+                - pictures
+                - subTitle
+                - text
+                - areaCompletedWorks
+                - projectDuration
+                - projectText
+            properties:
+                id:
+                    type: string
+                    format: uuid
+                    example: "12f90a9c-3ece-11ee-be56-0242ac120002"
+                mainPicture:
+                    $ref: "#/components/schemas/PathToPictureOut"
+                title:
+                    type: string
+                    example: "Допомога лікарням та центрам первинної медичної допомоги"
+                awaitingFunding:
+                    type: boolean
+                    example: true
+                inProcess:
+                    type: boolean
+                    example: false
+                completed:
+                    type: boolean
+                    example: false
+                pictures:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/PathToPictureOut"
+                subTitle:
+                    type: string
+                    example: "Ремонт кабінету лікаря Високопілльський центр первинної медико-санітарної допомоги"
+                text:
+                    type: string
+                    example:
+                        "Нова будівля Високопільського Центру первинної медицини не була призначена для
+                        лікування пацієнтів. До війни це був дитячий центр. А тому окрім руйнувань даху,
+                        потрібен був ремонт кімнат, облаштування кабінету лікарів та маніпуляційної. "
+                areaCompletedWorks:
+                    type: integer
+                    example: 100
+                projectDuration:
+                    type: string
+                    example: "08.04.2023 - 08.05.2023"
+                projectText:
+                    type: string
+                    example: "Кошти для цього проекту були передані від Української Спілки Нижньої Саксонії"
+        Contacts:
+            type: object
+            required:
+                - email
+                - address
+                - phone
+            properties:
+                email:
+                    type: string
+                    example: "go450.kryvyi.rih@gmail.com"
+                address:
+                    type: string
+                    example: "50014 Україна Дніпропетровська область Кривий Ріг, вул. Ракітіна, буд. 9"
+                phone:
+                    type: string
+                    example: "+380111111111"
+        Documents:
+            type: object
+            required:
+                - rules
+                - publicOfferContract
+                - privacy
+                - statut
+                - reporting
+            properties:
+                rules:
+                    type: string
+                    example: "https://docs.google.com/document/d/1I0qXpiXBUPz2rmuV1yTYBQzRtfBUYW9Y18ZifulG348/edit?usp=sharing"
+                publicOfferContract:
+                    type: string
+                    example: "https://docs.google.com/document/d/1Ksz_Qmh-emMEPFfX40tl2y9abbsfkQejC0aprmrZ2ik/edit?usp=sharing"
+                privacy:
+                    type: string
+                    example: "https://docs.google.com/document/d/10j_AcH_D_N7n9x3Alft8eygxiIv_GjzFGb4Gt3T9mR8/edit?usp=sharing"
+                statut:
+                    type: string
+                    example: "https://docs.google.com/document/d/10j_AcH_D_N7n9x3Alft8eygxiIv_GjzFGb4Gt3T9mR8/edit?usp=sharing"
+                reporting:
+                    type: string
+                    example: "https://docs.google.com/document/d/10j_AcH_D_N7n9x3Alft8eygxiIv_GjzFGb4Gt3T9mR8/edit?usp=sharing"
+        ConfirmRegistration:
+            type: object
+            required:
+                - chapterText
+            properties:
+                chapterText:
+                    type: string
+                    example:
+                        "Видача допомоги відбудеться дд.мм.рр за адресою: м. Кривий Ріг, вул. Гетьманська 39А, о
+                        …….годині"
+        Congrats:
+            type: object
+            required:
+                - confirmRegistration
+            properties:
+                confirmRegistration:
+                    $ref: "#/components/schemas/ConfirmRegistration"
+        Donat:
+            type: object
+            required:
+                - id
+                - currency
+                - recipient
+                - IBAN
+                - IPN
+                - paymentPurpose
+            properties:
+                id:
+                    type: string
+                    format: uuid
+                    example: "12f90a9c-3ece-11ee-be56-0242ac120002"
+                currency:
+                    type: string
+                    example: "USD"
+                recipient:
+                    type: string
+                    example: "Громадська організація 4.5.0. Кривий Ріг"
+                IBAN:
+                    type: string
+                    example: "UA693052994785426001521407112"
+                IPN:
+                    type: string
+                    example: "44867603"
+                paymentPurpose:
+                    type: string
+                    example: "Благодійний внесок"
